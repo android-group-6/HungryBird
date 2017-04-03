@@ -26,17 +26,11 @@
 ## Wireframes
 - [ ] **Login/Signup Screens**
 
-
 - [ ] **Discovery Screens**
-![](./wireframes/discovery-screens.jpg)
 
 - [ ] **Dish Screens**
 
-![](./wireframes/dish-screens.jpg)
-
 - [ ] **Cart/Checkout Screens**
-
-![](./wireframes/cart-checkout-screens.jpg)
 
 ## Video Walkthrough
 
