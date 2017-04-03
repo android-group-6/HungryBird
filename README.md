@@ -55,6 +55,7 @@ More detailed list: https://github.com/android-group-6/HungryBird/blob/master/Us
 - [ ] **Cart/Checkout Screens**
 
 ![](./wireframes/cart-checkout-screens.jpg)
+![](./wireframes/StripeCheckout.PNG)
 - [ ] **Chef's Flow/Screens**
 
 
