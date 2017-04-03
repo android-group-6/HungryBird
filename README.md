@@ -6,23 +6,39 @@
 
 **required**
 
-- [ ] **Login/Signup Screens**
+- [ ] **Login/SignUp Screens**
   - [ ] SignUp using facebook as consumer or chef
   - [ ] Login using facebook as consumer or chef
 - [ ] **Discovery Screens**
-  - Consumer should be able to browse dishes which are trending, nearby, cuisine based etc.
-  - Consumer should be able to search dishes.
+  - [ ] Consumer should be able to browse dishes which are trending, nearby, cuisine based etc.
+  - [ ] Consumer should be able to search dishes.
 - [ ] **Dish Screens**
-  - Consumer should be able to view dishes offered by a chef.
-  - Consumer should be able to add dishes to cart.
-  - Consumer should be able to view details of a dish.
+  - [ ] Consumer should be able to view dishes offered by a chef.
+  - [ ] Consumer should be able to add dishes to cart.
+  - [ ] Consumer should be able to view details of a dish.
 - [ ] **Cart/Checkout Screens**
-  - Consumer should be able to view an order and update them.
-  - Consumer should be able to checkout an order and specify pickup/delivery options.
-  - Chef should receive a notification of an order.
+  - [ ] Consumer should be able to view an order and update them.
+  - [ ] Consumer should be able to checkout an order and specify pickup/delivery options.
+  - [ ] Chef should receive a notification of an order.
 
 **optional**
 
+## Wireframes
+- [ ] **Login/SignUp Screens**
+
+![](./wireframes/login-signup-screens.jpg)
+
+- [ ] **Discovery Screens**
+
+![](./wireframes/discovery-screens.jpg)
+
+- [ ] **Dish Screens**
+
+![](./wireframes/dish-screens.jpg)
+
+- [ ] **Cart/Checkout Screens**
+
+![](./wireframes/cart-checkout-screens.jpg)
 
 ## Video Walkthrough
 
