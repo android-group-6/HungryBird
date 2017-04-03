@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "D:\\Projects\\Android\\HungryBird\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi\\ic_launcher_round.png",
+        "source": "D:\\Projects\\Android\\HungryBird\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "D:\\Projects\\Android\\HungryBird\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi\\ic_launcher.png",
+        "source": "D:\\Projects\\Android\\HungryBird\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
+    }
+]
