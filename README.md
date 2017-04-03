@@ -1,6 +1,6 @@
 # Group Project - *HungryBird*
 
-**HungryBird** is an android app that allows a user to discover dishes from nearby chefs and order it.
+**HungryBird** is an android app that allows a user to discover dishes from nearby chefs and order them.
 
 ## User Stories
 
