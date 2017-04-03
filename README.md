@@ -28,7 +28,6 @@
 
 
 - [ ] **Discovery Screens**
-
 ![](./wireframes/discovery-screens.jpg)
 
 - [ ] **Dish Screens**
