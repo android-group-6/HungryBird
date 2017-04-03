@@ -20,7 +20,13 @@
   - [ ] Consumer should be able to view an order and update them.
   - [ ] Consumer should be able to checkout an order and specify pickup/delivery options.
   - [ ] Chef should receive a notification of an order.
-
+- [ ] **Chef's Stories**
+     **Chef should be able to**
+  - [ ] see all the pending, In progres and done orders
+  - [ ] Change status of each order and notify consumer for the relevant once
+  - [ ] See all of the offerring
+  - [ ] Add Deleted and modify Dishes and Dish details 
+ 
 **optional**
 
 ## Wireframes
@@ -40,6 +46,10 @@
 - [ ] **Cart/Checkout Screens**
 
 ![](./wireframes/cart-checkout-screens.jpg)
+- [ ] **Chef's Flow/Screens**
+
+
+![Chef'sFlow](https://cloud.githubusercontent.com/assets/1209826/24614267/9b3ab9bc-183f-11e7-8047-8629882ddd2b.png)
 
 ## Video Walkthrough
 
