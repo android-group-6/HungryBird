@@ -31,7 +31,7 @@
 - [ ] **Discovery Screens**
 
 ![](./wireframes/discovery-screens.jpg)
-![](./wireframes/balsamiq-discovery.jpg)
+![](./wireframes/balsamiq-discovery.png)
 
 - [ ] **Dish Screens**
 
