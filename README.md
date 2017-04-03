@@ -4,6 +4,8 @@
 
 ## User Stories
 
+More detailed list: https://github.com/android-group-6/HungryBird/blob/master/UserStories/ProjectPlanning.pdf
+
 **required**
 
 - [ ] **Login/SignUp Screens**
@@ -24,10 +26,17 @@
      **Chef should be able to**
   - [ ] see all the pending, In progres and done orders
   - [ ] Change status of each order and notify consumer for the relevant once
-  - [ ] See all of the offerring
+  - [ ] See all of the offering
   - [ ] Add Deleted and modify Dishes and Dish details 
  
 **optional**
+- [ ] **Profile Screen**
+  - [ ] Youtube embedded video channels for the chef
+  - [ ] Contact information using twilio
+  - [ ] Reviews section for chef or dishes
+- [ ] **Consumer Screen**
+  - [ ] Favorite a chef
+
 
 ## Wireframes
 - [ ] **Login/SignUp Screens**
