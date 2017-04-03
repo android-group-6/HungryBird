@@ -6,7 +6,7 @@
 
 **required**
 
-- [ ] **Login/Signup Screens**
+- [ ] **Login/SignUp Screens**
   - [ ] SignUp using facebook as consumer or chef
   - [ ] Login using facebook as consumer or chef
 - [ ] **Discovery Screens**
@@ -24,7 +24,9 @@
 **optional**
 
 ## Wireframes
-- [ ] **Login/Signup Screens**
+- [ ] **Login/SignUp Screens**
+
+![](./wireframes/login-signup-screens.jpg)
 
 - [ ] **Discovery Screens**
 
@@ -32,7 +34,11 @@
 
 - [ ] **Dish Screens**
 
+![](./wireframes/dish-screens.jpg)
+
 - [ ] **Cart/Checkout Screens**
+
+![](./wireframes/cart-checkout-screens.jpg)
 
 ## Video Walkthrough
 
