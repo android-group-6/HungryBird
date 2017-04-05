@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/futurama"
+            android:icon="@drawable/ic_futurama"
+            android:title="@string/drawer_title_gallery_view" />
+        <item
+            android:id="@+id/south_park"
+            android:icon="@drawable/ic_south_park"
+            android:title="@string/drawer_title_order_history" />
+        <item
+            android:id="@+id/family_guy"
+            android:icon="@drawable/ic_family_guy"
+            android:title="@string/drawer_title_contact_us" />
+        <item
+            android:id="@+id/the_simpsons"
+            android:icon="@drawable/ic_simpsons"
+            android:title="@string/simpsons" />
+    </group>
+</menu>

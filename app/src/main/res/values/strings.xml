@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">HungryBird</string>
+    <string name="login_label">Connect With Facebook</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <!-- Nav Drawer Menu Items -->
+    <string name="drawer_title_order_history">Order History</string>
+    <string name="drawer_title_contact_us">Contact Us</string>
+    <string name="simpsons">The Simpsons</string>
+    <string name="drawer_title_gallery_view">Gallary</string>
+    <string name="cartoon_wars">Cartoon Wars</string>
+    <string name="simpsorama">Simpsorama</string>
 </resources>

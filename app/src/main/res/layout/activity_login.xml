@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/facebook_normal_blue"
+        tools:context="com.codepath.hungrybird.LoginActivity">
+
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_alignBottom="@+id/activity_login_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="51dp"
+            android:foregroundGravity="center"
+            android:scaleType="fitXY"
+            />
+
+        <Button
+            android:id="@+id/activity_login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="20dp"
+            android:background="@color/facebook_dark_blue"
+            android:text="@string/login_label"
+            android:textColor="#ffffff" />
+
+    </RelativeLayout>
+</layout>
