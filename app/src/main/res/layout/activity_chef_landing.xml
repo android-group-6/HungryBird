@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.v4.widget.DrawerLayout
-
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".consumer.activities.GalleryActivity">
+
+        tools:context=".chef.activities.ChefLandingActivity">
 
         <!-- This LinearLayout represents the contents of the screen  -->
         <LinearLayout
@@ -18,7 +18,7 @@
 
 
             <include
-                android:id="@+id/activity_gallery_toolbar"
+                android:id="@+id/activity_chef_landing_toolbar"
                 layout="@layout/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -39,7 +39,7 @@
             android:layout_marginTop="?attr/actionBarSize"
             android:background="@android:color/white"
             app:headerLayout="@layout/nav_header"
-            app:menu="@menu/consumer_drawer_view">
+            app:menu="@menu/chef_drawer_view">
 
         </android.support.design.widget.NavigationView>
     </android.support.v4.widget.DrawerLayout>

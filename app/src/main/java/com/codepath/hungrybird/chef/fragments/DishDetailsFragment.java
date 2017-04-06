@@ -1,6 +1,7 @@
-package com.codepath.hungrybird.fragments;
+package com.codepath.hungrybird.chef.fragments;
 
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,9 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.hungrybird.R;
+import com.codepath.hungrybird.consumer.fragments.FilterFragment;
+import com.codepath.hungrybird.databinding.ChefDishDetailsFragmentBinding;
 
-public class GalleryViewFragment extends Fragment {
-    public static final String TAG = GalleryViewFragment.class.getSimpleName();
+public class DishDetailsFragment extends Fragment {
+    public static final String TAG = DishDetailsFragment.class.getSimpleName();
 
     public static final String FRAGMENT_TAG = "FILTER_FRAGMENT_TAG";
 
@@ -27,12 +30,12 @@ public class GalleryViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.gallery_view, container, false);
+        ChefDishDetailsFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.chef_dish_details_fragment, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.gallery_view_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 

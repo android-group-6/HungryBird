@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/chef_drawer_orders_view_mi"
+            android:icon="@drawable/ic_futurama"
+            android:title="@string/consumer_drawer_title_gallery_view" />
+        <item
+            android:id="@+id/chef_drawer_my_offerings_mi"
+            android:icon="@drawable/ic_south_park"
+            android:title="@string/consumer_drawer_title_order_history" />
+        <item
+            android:id="@+id/chef_drawer_my_register_mi"
+            android:icon="@drawable/ic_family_guy"
+            android:title="@string/consumer_drawer_title_contact_us" />
+        <item
+            android:id="@+id/chef_contact_details_mi"
+            android:icon="@drawable/ic_simpsons"
+            android:title="@string/consumer_simpsons" />
+    </group>
+
+</menu>

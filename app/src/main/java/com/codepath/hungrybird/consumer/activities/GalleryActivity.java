@@ -1,4 +1,4 @@
-package com.codepath.hungrybird;
+package com.codepath.hungrybird.consumer.activities;
 
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
@@ -12,16 +12,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.codepath.hungrybird.databinding.ActivityLoginBinding;
-import com.codepath.hungrybird.fragments.ContactUsFragment;
-import com.codepath.hungrybird.fragments.GalleryViewFragment;
-import com.codepath.hungrybird.fragments.OrderHistoryFramgent;
-import com.codepath.hungrybird.fragments.SimpsonsFragment;
-import com.crashlytics.android.Crashlytics;
-
-import io.fabric.sdk.android.Fabric;
+import com.codepath.hungrybird.R;
+import com.codepath.hungrybird.databinding.ActivityGalleryBinding;
+import com.codepath.hungrybird.consumer.fragments.ContactUsFragment;
+import com.codepath.hungrybird.consumer.fragments.GalleryViewFragment;
+import com.codepath.hungrybird.consumer.fragments.OrderHistoryFramgent;
+import com.codepath.hungrybird.consumer.fragments.SimpsonsFragment;
 
 public class GalleryActivity extends AppCompatActivity {
+    private ActivityGalleryBinding binding;
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
@@ -30,17 +29,18 @@ public class GalleryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
-        ActivityLoginBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_gallery);
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_gallery);
+
         // Find the toolbar view inside the activity layout
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = binding.activityGalleryToolbar.toolbar;
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
         // Find our drawer view
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawer = binding.drawerLayout;
         drawerToggle = setupDrawerToggle();
-        nvDrawer = (NavigationView) findViewById(R.id.nvView);
+        nvDrawer = binding.nvView;
         mDrawer.addDrawerListener(drawerToggle);
         setupDrawerContent(nvDrawer);
 
@@ -97,13 +97,13 @@ public class GalleryActivity extends AppCompatActivity {
         Fragment fragment = null;
         Class fragmentClass;
         switch (menuItem.getItemId()) {
-            case R.id.south_park:
+            case R.id.chef_drawer_my_offerings_mi:
                 fragmentClass = OrderHistoryFramgent.class;
                 break;
-            case R.id.the_simpsons:
+            case R.id.chef_contact_details_mi:
                 fragmentClass = SimpsonsFragment.class;
                 break;
-            case R.id.family_guy:
+            case R.id.chef_drawer_my_register_mi:
                 fragmentClass = ContactUsFragment.class;
                 break;
             default:

@@ -5,10 +5,21 @@
     <string name="drawer_close">Close navigation drawer</string>
 
     <!-- Nav Drawer Menu Items -->
-    <string name="drawer_title_order_history">Order History</string>
-    <string name="drawer_title_contact_us">Contact Us</string>
-    <string name="simpsons">The Simpsons</string>
-    <string name="drawer_title_gallery_view">Gallary</string>
-    <string name="cartoon_wars">Cartoon Wars</string>
-    <string name="simpsorama">Simpsorama</string>
+    <string name="consumer_drawer_title_gallery_view">Gallary</string>
+    <string name="consumer_drawer_title_order_history">Order History</string>
+    <string name="consumer_drawer_title_contact_us">Contact Us</string>
+    <string name="consumer_simpsons">The Simpsons</string>
+
+    <string name="consumer_cartoon_wars">Cartoon Wars</string>
+    <string name="consumer_simpsorama">Simpsorama</string>
+
+    <!-- Nav Drawer Menu Items -->
+    <string name="chef_drawer_title_orders_view">Orders</string>
+    <string name="chef_drawer_title_my_offering">My Offerings</string>
+    <string name="chef_drawer_title_my_register">My Register</string>
+    <string name="chef_drawer_title_contact_details">Contact Details</string>
+    <string name="chef_simpsons">The Simpsons</string>
+
+    <string name="chef_cartoon_wars">Cartoon Wars</string>
+    <string name="chef_simpsorama">Simpsorama</string>
 </resources>

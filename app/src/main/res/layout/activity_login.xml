@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/facebook_normal_blue"
-        tools:context="com.codepath.hungrybird.LoginActivity">
+        tools:context="com.codepath.hungrybird.common.LoginActivity">
 
         <ImageView
             android:layout_width="75dp"
@@ -15,8 +15,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="51dp"
             android:foregroundGravity="center"
-            android:scaleType="fitXY"
-            />
+            android:scaleType="fitXY" />
 
         <Button
             android:id="@+id/activity_login_button"
@@ -28,5 +27,13 @@
             android:text="@string/login_label"
             android:textColor="#ffffff" />
 
+        <CheckBox
+            android:id="@+id/activity_login_login_type_chck"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_login_button"
+            android:layout_margin="20dp"
+            android:text="Login as Chef"
+            android:textColor="@android:color/white" />
     </RelativeLayout>
 </layout>

@@ -1,4 +1,4 @@
-package com.codepath.hungrybird.fragments;
+package com.codepath.hungrybird.consumer.fragments;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
