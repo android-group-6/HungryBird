@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.codepath.hungrybird">
 
+    <!-- Connection to external db or any network connections -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Image storage and camera access along with any app data pushes -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
