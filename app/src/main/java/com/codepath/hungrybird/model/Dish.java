@@ -74,6 +74,30 @@ public class Dish extends ParseObject {
         return getString("cuisine");
     }
 
+    public void setType (String type) {
+        put("type", type);
+    }
+
+    public String getType() {
+        return getString("type");
+    }
+
+    public enum Type {
+        VEG("veg"),
+        NON_VEG("non_veg");
+
+        private String typeValue;
+
+        Type(String typeValue) {
+            this.typeValue = typeValue;
+        }
+
+        public String getTypeValue() {
+            return typeValue;
+        }
+
+    }
+
     public static enum Cuisine {
         INDIAN("indian"),
         ITALIAN("italian");
