@@ -4,11 +4,11 @@
 
     <!-- Connection to external db or any network connections -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Image storage and camera access along with any app data pushes -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".HungryBirdApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
