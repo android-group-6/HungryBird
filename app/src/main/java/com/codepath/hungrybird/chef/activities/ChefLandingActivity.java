@@ -12,11 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.fragments.ChefOrdersViewFragment;
 import com.codepath.hungrybird.chef.fragments.ContactDetailsFragment;
+import com.codepath.hungrybird.chef.fragments.DishAddEditFragment;
 import com.codepath.hungrybird.chef.fragments.DishDetailsFragment;
 import com.codepath.hungrybird.chef.fragments.MyOfferingsFragment;
 import com.codepath.hungrybird.chef.fragments.MyRegisterFragment;
@@ -50,7 +52,7 @@ public class ChefLandingActivity extends AppCompatActivity implements MyOffering
         setupDrawerContent(nvDrawer);
 
         // Set the default fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        final FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, new ChefOrdersViewFragment()).commit();
         // Highlight the selected item has been done by NavigationView
         nvDrawer.getMenu().getItem(0).setChecked(true);
@@ -60,12 +62,17 @@ public class ChefLandingActivity extends AppCompatActivity implements MyOffering
             Log.i(TAG, "back stack changed ");
             int backCount = getSupportFragmentManager().getBackStackEntryCount();
             if (backCount == 0) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                drawerToggle.setDrawerIndicatorEnabled(true);
                 // block where back has been pressed. since backstack is zero.
                 mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-//                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             }
         });
-
+        binding.activityChefLandingAddDishFab.setOnClickListener(v -> {
+            Toast.makeText(this, "Add Clicked", Toast.LENGTH_SHORT).show();
+            // Insert the fragment by replacing any existing fragment
+            fragmentManager.beginTransaction().replace(R.id.flContent, new DishAddEditFragment()).addToBackStack(null).commit();
+        });
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
@@ -137,6 +144,27 @@ public class ChefLandingActivity extends AppCompatActivity implements MyOffering
         setTitle(menuItem.getTitle());
         // Close the navigation drawer
         mDrawer.closeDrawers();
+        mDrawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+//                drawerToggle.setDrawerIndicatorEnabled(true);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
+
         mDrawer.setOnClickListener(v -> {
             Toast.makeText(this, "ToastText", Toast.LENGTH_SHORT).show();
         });
@@ -147,8 +175,12 @@ public class ChefLandingActivity extends AppCompatActivity implements MyOffering
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, new DishDetailsFragment()).addToBackStack(null).commit();
+
         // update the actionbar to show the up carat/affordanced
-        drawerToggle.setDrawerIndicatorEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        drawerToggle.setDrawerIndicatorEnabled(false);
+//        mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 }
