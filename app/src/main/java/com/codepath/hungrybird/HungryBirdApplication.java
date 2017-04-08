@@ -5,6 +5,7 @@ import android.app.Application;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.OrderDishRelation;
+import com.codepath.hungrybird.model.User;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseUser;
@@ -43,6 +44,7 @@ public class HungryBirdApplication extends Application {
     }
 
     private void registerModels() {
+        registerSubclass(User.class);
         registerSubclass(Dish.class);
         registerSubclass(Order.class);
         registerSubclass(OrderDishRelation.class);
