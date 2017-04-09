@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,12 +19,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.hungrybird.R;
+import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
 import com.codepath.hungrybird.consumer.fragments.FilterFragment;
 import com.codepath.hungrybird.databinding.ChefMyOfferingsFragmentBinding;
+import com.codepath.hungrybird.model.Dish;
+import com.codepath.hungrybird.network.ParseClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyOfferingsFragment extends Fragment {
     public static final String TAG = MyOfferingsFragment.class.getSimpleName();
     OfferingSelected offeringSelected;
+    ParseClient parseClient = ParseClient.getInstance();
+    RecyclerView myOfferingsRView;
+    ArrayList<Dish> dishesArrayList = new ArrayList<>();
+    DishArrayAdapter dishArrayAdapter;
 
     public static interface OfferingSelected {
         //TODO: add model as parameter
@@ -28,21 +42,52 @@ public class MyOfferingsFragment extends Fragment {
     }
 
     public static final String FRAGMENT_TAG = "FILTER_FRAGMENT_TAG";
+    private LinearLayoutManager linearLayoutManager;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        dishArrayAdapter = new DishArrayAdapter(getActivity(), dishesArrayList);
+        parseClient.getDishesByChefId("ZkjdWTqmmC", new ParseClient.DishListListener() {
+            @Override
+            public void onSuccess(List<Dish> dishes) {
+                dishesArrayList.addAll(dishes);
+                dishArrayAdapter.notifyDataSetChanged();
+                Log.d(TAG, "onSuccess: " + dishes);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+
+            }
+        });
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ChefMyOfferingsFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.chef_my_offerings_fragment, container, false);
-        binding.chefMyOfferingsTv.setOnClickListener(v -> {
-            if (offeringSelected != null) {
-                offeringSelected.onDishSelectedSelected();
-            }
-        });
+        myOfferingsRView = binding.content.chefMyoffersingsLv;
+
+        myOfferingsRView.setAdapter(dishArrayAdapter);
+        // Set layout manager to position the items
+        linearLayoutManager = new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.VERTICAL, false);
+        myOfferingsRView.setLayoutManager(linearLayoutManager);
+        //Set Brand Icon
+        //Added divider between line items
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(myOfferingsRView.getContext(),
+                linearLayoutManager.getOrientation());
+        myOfferingsRView.addItemDecoration(dividerItemDecoration);
+
+
+//        binding.chefMyOfferingsTv.setOnClickListener(v -> {
+//            if (offeringSelected != null) {
+//                offeringSelected.onDishSelectedSelected();
+//            }
+//        });
         return binding.getRoot();
     }
 
