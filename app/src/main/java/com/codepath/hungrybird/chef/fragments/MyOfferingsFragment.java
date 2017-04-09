@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.codepath.hungrybird.HungryBirdApplication;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
 import com.codepath.hungrybird.consumer.fragments.FilterFragment;
@@ -25,6 +26,7 @@ import com.codepath.hungrybird.databinding.ChefMyOfferingsFragmentBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +43,10 @@ public class MyOfferingsFragment extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        User user = HungryBirdApplication.Instance().getUser();
         setHasOptionsMenu(true);
         dishArrayAdapter = new DishArrayAdapter(getActivity(), dishesArrayList);
-        User currentUser = (User) User.getCurrentUser();
-        parseClient.getDishesByChefId(currentUser.getObjectId(), new ParseClient.DishListListener() {
+        parseClient.getDishesByChefId(ParseUser.getCurrentUser().getObjectId(), new ParseClient.DishListListener() {
             @Override
             public void onSuccess(List<Dish> dishes) {
                 dishesArrayList.addAll(dishes);
