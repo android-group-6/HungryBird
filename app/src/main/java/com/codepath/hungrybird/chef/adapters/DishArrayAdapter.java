@@ -1,5 +1,6 @@
 package com.codepath.hungrybird.chef.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
@@ -7,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.databinding.ChefOfferingsDishesListItemBinding;
@@ -26,10 +26,16 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     Context context;
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;
+    DishSelected dishSelected;
 
-    public DishArrayAdapter(Context context, ArrayList<Dish> dishArrayList) {
+    public interface DishSelected {
+        void onDishSelected(Dish dish);
+    }
+
+    public DishArrayAdapter(Activity activity, ArrayList<Dish> dishArrayList) {
         this.dishArrayList = dishArrayList;
-        this.context = context;
+        this.context = activity;
+        dishSelected = (DishSelected)activity;
         if (dishArrayList == null) {
             throw new NullPointerException("Article ArrayList Can't Be Null or Empty");
         }
@@ -99,7 +105,9 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
                     Dish dish = dishArrayList.get(position);
-                    dishSelected(dish);
+                    if (dishSelected != null) {
+                        dishSelected.onDishSelected(dish);
+                    }
                     // We can access the data within the views
 
                     /* No longer needed this code As we are Using Chrome Tab now
@@ -122,10 +130,5 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(v);
             progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
         }
-    }
-
-    private void dishSelected(Dish dish) {
-        Toast.makeText(context, "" + dish.getDishName(), Toast.LENGTH_SHORT).show();
-
     }
 }

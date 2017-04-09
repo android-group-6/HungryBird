@@ -30,16 +30,10 @@ import java.util.List;
 
 public class MyOfferingsFragment extends Fragment {
     public static final String TAG = MyOfferingsFragment.class.getSimpleName();
-    OfferingSelected offeringSelected;
     ParseClient parseClient = ParseClient.getInstance();
     RecyclerView myOfferingsRView;
     ArrayList<Dish> dishesArrayList = new ArrayList<>();
     DishArrayAdapter dishArrayAdapter;
-
-    public static interface OfferingSelected {
-        //TODO: add model as parameter
-        void onDishSelectedSelected();
-    }
 
     public static final String FRAGMENT_TAG = "FILTER_FRAGMENT_TAG";
     private LinearLayoutManager linearLayoutManager;
@@ -82,12 +76,6 @@ public class MyOfferingsFragment extends Fragment {
                 linearLayoutManager.getOrientation());
         myOfferingsRView.addItemDecoration(dividerItemDecoration);
 
-
-//        binding.chefMyOfferingsTv.setOnClickListener(v -> {
-//            if (offeringSelected != null) {
-//                offeringSelected.onDishSelectedSelected();
-//            }
-//        });
         return binding.getRoot();
     }
 
@@ -99,13 +87,11 @@ public class MyOfferingsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        offeringSelected = (OfferingSelected) getActivity();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        offeringSelected = null;
     }
 
     @Override

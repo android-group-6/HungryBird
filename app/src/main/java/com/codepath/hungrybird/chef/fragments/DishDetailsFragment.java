@@ -21,10 +21,12 @@ import com.codepath.hungrybird.consumer.fragments.FilterFragment;
 import com.codepath.hungrybird.databinding.ChefDishDetailsFragmentBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.network.ParseClient;
+import com.parse.ParseFile;
 
 public class DishDetailsFragment extends Fragment {
     public static final String TAG = DishDetailsFragment.class.getSimpleName();
 
+    public static final String DISH_ID = "DISH_ID";
     public static final String FRAGMENT_TAG = "FILTER_FRAGMENT_TAG";
 
     ParseClient parseClient = ParseClient.getInstance();
@@ -48,16 +50,21 @@ public class DishDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        String id = getArguments().getString(DISH_ID);
         // TODO: Get id from the last screen and pass here
-        parseClient.getDishById("ZudEjcaNBi", new ParseClient.DishListener() {
+        parseClient.getDishById(id, new ParseClient.DishListener() {
             @Override
             public void onSuccess(Dish dish) {
                 Log.i(TAG, dish.toString());
                 currentDish = dish;
-                String imgUrl = currentDish.getPrimaryImage().getUrl();
-                Glide.with(getContext())
-                        .load(imgUrl)
-                        .into(binding.dishImage);
+                ParseFile parseFile = currentDish.getPrimaryImage();
+                if (parseFile != null && parseFile.getUrl() != null) {
+                    String imgUrl = parseFile.getUrl();
+                    Glide.with(getContext())
+                            .load(imgUrl)
+                            .into(binding.dishImage);
+                }
+
                 binding.dishTitle.setText(currentDish.getDishName());
                 binding.dishPrice.setText("$" + String.valueOf(currentDish.getPrice()));
                 binding.dishServingSize.setText(String.valueOf(currentDish.getServingSize()));
