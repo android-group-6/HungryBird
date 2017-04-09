@@ -1,14 +1,87 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/black"
+            android:src="@drawable/futurama"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/dishImage" />
+
         <TextView
+            android:id="@+id/dishTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Dish Details" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/dishImage"
+            android:layout_marginTop="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            tools:text="Paneer Tikka Masala"
+            android:layout_toLeftOf="@+id/dishPrice"
+            android:layout_toStartOf="@+id/dishPrice" />
+
+        <TextView
+            android:id="@+id/dishPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            tools:text="$7.99"
+            android:layout_alignTop="@+id/dishTitle"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/dishServingSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/dishPrice"
+            tools:text="2 people" />
+
+        <TextView
+            android:id="@+id/dishVegOrNonveg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/dishServingSize"
+            tools:text="Veggie Dish" />
+
+        <TextView
+            android:id="@+id/dishAllergen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/dishVegOrNonveg"
+            tools:text="Nuts" />
+
+        <TextView
+            android:id="@+id/dishSpiceLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/dishAllergen"
+            tools:text="Medium" />
+
+        <TextView
+            android:id="@+id/dishDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/dishSpiceLevel"
+            tools:text="This is an indian cheese filled with gravy. Mmmm mmm good! It's a classic." />
     </RelativeLayout>
 </layout>
