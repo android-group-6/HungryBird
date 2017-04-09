@@ -47,8 +47,6 @@ public class MyOfferingsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        linearLayoutManager = new LinearLayoutManager(getActivity(),
-                LinearLayoutManager.VERTICAL, false);
         dishArrayAdapter = new DishArrayAdapter(getActivity(), dishesArrayList);
         parseClient.getDishesByChefId("ZkjdWTqmmC", new ParseClient.DishListListener() {
             @Override
@@ -75,6 +73,8 @@ public class MyOfferingsFragment extends Fragment {
 
         myOfferingsRView.setAdapter(dishArrayAdapter);
         // Set layout manager to position the items
+        linearLayoutManager = new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.VERTICAL, false);
         myOfferingsRView.setLayoutManager(linearLayoutManager);
         //Set Brand Icon
         //Added divider between line items
