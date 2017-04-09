@@ -13,12 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.hungrybird.R;
-import com.codepath.hungrybird.chef.adapters.ChefOrdersFragmentPagerAdapter;
 import com.codepath.hungrybird.consumer.fragments.FilterFragment;
-import com.codepath.hungrybird.databinding.ChefOrdersViewFragmentBinding;
+import com.codepath.hungrybird.databinding.ChefContactDetailsFragmentBinding;
 
-public class ChefOrdersViewFragment extends Fragment {
-    public static final String TAG = ChefOrdersViewFragment.class.getSimpleName();
+public class OrdersListFragment extends Fragment {
+    public static final String TAG = OrdersListFragment.class.getSimpleName();
 
     public static final String FRAGMENT_TAG = "FILTER_FRAGMENT_TAG";
 
@@ -31,11 +30,7 @@ public class ChefOrdersViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ChefOrdersViewFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.chef_orders_view_fragment, container, false);
-        ChefOrdersFragmentPagerAdapter sampleFragmentPagerAdapter = new ChefOrdersFragmentPagerAdapter(getActivity().getSupportFragmentManager(),
-                getActivity(), null);
-        binding.viewpager.setAdapter(sampleFragmentPagerAdapter);
-        binding.slidingTabs.setupWithViewPager(binding.viewpager);
+        ChefContactDetailsFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.chef_contact_details_fragment, container, false);
         return binding.getRoot();
     }
 
