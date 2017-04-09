@@ -16,10 +16,14 @@ import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.adapters.ChefOrdersFragmentPagerAdapter;
 import com.codepath.hungrybird.consumer.fragments.FilterFragment;
 import com.codepath.hungrybird.databinding.ChefOrdersViewFragmentBinding;
+import com.codepath.hungrybird.model.Order;
+import com.codepath.hungrybird.network.ParseClient;
+
+import java.util.List;
 
 public class ChefOrdersViewFragment extends Fragment {
     public static final String TAG = ChefOrdersViewFragment.class.getSimpleName();
-
+    ParseClient parseClient = ParseClient.getInstance();
     public static final String FRAGMENT_TAG = "FILTER_FRAGMENT_TAG";
 
     public void onCreate(Bundle savedInstanceState) {
@@ -32,8 +36,22 @@ public class ChefOrdersViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ChefOrdersViewFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.chef_orders_view_fragment, container, false);
-        ChefOrdersFragmentPagerAdapter sampleFragmentPagerAdapter = new ChefOrdersFragmentPagerAdapter(getActivity().getSupportFragmentManager(),
+        final ChefOrdersFragmentPagerAdapter sampleFragmentPagerAdapter = new ChefOrdersFragmentPagerAdapter(getActivity().getSupportFragmentManager(),
                 getActivity(), null);
+
+        parseClient.getOrdersByChefId("bLDkVaY7EF", new ParseClient.OrderListListener () {
+
+            @Override
+            public void onSuccess(List<Order> orders) {
+                sampleFragmentPagerAdapter.updateOrders(orders);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+
+            }
+        });
+
         binding.viewpager.setAdapter(sampleFragmentPagerAdapter);
         binding.slidingTabs.setupWithViewPager(binding.viewpager);
         return binding.getRoot();

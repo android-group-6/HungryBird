@@ -144,7 +144,7 @@ public class ParseClient {
         void onFailure(Exception e);
     }
 
-    public void addOrder(String consumerId, final String chefId, final OrderListener listener) {
+    public void addOrder(String consumerId, final String chefId, final Order.Status status, final OrderListener listener) {
         getUserById(consumerId, new UserListener() {
             @Override
             public void onSuccess(final User consumer) {
@@ -154,6 +154,7 @@ public class ParseClient {
                         final Order order = new Order();
                         order.setChef(chef);
                         order.setConsumer(consumer);
+                        order.setStatus(status.name());
                         order.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(ParseException e) {
@@ -276,7 +277,7 @@ public class ParseClient {
             public void done(Order object, ParseException e) {
                 if (e == null) {
                     if (object == null) {
-                        addOrder(consumerId, chefId, listener);
+                        addOrder(consumerId, chefId, Order.Status.ORDERED, listener);
                     } else {
                         listener.onSuccess(object);
                     }

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/article_adaptor_article_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:paddingBottom="5dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:id="@+id/chef_offering_list_item_dish_iv"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp" />
+
+
+            <TextView
+                android:id="@+id/chef_order_list_item_order_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/chef_offering_list_item_dish_iv"
+                android:layout_toRightOf="@+id/chef_offering_list_item_dish_iv"
+                android:ellipsize="end"
+                android:maxLength="140"
+                android:maxLines="4"
+                android:maxWidth="200sp"
+                android:textColor="#ff000000"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Dish Name" />
+
+            <TextView
+                android:id="@+id/chef_order_list_item_dish_count_lable_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/chef_order_list_item_order_name_tv"
+                android:layout_toRightOf="@+id/chef_offering_list_item_dish_iv"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:maxWidth="150sp"
+                android:text="Dishes: "
+                android:textColor="#aa000000"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/chef_order_list_item_dish_count_value_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/chef_order_list_item_order_name_tv"
+                android:layout_toRightOf="@+id/chef_order_list_item_dish_count_lable_tv"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:maxWidth="150sp"
+                android:textColor="#ff000000"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="2" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</layout>

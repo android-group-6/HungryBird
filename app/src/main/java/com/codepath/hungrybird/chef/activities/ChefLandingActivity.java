@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
+import com.codepath.hungrybird.chef.adapters.OrderArrayAdapter;
 import com.codepath.hungrybird.chef.fragments.ChefOrdersViewFragment;
 import com.codepath.hungrybird.chef.fragments.ContactDetailsFragment;
 import com.codepath.hungrybird.chef.fragments.DishAddEditFragment;
@@ -25,8 +26,9 @@ import com.codepath.hungrybird.chef.fragments.MyOfferingsFragment;
 import com.codepath.hungrybird.chef.fragments.MyRegisterFragment;
 import com.codepath.hungrybird.databinding.ActivityChefLandingBinding;
 import com.codepath.hungrybird.model.Dish;
+import com.codepath.hungrybird.model.Order;
 
-public class ChefLandingActivity extends AppCompatActivity implements DishArrayAdapter.DishSelected {
+public class ChefLandingActivity extends AppCompatActivity implements DishArrayAdapter.DishSelected, OrderArrayAdapter.OrderSelected {
     public static final String TAG = ChefLandingActivity.class.getSimpleName();
 
     private ActivityChefLandingBinding binding;
@@ -187,5 +189,10 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
 //        mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onOrderSelected(Order order) {
+        
     }
 }
