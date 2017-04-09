@@ -6,10 +6,13 @@ import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.OrderDishRelation;
 import com.codepath.hungrybird.model.User;
+import com.crashlytics.android.Crashlytics;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseUser;
 import com.parse.interceptors.ParseLogInterceptor;
+
+import io.fabric.sdk.android.Fabric;
 
 import static com.parse.ParseObject.registerSubclass;
 
@@ -20,7 +23,7 @@ public class HungryBirdApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        Fabric.with(this, new Crashlytics());
         // Use for troubleshooting -- remove this line for production
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
 
