@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -72,9 +71,9 @@ public class MyOfferingsFragment extends Fragment {
         myOfferingsRView.setLayoutManager(linearLayoutManager);
         //Set Brand Icon
         //Added divider between line items
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(myOfferingsRView.getContext(),
-                linearLayoutManager.getOrientation());
-        myOfferingsRView.addItemDecoration(dividerItemDecoration);
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(myOfferingsRView.getContext(),
+//                linearLayoutManager.getOrientation());
+//        myOfferingsRView.addItemDecoration(dividerItemDecoration);
 
         return binding.getRoot();
     }

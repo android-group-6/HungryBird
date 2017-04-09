@@ -32,7 +32,7 @@ public class DishDetailsFragment extends Fragment {
     ParseClient parseClient = ParseClient.getInstance();
     ChefDishDetailsFragmentBinding binding;
 
-    Dish currentDish;
+    Dish currentDish = new Dish();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,27 +51,28 @@ public class DishDetailsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         String id = getArguments().getString(DISH_ID);
-        // TODO: Get id from the last screen and pass here
         parseClient.getDishById(id, new ParseClient.DishListener() {
             @Override
             public void onSuccess(Dish dish) {
                 Log.i(TAG, dish.toString());
-                currentDish = dish;
-                ParseFile parseFile = currentDish.getPrimaryImage();
-                if (parseFile != null && parseFile.getUrl() != null) {
-                    String imgUrl = parseFile.getUrl();
-                    Glide.with(getContext())
-                            .load(imgUrl)
-                            .into(binding.dishImage);
-                }
+                if (dish != null) {
+                    currentDish = dish;
+                    ParseFile parseFile = currentDish.getPrimaryImage();
+                    if (parseFile != null && parseFile.getUrl() != null) {
+                        String imgUrl = parseFile.getUrl();
+                        Glide.with(getContext())
+                                .load(imgUrl)
+                                .into(binding.dishImage);
+                    }
 
-                binding.dishTitle.setText(currentDish.getDishName());
-                binding.dishPrice.setText("$" + String.valueOf(currentDish.getPrice()));
-                binding.dishServingSize.setText(String.valueOf(currentDish.getServingSize()));
-                //        binding.dishVegOrNonveg.setText(currentDish.getTitle());
-                //        binding.dishAllergen.setText(currentDish.getTitle());
-                //        binding.dishSpiceLevel.setText(currentDish.getTitle());
-                binding.dishDescription.setText(currentDish.getDescription());
+                    binding.dishTitle.setText(currentDish.getDishName());
+                    binding.dishPrice.setText("$" + String.valueOf(currentDish.getPrice()));
+                    binding.dishServingSize.setText(String.valueOf(currentDish.getServingSize()));
+                    //        binding.dishVegOrNonveg.setText(currentDish.getTitle());
+                    //        binding.dishAllergen.setText(currentDish.getTitle());
+                    //        binding.dishSpiceLevel.setText(currentDish.getTitle());
+                    binding.dishDescription.setText(currentDish.getDescription());
+                }
             }
 
             @Override
