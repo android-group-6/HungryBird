@@ -322,6 +322,16 @@ public class ParseClient {
         void onFailure(Exception e);
     }
 
+    public void saveUser(final User user, final UserListener listener) {
+        user.saveInBackground(e -> {
+            if (e == null) {
+                listener.onSuccess(user);
+            } else {
+                listener.onFailure(e);
+            }
+        });
+    }
+
     public void getUserById(String userId, final UserListener listener) {
         ParseQuery<User> parseQuery = ParseQuery.getQuery(User.class);
         parseQuery.getInBackground(userId, new GetCallback<User>() {

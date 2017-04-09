@@ -1,6 +1,7 @@
 package com.codepath.hungrybird.model;
 
 import com.parse.ParseClassName;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 /**
@@ -18,5 +19,13 @@ public class User extends ParseUser {
 
     public void setChef(boolean chef) {
         put("isChef", chef);
+    }
+
+    public ParseFile getProfileImage() {
+        return getParseFile("profileImage");
+    }
+
+    public void setProfileImage(ParseFile profileImage) {
+        put("profileImage", profileImage);
     }
 }

@@ -7,9 +7,10 @@ import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.OrderDishRelation;
 import com.codepath.hungrybird.model.User;
 import com.crashlytics.android.Crashlytics;
+import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.ParseACL;
-import com.parse.ParseUser;
+import com.parse.ParseFacebookUtils;
 import com.parse.interceptors.ParseLogInterceptor;
 
 import io.fabric.sdk.android.Fabric;
@@ -40,10 +41,13 @@ public class HungryBirdApplication extends Application {
                 .addNetworkInterceptor(new ParseLogInterceptor())
                 .server(PARSE_SERVER_URL).build());
 
-        ParseUser.enableAutomaticUser();
+//        ParseUser.enableAutomaticUser();
         ParseACL parseACL = new ParseACL();
         parseACL.setPublicReadAccess(true);
         parseACL.setPublicWriteAccess(true);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        ParseFacebookUtils.initialize(getApplicationContext());
+
     }
 
     private void registerModels() {
