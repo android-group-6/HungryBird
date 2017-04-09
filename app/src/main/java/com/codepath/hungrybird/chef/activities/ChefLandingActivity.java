@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.codepath.hungrybird.R;
+import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
 import com.codepath.hungrybird.chef.fragments.ChefOrdersViewFragment;
 import com.codepath.hungrybird.chef.fragments.ContactDetailsFragment;
 import com.codepath.hungrybird.chef.fragments.DishAddEditFragment;
@@ -23,8 +24,9 @@ import com.codepath.hungrybird.chef.fragments.DishDetailsFragment;
 import com.codepath.hungrybird.chef.fragments.MyOfferingsFragment;
 import com.codepath.hungrybird.chef.fragments.MyRegisterFragment;
 import com.codepath.hungrybird.databinding.ActivityChefLandingBinding;
+import com.codepath.hungrybird.model.Dish;
 
-public class ChefLandingActivity extends AppCompatActivity implements MyOfferingsFragment.OfferingSelected {
+public class ChefLandingActivity extends AppCompatActivity implements DishArrayAdapter.DishSelected {
     public static final String TAG = ChefLandingActivity.class.getSimpleName();
 
     private ActivityChefLandingBinding binding;
@@ -171,16 +173,19 @@ public class ChefLandingActivity extends AppCompatActivity implements MyOffering
     }
 
     @Override
-    public void onDishSelectedSelected() {
+    public void onDishSelected(Dish dish) {
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, new DishDetailsFragment()).addToBackStack(null).commit();
+        Bundle bundle = new Bundle();
+        bundle.putString(DishDetailsFragment.DISH_ID, dish.getObjectId());
+        DishDetailsFragment dishDetailsFragment = new DishDetailsFragment();
+        dishDetailsFragment.setArguments(bundle);
+        fragmentManager.beginTransaction().replace(R.id.flContent, dishDetailsFragment).addToBackStack(null).commit();
 
         // update the actionbar to show the up carat/affordanced
 //        drawerToggle.setDrawerIndicatorEnabled(false);
 //        mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 }
