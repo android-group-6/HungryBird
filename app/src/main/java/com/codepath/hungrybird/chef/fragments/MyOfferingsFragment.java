@@ -41,6 +41,7 @@ public class MyOfferingsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         dishArrayAdapter = new DishArrayAdapter(getActivity(), dishesArrayList);
+        //TODO: Replace chef id below with dynamic
         parseClient.getDishesByChefId("ZkjdWTqmmC", new ParseClient.DishListListener() {
             @Override
             public void onSuccess(List<Dish> dishes) {
