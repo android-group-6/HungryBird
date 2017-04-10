@@ -48,36 +48,12 @@ public class GallerySnapListContainerAdapter extends RecyclerView.Adapter<Galler
 
     @Override
     public int getItemViewType(int position) {
-//        Snap snap = mDishes.get(position);
-//        switch (snap.getGravity()) {
-//            case Gravity.CENTER_VERTICAL:
-//                return VERTICAL;
-//            case Gravity.CENTER_HORIZONTAL:
-//                return HORIZONTAL;
-//            case Gravity.START:
-//                return HORIZONTAL;
-//            case Gravity.TOP:
-//                return VERTICAL;
-//            case Gravity.END:
-//                return HORIZONTAL;
-//            case Gravity.BOTTOM:
-//                return VERTICAL;
-//        }
         return HORIZONTAL;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        View view = viewType == VERTICAL ? LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.adapter_snap_vertical, parent, false)
-//                : LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.adapter_snap, parent, false);
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.consumer_gallery_view_item_container, parent, false);
-
-//        if (viewType == VERTICAL) {
-//            view.findViewById(R.id.recyclerView).setOnTouchListener(mTouchListener);
-//        }
-
         return new ViewHolder(view);
 
     }
@@ -86,37 +62,6 @@ public class GallerySnapListContainerAdapter extends RecyclerView.Adapter<Galler
     public void onBindViewHolder(ViewHolder holder, int position) {
         DishList dishList = mDishes.get(position);
         holder.snapTextView.setText(dishList.getText());
-
-//        if (snap.getGravity() == Gravity.START || snap.getGravity() == Gravity.END) {
-//            holder.recyclerView.setLayoutManager(new LinearLayoutManager(holder
-//                    .recyclerView.getContext(), LinearLayoutManager.HORIZONTAL, false));
-//            holder.recyclerView.setOnFlingListener(null);
-//            new GravitySnapHelper(snap.getGravity(), false, this).attachToRecyclerView(holder.recyclerView);
-//        } else if (snap.getGravity() == Gravity.CENTER_HORIZONTAL ||
-//                snap.getGravity() == Gravity.CENTER_VERTICAL) {
-//            holder.recyclerView.setLayoutManager(new LinearLayoutManager(holder
-//                    .recyclerView.getContext(), snap.getGravity() == Gravity.CENTER_HORIZONTAL ?
-//                    LinearLayoutManager.HORIZONTAL : LinearLayoutManager.VERTICAL, false));
-//            holder.recyclerView.setOnFlingListener(null);
-//            new LinearSnapHelper().attachToRecyclerView(holder.recyclerView);
-//        } else if (snap.getGravity() == Gravity.CENTER) { // Pager snap
-//            holder.recyclerView.setLayoutManager(new LinearLayoutManager(holder
-//                    .recyclerView.getContext(), LinearLayoutManager.HORIZONTAL, false));
-//            holder.recyclerView.setOnFlingListener(null);
-//            new GravityPagerSnapHelper(Gravity.START).attachToRecyclerView(holder.recyclerView);
-//        } else { // Top / Bottom
-//            holder.recyclerView.setLayoutManager(new LinearLayoutManager(holder
-//                    .recyclerView.getContext()));
-//            holder.recyclerView.setOnFlingListener(null);
-//            new GravitySnapHelper(snap.getGravity()).attachToRecyclerView(holder.recyclerView);
-//        }
-//
-//
-//        holder.recyclerView.setAdapter(new GallerySnapListAdapter(snap.getGravity() == Gravity.START
-//                || snap.getGravity() == Gravity.END
-//                || snap.getGravity() == Gravity.CENTER_HORIZONTAL,
-//                snap.getGravity() == Gravity.CENTER, snap.getApps()));
-
         holder.recyclerView.setLayoutManager(new LinearLayoutManager(holder.recyclerView.getContext(), LinearLayoutManager.HORIZONTAL, false));
         holder.recyclerView.setOnFlingListener(null);
         new LinearSnapHelper().attachToRecyclerView(holder.recyclerView);

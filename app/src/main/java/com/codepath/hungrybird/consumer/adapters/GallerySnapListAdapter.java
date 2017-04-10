@@ -23,7 +23,7 @@ import java.util.List;
 
 public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapListAdapter.ViewHolder> {
 
-    private List<Dish> mApps;
+    private List<Dish> mDishes;
     private boolean mHorizontal;
     private boolean mPager;
     Context mContext;
@@ -37,28 +37,18 @@ public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapList
         galleryDishSelectedListener = (GalleryDishSelectedListener) activity;
         mContext = context;
         mHorizontal = horizontal;
-        mApps = apps;
+        mDishes = apps;
         mPager = pager;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        if (mPager) {
-//            return new ViewHolder(LayoutInflater.from(parent.getContext())
-//                    .inflate(R.layout.adapter_pager, parent, false));
-//        } else {
-//            return mHorizontal ? new ViewHolder(LayoutInflater.from(parent.getContext())
-//                    .inflate(R.layout.adapter, parent, false)) :
-//                    new ViewHolder(LayoutInflater.from(parent.getContext())
-//                            .inflate(R.layout.adapter_vertical, parent, false));
-//        }
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.consumer_gallery_view_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Dish app = mApps.get(position);
-        //holder.imageView.setImageResource(app.getDrawable());
+        Dish app = mDishes.get(position);
         ParseFile parseFile = app.getPrimaryImage();
         if (parseFile != null && parseFile.getUrl() != null) {
             String imgUrl = parseFile.getUrl();
@@ -79,7 +69,7 @@ public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapList
 
     @Override
     public int getItemCount() {
-        return mApps.size();
+        return mDishes.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -98,20 +88,14 @@ public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapList
 
         @Override
         public void onClick(View v) {
-            Log.d("App", mApps.get(getAdapterPosition()).getObjectId());
+            Log.d("App", mDishes.get(getAdapterPosition()).getObjectId());
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
-                Dish dish = mApps.get(position);
+                Dish dish = mDishes.get(position);
                 if (galleryDishSelectedListener != null) {
                     galleryDishSelectedListener.onDishSelected(dish);
                 }
             }
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            Bundle bundle = new Bundle();
-//            bundle.putString(DishDetailsFragment.DISH_ID, dish.getObjectId());
-//            DishDetailsFragment dishDetailsFragment = new DishDetailsFragment();
-//            dishDetailsFragment.setArguments(bundle);
-//            fragmentManager.beginTransaction().replace(R.id.flContent, dishDetailsFragment).addToBackStack(null).commit();
         }
     }
 
