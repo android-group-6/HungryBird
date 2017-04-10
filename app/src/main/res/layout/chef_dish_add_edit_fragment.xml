@@ -100,24 +100,25 @@
             android:id="@+id/textViewPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/spinnerDishType"
-            android:layout_toEndOf="@+id/spinnerDishType"
-            android:layout_toRightOf="@+id/spinnerDishType"
-            android:text="$" />
+            android:text="$"
+            android:layout_alignBaseline="@+id/editTextPrice"
+            android:layout_alignBottom="@+id/editTextPrice"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <EditText
             android:id="@+id/editTextPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/spinnerDishType"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_toEndOf="@+id/textViewPrice"
-            android:layout_toRightOf="@+id/textViewPrice"
             android:ems="10"
             android:hint="price"
             android:inputType="textPersonName"
-            android:text="9.99" />
+            android:text="9.99"
+            android:layout_below="@+id/spinnerDishType"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toRightOf="@+id/textViewPrice"
+            android:layout_toEndOf="@+id/textViewPrice" />
 
         <Button
             android:id="@+id/buttonSave"

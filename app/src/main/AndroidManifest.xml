@@ -30,7 +30,8 @@
             android:name="io.fabric.ApiKey"
             android:value="78a804884e7bf0493795a51b3edd6a5248577ddf" />
 
-        <activity android:name=".chef.activities.ChefLandingActivity"></activity>
+        <activity android:name=".chef.activities.ChefLandingActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
     </application>
 
 </manifest>
