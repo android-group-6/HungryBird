@@ -5,11 +5,11 @@ import android.util.Log;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.OrderDishRelation;
+import com.codepath.hungrybird.model.User;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
@@ -54,10 +54,8 @@ public class ParseClient {
             @Override
             public void done(Dish dish, ParseException e) {
                 if (e == null) {
-                    Log.d("debug-data", dish.getDishName());
                     listener.onSuccess(dish);
                 } else {
-                    Log.d("error-parse", "error while getting dish by id ... " + id);
                     listener.onFailure(e);
                 }
             }
@@ -65,7 +63,7 @@ public class ParseClient {
     }
 
     public void getDishesByChefId(final String chefId, final DishListListener listener) {
-        ParseQuery<ParseUser> innerQuery = ParseQuery.getQuery(ParseUser.class);
+        ParseQuery<User> innerQuery = ParseQuery.getQuery(User.class);
         innerQuery.getInBackground(chefId);
         ParseQuery<Dish> parseQuery = ParseQuery.getQuery(Dish.class);
         parseQuery.whereMatchesQuery("chef", innerQuery);
@@ -144,16 +142,17 @@ public class ParseClient {
         void onFailure(Exception e);
     }
 
-    public void addOrder(String consumerId, final String chefId, final OrderListener listener) {
+    public void addOrder(String consumerId, final String chefId, final Order.Status status, final OrderListener listener) {
         getUserById(consumerId, new UserListener() {
             @Override
-            public void onSuccess(final ParseUser consumer) {
+            public void onSuccess(final User consumer) {
                 getUserById(chefId, new UserListener() {
                     @Override
-                    public void onSuccess(ParseUser chef) {
+                    public void onSuccess(User chef) {
                         final Order order = new Order();
                         order.setChef(chef);
                         order.setConsumer(consumer);
+                        order.setStatus(status.name());
                         order.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(ParseException e) {
@@ -230,7 +229,7 @@ public class ParseClient {
     }
 
     public void getOrdersByChefId(String chefId, final OrderListListener listener) {
-        ParseQuery<ParseUser> innerQuery = ParseQuery.getQuery(ParseUser.class);
+        ParseQuery<User> innerQuery = ParseQuery.getQuery(User.class);
         innerQuery.getInBackground(chefId);
         ParseQuery<Order> parseQuery = ParseQuery.getQuery(Order.class);
         parseQuery.whereMatchesQuery("chef", innerQuery);
@@ -247,7 +246,7 @@ public class ParseClient {
     }
 
     public void getOrdersByConsumerId(String consumerId, final OrderListListener listener) {
-        ParseQuery<ParseUser> innerQuery = ParseQuery.getQuery(ParseUser.class);
+        ParseQuery<User> innerQuery = ParseQuery.getQuery(User.class);
         innerQuery.getInBackground(consumerId);
         ParseQuery<Order> parseQuery = ParseQuery.getQuery(Order.class);
         parseQuery.whereMatchesQuery("consumer", innerQuery);
@@ -264,9 +263,9 @@ public class ParseClient {
     }
 
     public void getOrderByConsumerIdAndChefId(final String consumerId, final String chefId, final OrderListener listener) {
-        ParseQuery<ParseUser> innerQueryConsumer = ParseQuery.getQuery(ParseUser.class);
+        ParseQuery<User> innerQueryConsumer = ParseQuery.getQuery(User.class);
         innerQueryConsumer.getInBackground(consumerId);
-        ParseQuery<ParseUser> innerQueryChef = ParseQuery.getQuery(ParseUser.class);
+        ParseQuery<User> innerQueryChef = ParseQuery.getQuery(User.class);
         innerQueryChef.getInBackground(chefId);
         ParseQuery<Order> parseQuery = ParseQuery.getQuery(Order.class);
         parseQuery.whereMatchesQuery("consumer", innerQueryConsumer);
@@ -276,7 +275,7 @@ public class ParseClient {
             public void done(Order object, ParseException e) {
                 if (e == null) {
                     if (object == null) {
-                        addOrder(consumerId, chefId, listener);
+                        addOrder(consumerId, chefId, Order.Status.ORDERED, listener);
                     } else {
                         listener.onSuccess(object);
                     }
@@ -318,15 +317,15 @@ public class ParseClient {
     // --------- User ---------------
 
     public interface UserListener {
-        void onSuccess(ParseUser parseUser);
+        void onSuccess(User user);
         void onFailure(Exception e);
     }
 
     public void getUserById(String userId, final UserListener listener) {
-        ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
-        parseQuery.getInBackground(userId, new GetCallback<ParseUser>() {
+        ParseQuery<User> parseQuery = ParseQuery.getQuery(User.class);
+        parseQuery.getInBackground(userId, new GetCallback<User>() {
             @Override
-            public void done(ParseUser object, ParseException e) {
+            public void done(User object, ParseException e) {
                 if (e == null) {
                     listener.onSuccess(object);
                 } else {

@@ -1,0 +1,144 @@
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:id="@+id/imageViewPrimaryImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="29dp"
+            app:srcCompat="@drawable/futurama" />
+
+        <Button
+            android:id="@+id/buttonUploadImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/imageViewPrimaryImage"
+            android:layout_marginTop="12dp"
+            android:drawableLeft="@android:drawable/ic_menu_camera"
+            android:text="Upload Dish Image" />
+
+        <EditText
+            android:id="@+id/editTextDishTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/buttonUploadImage"
+            android:layout_marginTop="11dp"
+            android:ems="10"
+            android:hint="dish title"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/editTextDishDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/editTextDishTitle"
+            android:layout_marginTop="15dp"
+            android:ems="10"
+            android:hint="dish description"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/textViewServingSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/editTextDishDescription"
+            android:layout_marginTop="71dp"
+            android:text="Serving Size" />
+
+        <Spinner
+            android:id="@+id/spinnerServingSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/serving_sizes"
+            android:layout_alignTop="@+id/textViewServingSize"
+            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
+            android:layout_toEndOf="@+id/textViewServingSize"
+            android:layout_toRightOf="@+id/textViewServingSize" />
+
+        <TextView
+            android:id="@+id/textViewDishType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
+            android:text="Dish Type"
+            android:layout_alignTop="@+id/spinnerServingSize"
+            android:layout_toRightOf="@+id/spinnerServingSize"
+            android:layout_toEndOf="@+id/spinnerServingSize" />
+
+        <Spinner
+            android:id="@+id/spinnerDishType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/dish_types"
+            android:layout_alignTop="@+id/textViewDishType"
+            android:layout_marginLeft="22dp"
+            android:layout_marginStart="22dp"
+            android:layout_toEndOf="@+id/textViewDishType"
+            android:layout_toRightOf="@+id/textViewDishType" />
+
+        <TextView
+            android:id="@+id/textViewPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/spinnerDishType"
+            android:layout_toEndOf="@+id/spinnerDishType"
+            android:layout_toRightOf="@+id/spinnerDishType"
+            android:text="$" />
+
+        <EditText
+            android:id="@+id/editTextPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/spinnerDishType"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@+id/textViewPrice"
+            android:layout_toRightOf="@+id/textViewPrice"
+            android:ems="10"
+            android:hint="price"
+            android:inputType="textPersonName"
+            android:text="9.99" />
+
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="16dp"
+            android:layout_toEndOf="@+id/textViewDishType"
+            android:layout_toRightOf="@+id/textViewDishType"
+            android:text="save" />
+
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/buttonSave"
+            android:layout_marginEnd="14dp"
+            android:layout_marginRight="14dp"
+            android:layout_toLeftOf="@+id/buttonSave"
+            android:layout_toStartOf="@+id/buttonSave"
+            android:text="cancel" />
+
+    </RelativeLayout>
+</layout>
