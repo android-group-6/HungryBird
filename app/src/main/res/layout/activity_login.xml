@@ -29,6 +29,7 @@
             android:layout_marginTop="69dp"
             android:ems="10"
             android:hint="username"
+            android:text="u1"
             android:inputType="textPersonName" />
 
         <EditText
@@ -41,6 +42,7 @@
             android:layout_marginTop="30dp"
             android:ems="10"
             android:hint="password"
+            android:text="u1"
             android:inputType="textPassword" />
 
         <Button
