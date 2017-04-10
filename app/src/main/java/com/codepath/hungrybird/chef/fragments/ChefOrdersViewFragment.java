@@ -12,12 +12,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.codepath.hungrybird.HungryBirdApplication;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.adapters.ChefOrdersFragmentPagerAdapter;
 import com.codepath.hungrybird.consumer.fragments.FilterFragment;
 import com.codepath.hungrybird.databinding.ChefOrdersViewFragmentBinding;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.network.ParseClient;
+import com.parse.Parse;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -38,8 +41,8 @@ public class ChefOrdersViewFragment extends Fragment {
         ChefOrdersViewFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.chef_orders_view_fragment, container, false);
         final ChefOrdersFragmentPagerAdapter sampleFragmentPagerAdapter = new ChefOrdersFragmentPagerAdapter(getActivity().getSupportFragmentManager(),
                 getActivity(), null);
-
-        parseClient.getOrdersByChefId("bLDkVaY7EF", new ParseClient.OrderListListener () {
+        ParseUser parseUser = ParseUser.getCurrentUser();
+        parseClient.getOrdersByChefId(parseUser.getObjectId(), new ParseClient.OrderListListener () {
 
             @Override
             public void onSuccess(List<Order> orders) {
