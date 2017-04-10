@@ -66,36 +66,20 @@ public class Dish extends ParseObject {
         put("chef", user);
     }
 
+    public void setVeg(boolean isVeg) {
+        put("isVeg", isVeg);
+    }
+
+    public boolean isVeg() {
+        return getBoolean("isVeg");
+    }
+
     public void setCuisine(String cuisine) {
         put("cuisine", cuisine);
     }
 
     public String getCuisine() {
         return getString("cuisine");
-    }
-
-    public void setType (String type) {
-        put("type", type);
-    }
-
-    public String getType() {
-        return getString("type");
-    }
-
-    public enum Type {
-        VEG("veg"),
-        NON_VEG("non_veg");
-
-        private String typeValue;
-
-        Type(String typeValue) {
-            this.typeValue = typeValue;
-        }
-
-        public String getTypeValue() {
-            return typeValue;
-        }
-
     }
 
     public static enum Cuisine {
