@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.databinding.ChefOfferingsDishesListItemBinding;
 import com.codepath.hungrybird.databinding.ProgressItemBinding;
@@ -71,6 +72,9 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.binding.chefOfferingListItemDishNameTv.setText(dish.getTitle());
             holder.binding.chefOfferingDishListItemServingSizeValueTv.setText("" + dish.getServingSize());
             holder.binding.chefOfferingDishListItemPriceTv.setText("$" + dish.getPrice());
+            if (dish.getPrimaryImage() != null && dish.getPrimaryImage().getUrl() != null) {
+                Glide.with(holder.binding.getRoot().getContext()).load(dish.getPrimaryImage().getUrl()).into(holder.binding.chefOfferingListItemDishIv);
+            }
         } else {
             ((ProgressViewHolder) viewHolder).progressBar.setIndeterminate(true);
         }
