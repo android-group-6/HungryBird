@@ -18,6 +18,7 @@
     <string name="chef_drawer_title_my_offering">My Offerings</string>
     <string name="chef_drawer_title_my_register">My Register</string>
     <string name="chef_drawer_title_contact_details">Contact Details</string>
+    <string name="chef_logout">Logout</string>
     <string name="chef_simpsons">The Simpsons</string>
 
     <string name="chef_cartoon_wars">Cartoon Wars</string>
