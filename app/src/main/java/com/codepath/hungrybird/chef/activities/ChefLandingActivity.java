@@ -27,6 +27,7 @@ import com.codepath.hungrybird.chef.fragments.MyRegisterFragment;
 import com.codepath.hungrybird.databinding.ActivityChefLandingBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
+import com.codepath.hungrybird.model.User;
 
 public class ChefLandingActivity extends AppCompatActivity implements DishArrayAdapter.DishSelected, OrderArrayAdapter.OrderSelected {
     public static final String TAG = ChefLandingActivity.class.getSimpleName();
@@ -40,7 +41,8 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        User currentUser = (User) User.getCurrentUser();
+        Toast.makeText(ChefLandingActivity.this, "Current User ... " + currentUser.getUsername(), Toast.LENGTH_LONG).show();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chef_landing);
 
         // Find the toolbar view inside the activity layout
@@ -128,6 +130,23 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
             case R.id.chef_drawer_my_register_mi:
                 fragmentClass = MyRegisterFragment.class;
                 break;
+            case R.id.chef_logout_mi:
+                User.logOutInBackground(e -> {
+                    if (e == null) {
+                        Toast.makeText(ChefLandingActivity.this, "Logout Successful ... ", Toast.LENGTH_LONG).show();
+                        // TODO remove from shared preference
+
+                        if (getFragmentManager().getBackStackEntryCount() == 0) {
+                            this.finish();
+                        } else {
+                            getFragmentManager().popBackStack();
+                        }
+                    } else {
+                        Toast.makeText(ChefLandingActivity.this, "Logout failed ... " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                });
+//                break;
             default:
                 fragmentClass = ChefOrdersViewFragment.class;
         }

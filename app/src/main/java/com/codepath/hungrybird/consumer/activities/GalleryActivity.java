@@ -11,13 +11,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.codepath.hungrybird.R;
-import com.codepath.hungrybird.databinding.ActivityGalleryBinding;
 import com.codepath.hungrybird.consumer.fragments.ContactUsFragment;
 import com.codepath.hungrybird.consumer.fragments.GalleryViewFragment;
 import com.codepath.hungrybird.consumer.fragments.OrderHistoryFramgent;
 import com.codepath.hungrybird.consumer.fragments.SimpsonsFragment;
+import com.codepath.hungrybird.databinding.ActivityGalleryBinding;
+import com.codepath.hungrybird.model.User;
 
 public class GalleryActivity extends AppCompatActivity {
     private ActivityGalleryBinding binding;
@@ -29,7 +31,8 @@ public class GalleryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        User currentUser = (User) User.getCurrentUser();
+        Toast.makeText(GalleryActivity.this, "Current User ... " + currentUser.getUsername(), Toast.LENGTH_LONG).show();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_gallery);
 
         // Find the toolbar view inside the activity layout
@@ -106,6 +109,21 @@ public class GalleryActivity extends AppCompatActivity {
             case R.id.chef_drawer_my_register_mi:
                 fragmentClass = ContactUsFragment.class;
                 break;
+            case R.id.chef_logout_mi:
+                User.logOutInBackground(e -> {
+                    if (e == null) {
+                        Toast.makeText(GalleryActivity.this, "Logout Successful", Toast.LENGTH_LONG).show();
+                        // remove from shared preference
+                        if (getFragmentManager().getBackStackEntryCount() == 0) {
+                            this.finish();
+                        } else {
+                            getFragmentManager().popBackStack();
+                        }
+                    } else {
+                        e.printStackTrace();
+                    }
+                });
+                // break;
             default:
                 fragmentClass = GalleryViewFragment.class;
         }

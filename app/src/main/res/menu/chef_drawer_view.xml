@@ -17,5 +17,9 @@
             android:id="@+id/chef_contact_details_mi"
             android:icon="@drawable/ic_simpsons"
             android:title="@string/chef_drawer_title_contact_details" />
+        <item
+            android:id="@+id/chef_logout_mi"
+            android:icon="@drawable/ic_simpsons"
+            android:title="@string/chef_logout" />
     </group>
 </menu>
