@@ -68,7 +68,7 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (viewHolder instanceof ViewHolder) {
             ViewHolder holder = (ViewHolder) viewHolder;
             final Dish dish = dishArrayList.get(position);
-            holder.binding.chefOfferingListItemDishNameTv.setText(dish.getDishName());
+            holder.binding.chefOfferingListItemDishNameTv.setText(dish.getTitle());
             holder.binding.chefOfferingDishListItemServingSizeValueTv.setText("" + dish.getServingSize());
             holder.binding.chefOfferingDishListItemPriceTv.setText("$" + dish.getPrice());
         } else {

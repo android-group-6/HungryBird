@@ -54,10 +54,8 @@ public class ParseClient {
             @Override
             public void done(Dish dish, ParseException e) {
                 if (e == null) {
-                    Log.d("debug-data", dish.getDishName());
                     listener.onSuccess(dish);
                 } else {
-                    Log.d("error-parse", "error while getting dish by id ... " + id);
                     listener.onFailure(e);
                 }
             }

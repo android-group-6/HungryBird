@@ -27,6 +27,7 @@ import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.consumer.fragments.FilterFragment;
 import com.codepath.hungrybird.databinding.ChefDishAddEditFragmentBinding;
 import com.codepath.hungrybird.model.Dish;
+import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
 import com.parse.ParseFile;
 
@@ -58,14 +59,14 @@ public class DishAddEditFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.chef_dish_add_edit_fragment, container, false);
-//        String dishId = getArguments().getString(DISH_ID);
-        String dishId = "ZudEjcaNBi";
-        if (dishId != null && !dishId.isEmpty()) {
+        if (getArguments() != null
+                && getArguments().getString(DISH_ID) != null
+                && !getArguments().getString(DISH_ID).isEmpty()) {
             // edit flow
+            String dishId = getArguments().getString(DISH_ID);
             ParseClient.getInstance().getDishById(dishId, new ParseClient.DishListener() {
                 @Override
                 public void onSuccess(Dish dish) {
-                    dish = mockDish();
                     currentDish = dish;
                     modelToView(dish);
                 }
@@ -211,6 +212,7 @@ public class DishAddEditFragment extends Fragment {
             currentDish.setDescription(binding.editTextDishDescription.getText().toString());
             currentDish.setPrice(Double.parseDouble(binding.editTextPrice.getText().toString()));
             currentDish.setPrimaryImage(bitmapToParseFile(((BitmapDrawable)binding.imageViewPrimaryImage.getDrawable()).getBitmap()));
+            currentDish.setChef((User) User.getCurrentUser());
         } catch (Exception e) {
             Toast.makeText(getContext(), "error adapting view to model " , Toast.LENGTH_LONG).show();
         }

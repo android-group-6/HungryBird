@@ -23,6 +23,7 @@ import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
 import com.codepath.hungrybird.consumer.fragments.FilterFragment;
 import com.codepath.hungrybird.databinding.ChefMyOfferingsFragmentBinding;
 import com.codepath.hungrybird.model.Dish;
+import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
 
 import java.util.ArrayList;
@@ -42,7 +43,8 @@ public class MyOfferingsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         dishArrayAdapter = new DishArrayAdapter(getActivity(), dishesArrayList);
-        parseClient.getDishesByChefId("bLDkVaY7EF", new ParseClient.DishListListener() {
+        User currentUser = (User) User.getCurrentUser();
+        parseClient.getDishesByChefId(currentUser.getObjectId(), new ParseClient.DishListListener() {
             @Override
             public void onSuccess(List<Dish> dishes) {
                 dishesArrayList.addAll(dishes);

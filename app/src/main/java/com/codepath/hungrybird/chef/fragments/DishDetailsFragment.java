@@ -65,7 +65,7 @@ public class DishDetailsFragment extends Fragment {
                             .into(binding.dishImage);
                 }
 
-                binding.dishTitle.setText(currentDish.getDishName());
+                binding.dishTitle.setText(currentDish.getTitle());
                 binding.dishPrice.setText("$" + String.valueOf(currentDish.getPrice()));
                 binding.dishServingSize.setText(String.valueOf(currentDish.getServingSize()));
                 //        binding.dishVegOrNonveg.setText(currentDish.getTitle());
