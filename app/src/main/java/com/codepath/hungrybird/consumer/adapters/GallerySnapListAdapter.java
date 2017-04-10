@@ -1,5 +1,6 @@
 package com.codepath.hungrybird.consumer.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,8 +27,14 @@ public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapList
     private boolean mHorizontal;
     private boolean mPager;
     Context mContext;
+    GalleryDishSelectedListener galleryDishSelectedListener;
 
-    public GallerySnapListAdapter(Context context, boolean horizontal, boolean pager, List<Dish> apps) {
+    public interface GalleryDishSelectedListener {
+        void onDishSelected(Dish dish);
+    }
+
+    public GallerySnapListAdapter(Activity activity, Context context, boolean horizontal, boolean pager, List<Dish> apps) {
+        galleryDishSelectedListener = (GalleryDishSelectedListener) activity;
         mContext = context;
         mHorizontal = horizontal;
         mApps = apps;
@@ -91,7 +98,20 @@ public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapList
 
         @Override
         public void onClick(View v) {
-            Log.d("App", mApps.get(getAdapterPosition()).getTitle());
+            Log.d("App", mApps.get(getAdapterPosition()).getObjectId());
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
+                Dish dish = mApps.get(position);
+                if (galleryDishSelectedListener != null) {
+                    galleryDishSelectedListener.onDishSelected(dish);
+                }
+            }
+//            FragmentManager fragmentManager = getSupportFragmentManager();
+//            Bundle bundle = new Bundle();
+//            bundle.putString(DishDetailsFragment.DISH_ID, dish.getObjectId());
+//            DishDetailsFragment dishDetailsFragment = new DishDetailsFragment();
+//            dishDetailsFragment.setArguments(bundle);
+//            fragmentManager.beginTransaction().replace(R.id.flContent, dishDetailsFragment).addToBackStack(null).commit();
         }
     }
 

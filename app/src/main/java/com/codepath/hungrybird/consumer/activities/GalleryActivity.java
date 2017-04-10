@@ -14,14 +14,17 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.codepath.hungrybird.R;
+import com.codepath.hungrybird.chef.fragments.DishDetailsFragment;
+import com.codepath.hungrybird.consumer.adapters.GallerySnapListAdapter;
 import com.codepath.hungrybird.consumer.fragments.ContactUsFragment;
 import com.codepath.hungrybird.consumer.fragments.GalleryViewFragment;
 import com.codepath.hungrybird.consumer.fragments.OrderHistoryFramgent;
 import com.codepath.hungrybird.consumer.fragments.SimpsonsFragment;
 import com.codepath.hungrybird.databinding.ActivityGalleryBinding;
+import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.User;
 
-public class GalleryActivity extends AppCompatActivity {
+public class GalleryActivity extends AppCompatActivity implements GallerySnapListAdapter.GalleryDishSelectedListener {
     private ActivityGalleryBinding binding;
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
@@ -146,4 +149,13 @@ public class GalleryActivity extends AppCompatActivity {
         mDrawer.closeDrawers();
     }
 
+    @Override
+    public void onDishSelected(Dish dish) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Bundle bundle = new Bundle();
+        bundle.putString(DishDetailsFragment.DISH_ID, dish.getObjectId());
+        DishDetailsFragment dishDetailsFragment = new DishDetailsFragment();
+        dishDetailsFragment.setArguments(bundle);
+        fragmentManager.beginTransaction().replace(R.id.flContent, dishDetailsFragment).addToBackStack(null).commit();
+    }
 }

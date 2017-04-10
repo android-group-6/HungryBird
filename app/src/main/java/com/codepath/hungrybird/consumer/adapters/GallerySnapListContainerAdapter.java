@@ -1,6 +1,6 @@
 package com.codepath.hungrybird.consumer.adapters;
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -25,7 +25,7 @@ public class GallerySnapListContainerAdapter extends RecyclerView.Adapter<Galler
 
     public static final int VERTICAL = 0;
     public static final int HORIZONTAL = 1;
-    Context mContext;
+    Activity mActivity;
 
     private ArrayList<DishList> mDishes;
     // Disable touch detection for parent recyclerView if we use vertical nested recyclerViews
@@ -37,8 +37,8 @@ public class GallerySnapListContainerAdapter extends RecyclerView.Adapter<Galler
         }
     };
 
-    public GallerySnapListContainerAdapter(Context context) {
-        mContext = context;
+    public GallerySnapListContainerAdapter(Activity activity) {
+        mActivity = activity;
         mDishes = new ArrayList<>();
     }
 
@@ -120,7 +120,7 @@ public class GallerySnapListContainerAdapter extends RecyclerView.Adapter<Galler
         holder.recyclerView.setLayoutManager(new LinearLayoutManager(holder.recyclerView.getContext(), LinearLayoutManager.HORIZONTAL, false));
         holder.recyclerView.setOnFlingListener(null);
         new LinearSnapHelper().attachToRecyclerView(holder.recyclerView);
-            holder.recyclerView.setAdapter(new GallerySnapListAdapter(mContext, true, false, dishList.getApps()));
+            holder.recyclerView.setAdapter(new GallerySnapListAdapter(mActivity, mActivity.getApplicationContext(), true, false, dishList.getApps()));
     }
 
     @Override
