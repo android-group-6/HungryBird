@@ -69,7 +69,7 @@ public class OrderArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (viewHolder instanceof ViewHolder) {
             ViewHolder holder = (ViewHolder) viewHolder;
             final Order order = orderArrayList.get(position);
-            holder.binding.chefOrderListItemOrderNameTv.setText("Order Name:" + order.getOrderName());
+            holder.binding.chefOrderListItemOrderNameTv.setText(order.getOrderName());
             holder.binding.chefOrderListItemDishCountValueTv.setText("" + 1);
         } else {
             ((ProgressViewHolder) viewHolder).progressBar.setIndeterminate(true);

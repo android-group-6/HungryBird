@@ -36,7 +36,7 @@
                 android:textColor="#ff000000"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                tools:text="Dish Name" />
+                tools:text="Order Name" />
 
             <TextView
                 android:id="@+id/chef_order_list_item_dish_count_lable_tv"
