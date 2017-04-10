@@ -1,5 +1,6 @@
 package com.codepath.hungrybird.consumer.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
-import com.codepath.hungrybird.model.App;
+import com.codepath.hungrybird.model.Dish;
+import com.parse.ParseFile;
 
 import java.util.List;
 
@@ -19,11 +22,13 @@ import java.util.List;
 
 public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapListAdapter.ViewHolder> {
 
-    private List<App> mApps;
+    private List<Dish> mApps;
     private boolean mHorizontal;
     private boolean mPager;
+    Context mContext;
 
-    public GallerySnapListAdapter(boolean horizontal, boolean pager, List<App> apps) {
+    public GallerySnapListAdapter(Context context, boolean horizontal, boolean pager, List<Dish> apps) {
+        mContext = context;
         mHorizontal = horizontal;
         mApps = apps;
         mPager = pager;
@@ -45,10 +50,19 @@ public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapList
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        App app = mApps.get(position);
-        holder.imageView.setImageResource(app.getDrawable());
-        holder.nameTextView.setText(app.getName());
-        holder.ratingTextView.setText(String.valueOf(app.getRating()));
+        Dish app = mApps.get(position);
+        //holder.imageView.setImageResource(app.getDrawable());
+        ParseFile parseFile = app.getPrimaryImage();
+        if (parseFile != null && parseFile.getUrl() != null) {
+            String imgUrl = parseFile.getUrl();
+            Glide.with(mContext)
+                    .load(imgUrl)
+                    .placeholder(R.drawable.ic_launcher)
+                    .fallback(R.drawable.futurama)
+                    .into(holder.imageView);
+        }
+        holder.nameTextView.setText(app.getTitle());
+        holder.ratingTextView.setText("$" + String.valueOf(app.getPrice()));
     }
 
     @Override
@@ -77,7 +91,7 @@ public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapList
 
         @Override
         public void onClick(View v) {
-            Log.d("App", mApps.get(getAdapterPosition()).getName());
+            Log.d("App", mApps.get(getAdapterPosition()).getTitle());
         }
     }
 

@@ -6,13 +6,11 @@ import java.util.List;
  * Created by dshah on 4/10/2017.
  */
 
-public class Snap {
-    private int mGravity;
+public class DishList {
     private String mText;
-    private List<App> mApps;
+    private List<Dish> mApps;
 
-    public Snap(int gravity, String text, List<App> apps) {
-        mGravity = gravity;
+    public DishList(int gravity, String text, List<Dish> apps) {
         mText = text;
         mApps = apps;
     }
@@ -21,11 +19,7 @@ public class Snap {
         return mText;
     }
 
-    public int getGravity(){
-        return mGravity;
-    }
-
-    public List<App> getApps(){
+    public List<Dish> getApps(){
         return mApps;
     }
 }

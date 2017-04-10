@@ -39,11 +39,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
-            android:drawableEnd="@android:drawable/star_on"
             android:drawablePadding="2dp"
-            android:drawableRight="@android:drawable/star_on"
             android:gravity="center"
-            android:text="4,5"
+            android:text="45"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="12sp" />
 
