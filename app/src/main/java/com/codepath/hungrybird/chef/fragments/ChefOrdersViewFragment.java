@@ -41,7 +41,6 @@ public class ChefOrdersViewFragment extends Fragment {
                 getActivity(), null);
         User currentUser = (User) User.getCurrentUser();
         parseClient.getOrdersByChefId(currentUser.getObjectId(), new ParseClient.OrderListListener () {
-
             @Override
             public void onSuccess(List<Order> orders) {
                 sampleFragmentPagerAdapter.updateOrders(orders);
