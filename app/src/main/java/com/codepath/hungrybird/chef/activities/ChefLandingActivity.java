@@ -3,6 +3,7 @@ package com.codepath.hungrybird.chef.activities;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -214,5 +215,11 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
     @Override
     public void onOrderSelected(Order order) {
 
+    }
+
+    public void mapMarkerClick(View v) {
+        String geoUri = "http://maps.google.com/maps?q=loc:" + 39.121493 + "," + -84.512074;
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
+        getApplicationContext().startActivity(intent);
     }
 }
