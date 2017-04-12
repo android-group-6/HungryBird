@@ -213,9 +213,18 @@ public class DishAddEditFragment extends Fragment {
             currentDish.setPrice(Double.parseDouble(binding.editTextPrice.getText().toString()));
             currentDish.setPrimaryImage(bitmapToParseFile(((BitmapDrawable)binding.imageViewPrimaryImage.getDrawable()).getBitmap()));
             currentDish.setChef((User) User.getCurrentUser());
+            currentDish.setServingSize(Integer.valueOf((String)binding.spinnerServingSize.getSelectedItem()));
+            currentDish.setVeg(checkVeg((String)binding.spinnerDishType.getSelectedItem()));
         } catch (Exception e) {
             Toast.makeText(getContext(), "error adapting view to model " , Toast.LENGTH_LONG).show();
         }
+    }
+
+    private boolean checkVeg(String dishType) {
+        if (dishType.toLowerCase().trim().equals("veg")) {
+            return true;
+        }
+        return false;
     }
 
     @Override

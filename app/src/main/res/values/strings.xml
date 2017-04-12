@@ -23,4 +23,18 @@
 
     <string name="chef_cartoon_wars">Cartoon Wars</string>
     <string name="chef_simpsorama">Simpsorama</string>
+
+    <string-array name="serving_sizes">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="dish_types">
+        <item>VEG</item>
+        <item>NON_VEG</item>
+    </string-array>
+
 </resources>
