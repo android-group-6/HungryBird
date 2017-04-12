@@ -30,7 +30,7 @@ public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapList
     GalleryDishSelectedListener galleryDishSelectedListener;
 
     public interface GalleryDishSelectedListener {
-        void onDishSelected(Dish dish);
+        void onDishSelected(View v, Dish dish);
     }
 
     public GallerySnapListAdapter(Activity activity, Context context, boolean horizontal, boolean pager, List<Dish> apps) {
@@ -93,7 +93,7 @@ public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapList
             if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
                 Dish dish = mDishes.get(position);
                 if (galleryDishSelectedListener != null) {
-                    galleryDishSelectedListener.onDishSelected(dish);
+                    galleryDishSelectedListener.onDishSelected(v, dish);
                 }
             }
         }

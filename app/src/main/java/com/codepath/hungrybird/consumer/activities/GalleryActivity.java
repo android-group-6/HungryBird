@@ -2,6 +2,7 @@ package com.codepath.hungrybird.consumer.activities;
 
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,11 +11,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.fragments.DishDetailsFragment;
+import com.codepath.hungrybird.common.Transitions.DetailsTransition;
 import com.codepath.hungrybird.consumer.adapters.GallerySnapListAdapter;
 import com.codepath.hungrybird.consumer.fragments.ContactUsFragment;
 import com.codepath.hungrybird.consumer.fragments.GalleryViewFragment;
@@ -150,12 +158,33 @@ public class GalleryActivity extends AppCompatActivity implements GallerySnapLis
     }
 
     @Override
-    public void onDishSelected(Dish dish) {
+    public void onDishSelected(View v, Dish dish) {
+        ImageView dishImage = (ImageView) v.findViewById(R.id.imageView);
+        TextView dishTitle = (TextView) v.findViewById(R.id.nameTextView);
+        TextView dishPrice = (TextView) v.findViewById(R.id.ratingTextView);
+        DishDetailsFragment dishDetailsFragment = new DishDetailsFragment();
+        GalleryViewFragment galleryViewFragment = new GalleryViewFragment();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Transition explodeTransform = TransitionInflater.from(this).
+                    inflateTransition(android.R.transition.explode);
+            dishImage.setTransitionName(getString(R.string.activity_image_trans));
+            dishTitle.setTransitionName(getString(R.string.activity_text_trans));
+            dishPrice.setTransitionName(getString(R.string.activity_mixed_trans));
+            dishDetailsFragment.setSharedElementEnterTransition(new DetailsTransition());
+            dishDetailsFragment.setEnterTransition(new Fade());
+            // TODO: Exit transaction changes image size on second frag. Why?
+            dishDetailsFragment.setExitTransition(explodeTransform);
+            dishDetailsFragment.setSharedElementReturnTransition(new DetailsTransition());
+        }
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         Bundle bundle = new Bundle();
         bundle.putString(DishDetailsFragment.DISH_ID, dish.getObjectId());
-        DishDetailsFragment dishDetailsFragment = new DishDetailsFragment();
         dishDetailsFragment.setArguments(bundle);
-        fragmentManager.beginTransaction().replace(R.id.flContent, dishDetailsFragment).addToBackStack(null).commit();
+        fragmentManager.beginTransaction()
+                .addSharedElement(dishImage, "dishImageTransition")
+                .addSharedElement(dishTitle, "dishTitleTransition")
+                .addSharedElement(dishPrice, "dishPriceTransition")
+                .replace(R.id.flContent, dishDetailsFragment).addToBackStack(null).commit();
     }
 }
