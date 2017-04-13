@@ -31,6 +31,7 @@ import com.codepath.hungrybird.consumer.fragments.SimpsonsFragment;
 import com.codepath.hungrybird.databinding.ActivityGalleryBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.User;
+import com.parse.ParseUser;
 
 public class GalleryActivity extends AppCompatActivity implements GallerySnapListAdapter.GalleryDishSelectedListener {
     private ActivityGalleryBinding binding;
@@ -42,7 +43,7 @@ public class GalleryActivity extends AppCompatActivity implements GallerySnapLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        User currentUser = (User) User.getCurrentUser();
+        User currentUser = new User(ParseUser.getCurrentUser());
         Toast.makeText(GalleryActivity.this, "Current User ... " + currentUser.getUsername(), Toast.LENGTH_LONG).show();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_gallery);
 
@@ -121,7 +122,7 @@ public class GalleryActivity extends AppCompatActivity implements GallerySnapLis
                 fragmentClass = ContactUsFragment.class;
                 break;
             case R.id.chef_logout_mi:
-                User.logOutInBackground(e -> {
+                ParseUser.logOutInBackground(e -> {
                     if (e == null) {
                         Toast.makeText(GalleryActivity.this, "Logout Successful", Toast.LENGTH_LONG).show();
                         // remove from shared preference
