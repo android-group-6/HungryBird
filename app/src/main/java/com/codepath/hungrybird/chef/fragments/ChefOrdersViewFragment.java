@@ -19,7 +19,6 @@ import com.codepath.hungrybird.databinding.ChefOrdersViewFragmentBinding;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
-import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class ChefOrdersViewFragment extends Fragment {
         ChefOrdersViewFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.chef_orders_view_fragment, container, false);
         final ChefOrdersFragmentPagerAdapter sampleFragmentPagerAdapter = new ChefOrdersFragmentPagerAdapter(getActivity().getSupportFragmentManager(),
                 getActivity(), null);
-        User currentUser = new User(ParseUser.getCurrentUser());
+        User currentUser = (User) User.getCurrentUser();
         parseClient.getOrdersByChefId(currentUser.getObjectId(), new ParseClient.OrderListListener () {
             @Override
             public void onSuccess(List<Order> orders) {
