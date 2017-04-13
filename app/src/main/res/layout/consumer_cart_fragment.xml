@@ -1,109 +1,112 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:id="@+id/appLogo"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@color/colorPrimary"
-        android:layout_marginBottom="15dp"
-        android:src="@drawable/ic_launcher" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/appLogo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="59dp"
-        android:text="Hungry Birds Checkout"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/appLogo"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:layout_above="@+id/cart_checkout_paynow_bt"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/cart_checkout_email_et"
+        <ImageView
+            android:id="@+id/appLogo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textEmailAddress"
-            android:hint="Email"/>
+            android:layout_height="150dp"
+            android:background="@color/colorPrimary"
+            android:layout_marginBottom="15dp"
+            android:src="@drawable/ic_launcher" />
 
-        <EditText
-            android:id="@+id/cart_checkout_credit_num_et"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
-            android:hint="Credit Card Number"
-            android:maxLength="12" />
+            android:layout_alignBottom="@+id/appLogo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="59dp"
+            android:text="Hungry Birds Checkout"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/appLogo"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_above="@+id/cart_checkout_paynow_bt"
+            android:orientation="vertical">
 
             <EditText
-                android:id="@+id/cart_checkout_expiry_month_et"
-                android:layout_width="wrap_content"
+                android:id="@+id/cart_checkout_email_et"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:ems="10"
-                android:inputType="number"
-                android:hint="Expiry Month (xx)"
-                android:maxLength="2" />
+                android:inputType="textEmailAddress"
+                android:hint="Email"/>
 
             <EditText
-                android:id="@+id/cart_checkout_expiry_year_et"
-                android:layout_width="wrap_content"
+                android:id="@+id/cart_checkout_credit_num_et"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:ems="10"
                 android:inputType="number"
-                android:hint="Expiry Year (xxxx)"
+                android:hint="Credit Card Number"
+                android:text="4242424242424242"
+                android:maxLength="16" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/cart_checkout_expiry_month_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:hint="Expiry Month (xx)"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/cart_checkout_expiry_year_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:hint="Expiry Year (xxxx)"
+                    android:maxLength="4" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/cart_checkout_cvc_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:hint="CVC"
                 android:maxLength="4" />
+
+            <EditText
+                android:id="@+id/cart_checkout_zipcode_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:hint="Zipcode"
+                android:maxLength="5" />
+
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/cart_checkout_cvc_et"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/cart_checkout_paynow_bt"
+            android:onClick="onPayNowButtonClick"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
-            android:hint="CVC"
-            android:maxLength="4" />
-
-        <EditText
-            android:id="@+id/cart_checkout_zipcode_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
-            android:hint="Zipcode"
-            android:maxLength="5" />
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/cart_checkout_paynow_bt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:textColor="@android:color/white"
-        android:text="Pay Now"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-</RelativeLayout>
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:text="Pay Now"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+</layout>

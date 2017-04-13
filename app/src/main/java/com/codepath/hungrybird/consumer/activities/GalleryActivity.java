@@ -10,17 +10,24 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.codepath.hungrybird.R;
+import com.codepath.hungrybird.consumer.fragments.ConsumerCartFragment;
 import com.codepath.hungrybird.consumer.fragments.ContactUsFragment;
 import com.codepath.hungrybird.consumer.fragments.GalleryViewFragment;
 import com.codepath.hungrybird.consumer.fragments.OrderHistoryFramgent;
-import com.codepath.hungrybird.consumer.fragments.SimpsonsFragment;
 import com.codepath.hungrybird.databinding.ActivityGalleryBinding;
 import com.codepath.hungrybird.model.User;
 import com.parse.ParseUser;
+import com.stripe.android.Stripe;
+import com.stripe.android.TokenCallback;
+import com.stripe.android.model.Card;
+import com.stripe.android.model.Token;
 
 public class GalleryActivity extends AppCompatActivity {
     private ActivityGalleryBinding binding;
@@ -105,7 +112,7 @@ public class GalleryActivity extends AppCompatActivity {
                 fragmentClass = OrderHistoryFramgent.class;
                 break;
             case R.id.chef_contact_details_mi:
-                fragmentClass = SimpsonsFragment.class;
+                fragmentClass = ConsumerCartFragment.class;
                 break;
             case R.id.chef_drawer_my_register_mi:
                 fragmentClass = ContactUsFragment.class;
@@ -145,6 +152,35 @@ public class GalleryActivity extends AppCompatActivity {
         setTitle(menuItem.getTitle());
         // Close the navigation drawer
         mDrawer.closeDrawers();
+    }
+
+    public void onPayNowButtonClick(View v) {
+        EditText cardNumber = (EditText) v.getRootView().findViewById(R.id.cart_checkout_credit_num_et);
+        Card card = new Card(cardNumber.getText().toString(), 12, 2018, "123");
+
+        if (!card.validateCard()) {
+            Toast.makeText(getApplicationContext(), "No ", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
+            Stripe stripe = new Stripe(getApplicationContext(), "pk_test_u4lZ9tWVhEoZVKVa6FFN5oei");
+            stripe.createToken(
+                    card,
+                    new TokenCallback() {
+                        public void onSuccess(Token token) {
+                            // Send token to your server
+                            Log.e("STRIPE_TOKEN", token.getId());
+                            
+                        }
+                        public void onError(Exception error) {
+                            // Show localized error message
+                            Toast.makeText(getApplicationContext(),
+                                    error.toString(),
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                    }
+            );
+        }
     }
 
 }
