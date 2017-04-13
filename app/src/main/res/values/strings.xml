@@ -38,4 +38,10 @@
         <item>NON_VEG</item>
     </string-array>
 
+    <!-- Transition dynamic names -->
+    <string name="activity_image_trans">activity_image_transition</string>
+    <string name="activity_text_trans">activity_text_transition</string>
+    <string name="activity_mixed_trans">activity_mixed_transition</string>
+    <string name="fragment_image_trans">fragment_image_transition</string>
+
 </resources>
