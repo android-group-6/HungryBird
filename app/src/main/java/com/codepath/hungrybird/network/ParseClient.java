@@ -10,6 +10,7 @@ import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class ParseClient {
     }
 
     public void getDishesByChefId(final String chefId, final DishListListener listener) {
-        ParseQuery<User> innerQuery = ParseQuery.getQuery(User.class);
+        ParseQuery<ParseUser> innerQuery = ParseQuery.getQuery(ParseUser.class);
         innerQuery.getInBackground(chefId);
         ParseQuery<Dish> parseQuery = ParseQuery.getQuery(Dish.class);
         parseQuery.whereMatchesQuery("chef", innerQuery);
@@ -229,7 +230,7 @@ public class ParseClient {
     }
 
     public void getOrdersByChefId(String chefId, final OrderListListener listener) {
-        ParseQuery<User> innerQuery = ParseQuery.getQuery(User.class);
+        ParseQuery<ParseUser> innerQuery = ParseQuery.getQuery(ParseUser.class);
         innerQuery.getInBackground(chefId);
         ParseQuery<Order> parseQuery = ParseQuery.getQuery(Order.class);
         parseQuery.whereMatchesQuery("chef", innerQuery);
@@ -246,7 +247,7 @@ public class ParseClient {
     }
 
     public void getOrdersByConsumerId(String consumerId, final OrderListListener listener) {
-        ParseQuery<User> innerQuery = ParseQuery.getQuery(User.class);
+        ParseQuery<ParseUser> innerQuery = ParseQuery.getQuery(ParseUser.class);
         innerQuery.getInBackground(consumerId);
         ParseQuery<Order> parseQuery = ParseQuery.getQuery(Order.class);
         parseQuery.whereMatchesQuery("consumer", innerQuery);
@@ -263,9 +264,9 @@ public class ParseClient {
     }
 
     public void getOrderByConsumerIdAndChefId(final String consumerId, final String chefId, final OrderListener listener) {
-        ParseQuery<User> innerQueryConsumer = ParseQuery.getQuery(User.class);
+        ParseQuery<ParseUser> innerQueryConsumer = ParseQuery.getQuery(ParseUser.class);
         innerQueryConsumer.getInBackground(consumerId);
-        ParseQuery<User> innerQueryChef = ParseQuery.getQuery(User.class);
+        ParseQuery<ParseUser> innerQueryChef = ParseQuery.getQuery(ParseUser.class);
         innerQueryChef.getInBackground(chefId);
         ParseQuery<Order> parseQuery = ParseQuery.getQuery(Order.class);
         parseQuery.whereMatchesQuery("consumer", innerQueryConsumer);
@@ -321,13 +322,23 @@ public class ParseClient {
         void onFailure(Exception e);
     }
 
+    public void saveUser(final User user, final UserListener listener) {
+        user.saveInBackground(e -> {
+            if (e == null) {
+                listener.onSuccess(user);
+            } else {
+                listener.onFailure(e);
+            }
+        });
+    }
+
     public void getUserById(String userId, final UserListener listener) {
-        ParseQuery<User> parseQuery = ParseQuery.getQuery(User.class);
-        parseQuery.getInBackground(userId, new GetCallback<User>() {
+        ParseQuery<ParseUser> parseQuery = ParseQuery.getQuery(ParseUser.class);
+        parseQuery.getInBackground(userId, new GetCallback<ParseUser>() {
             @Override
-            public void done(User object, ParseException e) {
+            public void done(ParseUser parseUser, ParseException e) {
                 if (e == null) {
-                    listener.onSuccess(object);
+                    listener.onSuccess(new User(parseUser));
                 } else {
                     listener.onFailure(e);
                 }

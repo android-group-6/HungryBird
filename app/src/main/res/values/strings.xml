@@ -3,6 +3,7 @@
     <string name="login_label">Connect With Facebook</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="facebook_app_id">119968358546894</string>
 
     <!-- Nav Drawer Menu Items -->
     <string name="consumer_drawer_title_gallery_view">Gallary</string>
@@ -36,5 +37,11 @@
         <item>VEG</item>
         <item>NON_VEG</item>
     </string-array>
+
+    <!-- Transition dynamic names -->
+    <string name="activity_image_trans">activity_image_transition</string>
+    <string name="activity_text_trans">activity_text_transition</string>
+    <string name="activity_mixed_trans">activity_mixed_transition</string>
+    <string name="fragment_image_trans">fragment_image_transition</string>
 
 </resources>

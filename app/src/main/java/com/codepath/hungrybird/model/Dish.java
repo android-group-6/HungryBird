@@ -1,5 +1,6 @@
 package com.codepath.hungrybird.model;
 
+import com.codepath.hungrybird.HungryBirdApplication;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -59,11 +60,11 @@ public class Dish extends ParseObject {
     }
 
     public User getChef() {
-        return (User) getParseUser("chef");
+        return  new User(getParseUser("chef"));
     }
 
     public void setChef(User user) {
-        put("chef", user);
+        put("chef", user.parseUser);
     }
 
     public void setVeg(boolean isVeg) {
