@@ -7,10 +7,9 @@ import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.OrderDishRelation;
 import com.codepath.hungrybird.model.User;
 import com.crashlytics.android.Crashlytics;
-import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.ParseACL;
-import com.parse.ParseFacebookUtils;
+import com.parse.ParseUser;
 import com.parse.interceptors.ParseLogInterceptor;
 
 import io.fabric.sdk.android.Fabric;
@@ -21,26 +20,9 @@ import static com.parse.ParseObject.registerSubclass;
  * Created by ajasuja on 4/4/17.
  */
 public class HungryBirdApplication extends Application {
-    private User user;
-    private static HungryBirdApplication _instance;
-
-    public static HungryBirdApplication Instance() {
-        return _instance;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-
     @Override
     public void onCreate() {
         super.onCreate();
-        _instance = this;
         Fabric.with(this, new Crashlytics());
         // Use for troubleshooting -- remove this line for production
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
@@ -58,16 +40,14 @@ public class HungryBirdApplication extends Application {
                 .addNetworkInterceptor(new ParseLogInterceptor())
                 .server(PARSE_SERVER_URL).build());
 
-//        ParseUser.enableAutomaticUser();
+        ParseUser.enableAutomaticUser();
         ParseACL parseACL = new ParseACL();
         parseACL.setPublicReadAccess(true);
         parseACL.setPublicWriteAccess(true);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        ParseFacebookUtils.initialize(getApplicationContext());
-
     }
 
     private void registerModels() {
+        registerSubclass(User.class);
         registerSubclass(Dish.class);
         registerSubclass(Order.class);
         registerSubclass(OrderDishRelation.class);

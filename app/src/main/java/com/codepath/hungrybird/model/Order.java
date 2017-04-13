@@ -18,8 +18,7 @@ public class Order extends ParseObject {
     }
 
     public User getConsumer() {
-        return new User(getParseUser("consumer"));
-
+        return (User) getParseUser("consumer");
     }
 
     public void setConsumer(User user) {
@@ -27,11 +26,11 @@ public class Order extends ParseObject {
     }
 
     public User getChef() {
-        return new User(getParseUser("chef"));
+        return (User) getParseUser("chef");
     }
 
     public void setChef(User user) {
-        put("chef", user.parseUser);
+        put("chef", user);
     }
 
     public String getStatus() {

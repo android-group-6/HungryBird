@@ -1,6 +1,5 @@
 package com.codepath.hungrybird.chef.activities;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -25,12 +24,10 @@ import com.codepath.hungrybird.chef.fragments.DishAddEditFragment;
 import com.codepath.hungrybird.chef.fragments.DishDetailsFragment;
 import com.codepath.hungrybird.chef.fragments.MyOfferingsFragment;
 import com.codepath.hungrybird.chef.fragments.MyRegisterFragment;
-import com.codepath.hungrybird.common.LoginActivity;
 import com.codepath.hungrybird.databinding.ActivityChefLandingBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.User;
-import com.parse.ParseUser;
 
 public class ChefLandingActivity extends AppCompatActivity implements DishArrayAdapter.DishSelected, OrderArrayAdapter.OrderSelected {
     public static final String TAG = ChefLandingActivity.class.getSimpleName();
@@ -44,7 +41,7 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        User currentUser = new User(ParseUser.getCurrentUser());
+        User currentUser = (User) User.getCurrentUser();
         Toast.makeText(ChefLandingActivity.this, "Current User ... " + currentUser.getUsername(), Toast.LENGTH_LONG).show();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chef_landing);
 
@@ -122,7 +119,7 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
     public void selectDrawerItem(MenuItem menuItem) {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
-        Class fragmentClass = ChefOrdersViewFragment.class;
+        Class fragmentClass;
         switch (menuItem.getItemId()) {
             case R.id.chef_drawer_my_offerings_mi:
                 fragmentClass = MyOfferingsFragment.class;
@@ -134,20 +131,22 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
                 fragmentClass = MyRegisterFragment.class;
                 break;
             case R.id.chef_logout_mi:
-
-                ParseUser.logOutInBackground(e -> {
+                User.logOutInBackground(e -> {
                     if (e == null) {
                         Toast.makeText(ChefLandingActivity.this, "Logout Successful ... ", Toast.LENGTH_LONG).show();
-                        this.finish();
-                        Intent i = new Intent(ChefLandingActivity.this, LoginActivity.class);
+                        // TODO remove from shared preference
 
-                        startActivity(i);
+                        if (getFragmentManager().getBackStackEntryCount() == 0) {
+                            this.finish();
+                        } else {
+                            getFragmentManager().popBackStack();
+                        }
                     } else {
                         Toast.makeText(ChefLandingActivity.this, "Logout failed ... " + e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
                     }
                 });
-                return;
+//                break;
             default:
                 fragmentClass = ChefOrdersViewFragment.class;
         }
@@ -213,6 +212,6 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
 
     @Override
     public void onOrderSelected(Order order) {
-
+        
     }
 }

@@ -9,19 +9,15 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="250dp"
-            android:scaleType="fitXY"
-            android:background="@android:color/darker_gray"
-            android:src="@drawable/ic_no_image_available"
+            android:background="@android:color/black"
+            android:src="@drawable/futurama"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:id="@+id/dishImage"
-            android:transitionName="dishImageTransition" />
+            android:id="@+id/dishImage" />
 
         <TextView
             android:id="@+id/dishTitle"
-            android:transitionName="dishTitleTransition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -35,7 +31,6 @@
 
         <TextView
             android:id="@+id/dishPrice"
-            android:transitionName="dishPriceTransition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"

@@ -30,7 +30,6 @@ import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
 import com.parse.ParseFile;
-import com.parse.ParseUser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -213,7 +212,7 @@ public class DishAddEditFragment extends Fragment {
             currentDish.setDescription(binding.editTextDishDescription.getText().toString());
             currentDish.setPrice(Double.parseDouble(binding.editTextPrice.getText().toString()));
             currentDish.setPrimaryImage(bitmapToParseFile(((BitmapDrawable)binding.imageViewPrimaryImage.getDrawable()).getBitmap()));
-            currentDish.setChef(new User(ParseUser.getCurrentUser()));
+            currentDish.setChef((User) User.getCurrentUser());
             currentDish.setServingSize(Integer.valueOf((String)binding.spinnerServingSize.getSelectedItem()));
             currentDish.setVeg(checkVeg((String)binding.spinnerDishType.getSelectedItem()));
         } catch (Exception e) {
