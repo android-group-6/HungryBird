@@ -33,6 +33,8 @@ import java.util.List;
 
 public class MyOfferingsFragment extends Fragment {
     public static final String TAG = MyOfferingsFragment.class.getSimpleName();
+    public static final String CHEF_ID = "CHEF_ID";
+
     ParseClient parseClient = ParseClient.getInstance();
     RecyclerView myOfferingsRView;
     ArrayList<Dish> dishesArrayList = new ArrayList<>();
@@ -46,7 +48,8 @@ public class MyOfferingsFragment extends Fragment {
         User user = HungryBirdApplication.Instance().getUser();
         setHasOptionsMenu(true);
         dishArrayAdapter = new DishArrayAdapter(getActivity(), dishesArrayList);
-        parseClient.getDishesByChefId(ParseUser.getCurrentUser().getObjectId(), new ParseClient.DishListListener() {
+        String chefId = (getArguments() != null && !getArguments().getString(CHEF_ID).equals("CHEF_ID")) ? getArguments().getString(CHEF_ID) : ParseUser.getCurrentUser().getObjectId();
+        parseClient.getDishesByChefId(chefId, new ParseClient.DishListListener() {
             @Override
             public void onSuccess(List<Dish> dishes) {
                 dishesArrayList.addAll(dishes);
@@ -66,6 +69,7 @@ public class MyOfferingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         ChefMyOfferingsFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.chef_my_offerings_fragment, container, false);
         myOfferingsRView = binding.content.chefMyoffersingsLv;
 

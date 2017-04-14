@@ -21,9 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.hungrybird.R;
-import com.codepath.hungrybird.chef.fragments.DishDetailsFragment;
+import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
 import com.codepath.hungrybird.common.Transitions.DetailsTransition;
 import com.codepath.hungrybird.consumer.adapters.GallerySnapListAdapter;
+import com.codepath.hungrybird.consumer.fragments.ConsumerChefDishesDetailFragment;
 import com.codepath.hungrybird.consumer.fragments.ContactUsFragment;
 import com.codepath.hungrybird.consumer.fragments.GalleryViewFragment;
 import com.codepath.hungrybird.consumer.fragments.OrderHistoryFramgent;
@@ -33,7 +34,7 @@ import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.User;
 import com.parse.ParseUser;
 
-public class GalleryActivity extends AppCompatActivity implements GallerySnapListAdapter.GalleryDishSelectedListener {
+public class GalleryActivity extends AppCompatActivity implements GallerySnapListAdapter.GalleryDishSelectedListener, DishArrayAdapter.DishSelected {
     private ActivityGalleryBinding binding;
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
@@ -163,8 +164,8 @@ public class GalleryActivity extends AppCompatActivity implements GallerySnapLis
         ImageView dishImage = (ImageView) v.findViewById(R.id.imageView);
         TextView dishTitle = (TextView) v.findViewById(R.id.nameTextView);
         TextView dishPrice = (TextView) v.findViewById(R.id.ratingTextView);
-        DishDetailsFragment dishDetailsFragment = new DishDetailsFragment();
-        GalleryViewFragment galleryViewFragment = new GalleryViewFragment();
+        //DishDetailsFragment dishDetailsFragment = new DishDetailsFragment();
+        ConsumerChefDishesDetailFragment dishDetailsFragment = new ConsumerChefDishesDetailFragment();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Transition explodeTransform = TransitionInflater.from(this).
                     inflateTransition(android.R.transition.explode);
@@ -180,12 +181,18 @@ public class GalleryActivity extends AppCompatActivity implements GallerySnapLis
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Bundle bundle = new Bundle();
-        bundle.putString(DishDetailsFragment.DISH_ID, dish.getObjectId());
+        bundle.putString(ConsumerChefDishesDetailFragment.DISH_ID, dish.getObjectId());
+        bundle.putString(ConsumerChefDishesDetailFragment.CHEF_ID, dish.getChef().getObjectId());
         dishDetailsFragment.setArguments(bundle);
         fragmentManager.beginTransaction()
                 .addSharedElement(dishImage, "dishImageTransition")
                 .addSharedElement(dishTitle, "dishTitleTransition")
                 .addSharedElement(dishPrice, "dishPriceTransition")
                 .replace(R.id.flContent, dishDetailsFragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onDishSelected(Dish dish) {
+        // Todo: Send to dish detail
     }
 }
