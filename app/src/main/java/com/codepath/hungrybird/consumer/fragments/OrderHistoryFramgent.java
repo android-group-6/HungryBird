@@ -18,6 +18,7 @@ import com.codepath.hungrybird.databinding.OrderHistoryBinding;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.network.ParseClient;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,7 @@ public class OrderHistoryFramgent extends Fragment {
         });
         binding.consumerOrderListRv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         binding.consumerOrderListRv.setAdapter(adapter);
-        ParseClient.getInstance().getOrdersByConsumerId("HRiPS6mw1S", new ParseClient.OrderListListener() {
+        ParseClient.getInstance().getOrdersByConsumerId(ParseUser.getCurrentUser().getObjectId(), new ParseClient.OrderListListener() {
             @Override
             public void onSuccess(List<Order> os) {
                 Observable.from(os)
