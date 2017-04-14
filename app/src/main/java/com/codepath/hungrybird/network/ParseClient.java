@@ -304,6 +304,8 @@ public class ParseClient {
         innerQuery.getInBackground(orderId);
         ParseQuery<OrderDishRelation> parseQuery = ParseQuery.getQuery(OrderDishRelation.class);
         parseQuery.whereMatchesQuery("order", innerQuery);
+        parseQuery.include("dish");
+        parseQuery.include("chef");
         parseQuery.findInBackground(new FindCallback<OrderDishRelation>() {
             @Override
             public void done(List<OrderDishRelation> objects, ParseException e) {

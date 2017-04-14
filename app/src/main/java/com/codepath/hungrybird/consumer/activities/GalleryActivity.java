@@ -26,6 +26,7 @@ import com.codepath.hungrybird.common.Transitions.DetailsTransition;
 import com.codepath.hungrybird.consumer.adapters.GallerySnapListAdapter;
 import com.codepath.hungrybird.consumer.fragments.ContactUsFragment;
 import com.codepath.hungrybird.consumer.fragments.GalleryViewFragment;
+import com.codepath.hungrybird.consumer.fragments.OrderDetailsFragment;
 import com.codepath.hungrybird.consumer.fragments.OrderHistoryFramgent;
 import com.codepath.hungrybird.consumer.fragments.SimpsonsFragment;
 import com.codepath.hungrybird.databinding.ActivityGalleryBinding;
@@ -33,12 +34,12 @@ import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.User;
 import com.parse.ParseUser;
 
-public class GalleryActivity extends AppCompatActivity implements GallerySnapListAdapter.GalleryDishSelectedListener {
+public class GalleryActivity extends AppCompatActivity implements GallerySnapListAdapter.GalleryDishSelectedListener, OrderHistoryFramgent.OnOrderSelected {
     private ActivityGalleryBinding binding;
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
-    ActionBarDrawerToggle drawerToggle;
+    private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,5 +188,16 @@ public class GalleryActivity extends AppCompatActivity implements GallerySnapLis
                 .addSharedElement(dishTitle, "dishTitleTransition")
                 .addSharedElement(dishPrice, "dishPriceTransition")
                 .replace(R.id.flContent, dishDetailsFragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onOrderSelected(String orderId) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        OrderDetailsFragment orderDetailsFragment = new OrderDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(OrderDetailsFragment.OBJECT_ID, orderId);
+        orderDetailsFragment.setArguments(bundle);
+        fragmentManager.beginTransaction().replace(R.id.flContent, orderDetailsFragment)
+                .addToBackStack(null).commit();
     }
 }

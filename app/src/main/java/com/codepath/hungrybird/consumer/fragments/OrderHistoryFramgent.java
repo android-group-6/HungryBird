@@ -1,6 +1,7 @@
 package com.codepath.hungrybird.consumer.fragments;
 
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
@@ -16,9 +16,8 @@ import com.codepath.hungrybird.common.DateUtils;
 import com.codepath.hungrybird.databinding.ConsumerOrderHistoryViewItemBinding;
 import com.codepath.hungrybird.databinding.OrderHistoryBinding;
 import com.codepath.hungrybird.model.Order;
-import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
-import com.parse.ParseUser;
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +30,17 @@ public class OrderHistoryFramgent extends Fragment {
     OrderHistoryBinding binding;
     private ArrayList<Order> orders = new ArrayList<>();
     private DateUtils dateUtils = new DateUtils();
+    private OnOrderSelected onOrderSelected;
+
+    public interface OnOrderSelected {
+        void onOrderSelected(String orderId);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        onOrderSelected = (OnOrderSelected) context;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,11 +51,15 @@ public class OrderHistoryFramgent extends Fragment {
         final BaseItemHolderAdapter<Order> adapter =
                 new BaseItemHolderAdapter<>(getContext(), R.layout.consumer_order_history_view_item, orders);
         adapter.setOnClickListener(v -> {
-            Toast.makeText(getActivity(), "selected", Toast.LENGTH_SHORT).show();
+            if (onOrderSelected != null) {
+                Object object = v.getTag();
+                ParseObject parseObject = (ParseObject) object;
+                onOrderSelected.onOrderSelected(parseObject.getObjectId());
+            }
         });
         binding.consumerOrderListRv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         binding.consumerOrderListRv.setAdapter(adapter);
-        ParseClient.getInstance().getOrdersByConsumerId(ParseUser.getCurrentUser().getObjectId(), new ParseClient.OrderListListener() {
+        ParseClient.getInstance().getOrdersByConsumerId("HRiPS6mw1S", new ParseClient.OrderListListener() {
             @Override
             public void onSuccess(List<Order> os) {
                 Observable.from(os)
@@ -100,8 +114,8 @@ public class OrderHistoryFramgent extends Fragment {
             binding.consumerOrderCode.setText(order.getObjectId());
             binding.consumerOrderDeliveryStatus.setText(order.getStatus());
             Object o = order.get("chef");
-            ParseObject po = (ParseObject)o;
-            String chefName = (String)(po.get("chefName"));
+            ParseObject po = (ParseObject) o;
+            String chefName = (String) (po.get("chefName"));
             binding.consumerOrderChefName.setText(chefName);
 
         });

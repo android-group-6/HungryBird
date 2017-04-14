@@ -1,0 +1,14 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/consumer_order_details_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+</layout>

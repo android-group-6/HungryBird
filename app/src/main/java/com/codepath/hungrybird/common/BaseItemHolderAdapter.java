@@ -64,20 +64,21 @@ public class BaseItemHolderAdapter<T> extends RecyclerView.Adapter<BaseItemHolde
         lastShownItem = -1;
     }
 
-    public void addObjects(ListPostion position, T... items){
+    public void addObjects(ListPosition position, T... items) {
         for (T item : items) {
-            addObject(position,item);
-        }
-    }
-//
-    public void addObjects(ListPostion position,ArrayList<T> items){
-        for (T item : items) {
-            addObject(position,item);
+            addObject(position, item);
         }
     }
 
-    public void addObject(ListPostion position, T item) {
-        if(objects.contains(item)) return;
+    //
+    public void addObjects(ListPosition position, ArrayList<T> items) {
+        for (T item : items) {
+            addObject(position, item);
+        }
+    }
+
+    public void addObject(ListPosition position, T item) {
+        if (objects.contains(item)) return;
         switch (position) {
             case TOP:
                 this.objects.add(0, item);
@@ -143,7 +144,16 @@ public class BaseItemHolderAdapter<T> extends RecyclerView.Adapter<BaseItemHolde
             viewBinder.bind(holder, object, position);
 
         if (onClickListener != null)
-            holder.getBaseView().setOnClickListener(onClickListener);
+            holder.getBaseView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    T t = objects.get(position);
+                    v.setTag(t);
+                    if (onClickListener != null) {
+                        onClickListener.onClick(v);
+                    }
+                }
+            });
     }
 
     @Override
@@ -178,6 +188,7 @@ public class BaseItemHolderAdapter<T> extends RecyclerView.Adapter<BaseItemHolde
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private View _baseView;
         public final ViewDataBinding binding;
+
         public ViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
@@ -201,7 +212,7 @@ public class BaseItemHolderAdapter<T> extends RecyclerView.Adapter<BaseItemHolde
         void bind(ViewHolder holder, T item, int position);
     }
 
-    public enum ListPostion {
+    public enum ListPosition {
         TOP,
         BOTTOM
     }
