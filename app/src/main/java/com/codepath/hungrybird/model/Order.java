@@ -8,6 +8,24 @@ import com.parse.ParseObject;
  */
 @ParseClassName("Order")
 public class Order extends ParseObject {
+    private String shortDate;
+    private String displayStatus;
+
+    public String getDisplayStatus() {
+        return displayStatus;
+    }
+
+    public void setDisplayStatus(String displayStatus) {
+        this.displayStatus = displayStatus;
+    }
+
+    public void setShortDate(String shortDate) {
+        this.shortDate = shortDate;
+    }
+
+    public String getShortDate() {
+        return shortDate;
+    }
 
     public String getOrderName() {
         return getString("orderName");
