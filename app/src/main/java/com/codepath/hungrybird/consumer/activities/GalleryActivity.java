@@ -39,7 +39,7 @@ import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.User;
 import com.parse.ParseUser;
 
-public class GalleryActivity extends AppCompatActivity implements GallerySnapListAdapter.GalleryDishSelectedListener, DishArrayAdapter.DishSelected {
+public class GalleryActivity extends AppCompatActivity implements GallerySnapListAdapter.GalleryDishSelectedListener, DishArrayAdapter.DishSelected, OrderHistoryFramgent.OnOrderSelected {
     private ActivityGalleryBinding binding;
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
@@ -232,5 +232,16 @@ public class GalleryActivity extends AppCompatActivity implements GallerySnapLis
     @Override
     public void onDishSelected(Dish dish) {
         // Todo: Send to dish detail
+    }
+
+    @Override
+    public void onOrderSelected(String orderId) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        OrderDetailsFragment orderDetailsFragment = new OrderDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(OrderDetailsFragment.OBJECT_ID, orderId);
+        orderDetailsFragment.setArguments(bundle);
+        fragmentManager.beginTransaction().replace(R.id.flContent, orderDetailsFragment)
+                .addToBackStack(null).commit();
     }
 }
