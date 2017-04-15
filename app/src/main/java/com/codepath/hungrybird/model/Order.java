@@ -60,6 +60,38 @@ public class Order extends ParseObject {
         put("status", status);
     }
 
+    public Double getTotalPayment() {
+        return getDouble("totalPayment");
+    }
+
+    public void setTotalPayment(Double totalPayment) {
+        put("totalPayment", totalPayment);
+    }
+
+    public Double getShippingFee() {
+        return getDouble("shippingFee");
+    }
+
+    public void setShippingFee(Double totalTax) {
+        put("shippingFee", totalTax);
+    }
+
+    public String getPaymentType() {
+        return getString("paymentType");
+    }
+
+    public void setPaymentType(String paymentType) {
+        put("paymentType", paymentType);
+    }
+
+    public String getDeliveryAddress() {
+        return getString("deliveryAddress");
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        put("deliveryAddress", deliveryAddress);
+    }
+
     public enum Status {
         NOT_ORDERED("NOT_ORDERED"),
         ORDERED("ORDERED"),

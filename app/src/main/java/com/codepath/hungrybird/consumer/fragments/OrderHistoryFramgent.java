@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
 import com.codepath.hungrybird.common.DateUtils;
+import com.codepath.hungrybird.common.StringsUtils;
 import com.codepath.hungrybird.databinding.ConsumerOrderHistoryViewItemBinding;
 import com.codepath.hungrybird.databinding.OrderHistoryBinding;
 import com.codepath.hungrybird.model.Order;
@@ -72,18 +73,12 @@ public class OrderHistoryFramgent extends Fragment {
                                 if (Order.Status.NOT_ORDERED.name().equals(order.getStatus())) {
                                     order.setStatus("Not Ordered");
                                     ret = false;
-                                } else if (Order.Status.DONE.name().equals(order.getStatus())) {
-                                    order.setStatus("Completed");
-                                } else if (Order.Status.IN_PROGRESS.name().equals(order.getStatus())) {
-                                    order.setStatus("In Progress");
-                                } else if (Order.Status.ORDERED.name().equals(order.getStatus())) {
-                                    order.setStatus("Ordered");
-                                } else if (Order.Status.OUT_FOR_DELIVERY.name().equals(order.getStatus())) {
-                                    order.setStatus("Out for Delivery");
-                                } else if (Order.Status.READY_FOR_PICKUP.name().equals(order.getStatus())) {
-                                    order.setStatus("Ready For Pickup");
-                                } else if (Order.Status.CANCELLED.name().equals(order.getStatus())) {
-                                    order.setStatus("Cancelled");
+                                } else {
+                                    StringsUtils stringsUtils = new StringsUtils();
+                                    String status = stringsUtils.displayStatusString(order);
+                                    if (status != null) {
+                                        order.setStatus(status);
+                                    }
                                 }
                                 ret = true;
                             } catch (Exception e) {
