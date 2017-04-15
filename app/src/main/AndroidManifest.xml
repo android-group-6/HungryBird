@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.codepath.hungrybird">
+    package="com.codepath.hungrybird" >
 
     <!-- Connection to external db or any network connections -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -16,22 +16,26 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".common.LoginActivity">
+        android:theme="@style/AppTheme.NoActionBar" >
+        <activity android:name=".common.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".consumer.activities.GalleryActivity"></activity>
+        <activity android:name=".consumer.activities.GalleryActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="78a804884e7bf0493795a51b3edd6a5248577ddf" />
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
-        <activity android:name=".chef.activities.ChefLandingActivity"></activity>
+        <activity android:name=".chef.activities.ChefLandingActivity" />
+        <activity android:name=".consumer.activities.SearchActivity" >
+        </activity>
     </application>
 
 </manifest>

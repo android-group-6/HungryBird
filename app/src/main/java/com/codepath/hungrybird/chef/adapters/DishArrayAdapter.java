@@ -15,7 +15,7 @@ import com.codepath.hungrybird.databinding.ChefOfferingsDishesListItemBinding;
 import com.codepath.hungrybird.databinding.ProgressItemBinding;
 import com.codepath.hungrybird.model.Dish;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by gauravb on 3/15/17.
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = DishArrayAdapter.class.getSimpleName();
-    ArrayList<Dish> dishArrayList;
+    List<Dish> dishArrayList;
     Context context;
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;
@@ -33,7 +33,7 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void onDishSelected(Dish dish);
     }
 
-    public DishArrayAdapter(Activity activity, ArrayList<Dish> dishArrayList) {
+    public DishArrayAdapter(Activity activity, List<Dish> dishArrayList) {
         this.dishArrayList = dishArrayList;
         this.context = activity;
         dishSelected = (DishSelected)activity;

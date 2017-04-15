@@ -118,7 +118,7 @@ public class ParseClient {
 
     public void getDishesBySearchQuery(String query, final DishListListener listener) {
         ParseQuery<Dish> parseQuery = ParseQuery.getQuery(Dish.class);
-        parseQuery.whereMatches("name", query);
+        parseQuery.whereMatches("title", query, "i");
         parseQuery.findInBackground(new FindCallback<Dish>() {
             @Override
             public void done(List<Dish> objects, ParseException e) {
