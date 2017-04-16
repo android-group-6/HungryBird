@@ -24,7 +24,7 @@
         <ImageView
             android:id="@+id/selectedDishPic_iv"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="200dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
@@ -32,6 +32,7 @@
             android:layout_below="@+id/chefProfilePic_iv"
             android:background="@android:color/darker_gray"
             android:maxHeight="100dp"
+            android:scaleType="centerCrop"
             app:srcCompat="@drawable/ic_no_image_available" />
 
         <TextView

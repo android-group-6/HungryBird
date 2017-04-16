@@ -162,7 +162,9 @@ public class CartFragment extends Fragment {
             OrderDishRelation order = orderDishRelations.get(position);
             ConsumerOrderCartDishItemBinding binding = (ConsumerOrderCartDishItemBinding) (holder.binding);
             Dish dish = order.getDish();
-            Glide.with(getActivity()).load(dish.getPrimaryImage().getUrl()).into(binding.itemImage);
+            if (dish.getPrimaryImage() != null && dish.getPrimaryImage().getUrl() != null) {
+                Glide.with(getActivity()).load(dish.getPrimaryImage().getUrl()).into(binding.itemImage);
+            }
             binding.dishItemName.setText(dish.getDishName());
             binding.dishItemServiceSize.setText("Serves " + dish.getServingSize());
             binding.dishPrice.setText("" + dish.getPrice());

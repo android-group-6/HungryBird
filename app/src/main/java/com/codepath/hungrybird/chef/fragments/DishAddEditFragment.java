@@ -184,8 +184,9 @@ public class DishAddEditFragment extends Fragment {
 
     @NonNull
     private ParseFile bitmapToParseFile(Bitmap takenImage) {
+        int quality = 50; // 0-100, 0 being lowest quality
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        takenImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        takenImage.compress(Bitmap.CompressFormat.JPEG, quality, stream);
         byte[] image = stream.toByteArray();
         return new ParseFile(image);
     }
