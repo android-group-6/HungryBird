@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -149,6 +150,7 @@ public class CartFragment extends Fragment {
                 });
         adapter.setOnClickListener(v -> {
             v.findViewById(R.id.add_to_card_panel).setVisibility(View.GONE);
+            ImageView iv = (ImageView) v.findViewById(R.id.reduce_cart);
             if (view != null) {
                 view.setVisibility(View.GONE);
                 int quantity = ((OrderDishRelation) view.getTag()).getQuantity();
@@ -174,10 +176,12 @@ public class CartFragment extends Fragment {
                 if (binding.addToCardPanel.getVisibility() == View.GONE) {
                     binding.addToCardPanel.setVisibility(View.VISIBLE);
                     binding.updatedCount.setText("" + order.getQuantity());
+                    if (order.getQuantity() == 1) {
+                        binding.reduceCart.setImageResource(R.drawable.ic_delete_black_24px);
+                    }
                     if (view != null) {
                         view.setVisibility(View.GONE);
                         binding.itemsCount.setText("" + order.getQuantity());
-                        adapter.notifyItemChanged(position);
                     }
                     view = binding.addToCardPanel;
                     view.setTag(order);
@@ -190,6 +194,9 @@ public class CartFragment extends Fragment {
             });
             binding.addCart.setOnClickListener(v -> {
                 int val = order.getQuantity();
+                if (val == 1) {
+                    binding.reduceCart.setImageResource(R.drawable.ic_remove_circle_outline_black_24px);
+                }
                 order.setQuantity(val + 1);
                 binding.updatedCount.setText("" + order.getQuantity());
                 parseClient.addOrderDishRelation(order, new SaveCallback() {
@@ -198,13 +205,33 @@ public class CartFragment extends Fragment {
                         if (e == null) {
                             updatePricing(orderDishRelations);
                             binding.itemsCount.setText("" + order.getQuantity());
+                        } else {
+                            binding.reduceCart.setImageResource(R.drawable.ic_delete_black_24px);
                         }
                     }
                 });
             });
             binding.reduceCart.setOnClickListener(v -> {
                 int val = order.getQuantity();
-                if (val > 0) {
+                if (val == 1) {
+                    //Quantity already more than 1 so delete
+                    parseClient.delete(order, new ParseClient.OrderDishRelationListener() {
+                        @Override
+                        public void onSuccess(OrderDishRelation orderDishRelation) {
+                            orderDishRelations.remove(position);
+                            adapter.notifyItemRemoved(position);
+                            updatePricing(orderDishRelations);
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+
+                        }
+                    });
+                } else if (val > 1) {
+                    if (val == 2) {
+                        binding.reduceCart.setImageResource(R.drawable.ic_delete_black_24px);
+                    }
                     order.setQuantity(val - 1);
                     binding.updatedCount.setText("" + order.getQuantity());
                     parseClient.addOrderDishRelation(order, new SaveCallback() {
@@ -224,13 +251,11 @@ public class CartFragment extends Fragment {
     }
 
     private void updatePricing(List<OrderDishRelation> orderDishRelations) {
-        if (orderDishRelations.isEmpty() == false) {
-            double totalPriceBeforeTax = 0.0;
-            for (OrderDishRelation o : orderDishRelations) {
-                totalPriceBeforeTax += o.getQuantity() * o.getDish().getPrice();
-            }
-            binding.consumerCartPriceBeforeTax.setText("$" + Math.round(totalPriceBeforeTax * 100.00) / 100.00);
+        double totalPriceBeforeTax = 0.0;
+        for (OrderDishRelation o : orderDishRelations) {
+            totalPriceBeforeTax += o.getQuantity() * o.getDish().getPrice();
         }
+        binding.consumerCartPriceBeforeTax.setText("$" + Math.round(totalPriceBeforeTax * 100.00) / 100.00);
     }
 
     View view = null;
