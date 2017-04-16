@@ -16,9 +16,12 @@ import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.fragments.MyOfferingsFragment;
 import com.codepath.hungrybird.databinding.ConsumerGalleryChefDishesDetailViewBinding;
 import com.codepath.hungrybird.model.Dish;
+import com.codepath.hungrybird.model.Order;
+import com.codepath.hungrybird.model.OrderDishRelation;
 import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 
 /**
  * Created by DhwaniShah on 4/13/17.
@@ -35,6 +38,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
     ConsumerGalleryChefDishesDetailViewBinding binding;
 
     Dish currentDish;
+    Order currentOrder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,8 +51,36 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        String id = getArguments().getString(DISH_ID);
-        parseClient.getUserById(getArguments().getString(CHEF_ID), new ParseClient.UserListener() {
+        String dishId = getArguments().getString(DISH_ID);
+        String chefId = getArguments().getString(CHEF_ID);
+        String consumerId = ParseUser.getCurrentUser().getObjectId();
+        setOrder(chefId, consumerId); // find order or create new order.
+        binding.tvMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int oldQuantity = Integer.parseInt(binding.tvDishQuantity.getText().toString());
+                int newQuantity = oldQuantity - 1;
+                if (newQuantity >= 0) {
+                    binding.tvDishQuantity.setText(String.valueOf(newQuantity));
+                }
+            }
+        });
+        binding.tvPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int oldQuantity = Integer.parseInt(binding.tvDishQuantity.getText().toString());
+                int newQuantity = oldQuantity + 1;
+                binding.tvDishQuantity.setText(String.valueOf(newQuantity));
+            }
+        });
+        binding.tvAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int quantity = Integer.parseInt(binding.tvDishQuantity.getText().toString());
+                addOrUpdateOrderDishRelation(currentOrder, currentDish, quantity);
+            }
+        });
+        parseClient.getUserById(chefId, new ParseClient.UserListener() {
             @Override
             public void onSuccess(User user) {
                 ParseFile chefProfilePic = user.getProfileImage();
@@ -66,7 +98,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
 
             }
         });
-        parseClient.getDishById(id, new ParseClient.DishListener() {
+        parseClient.getDishById(dishId, new ParseClient.DishListener() {
             @Override
             public void onSuccess(Dish dish) {
                 Log.i(TAG, dish.toString());
@@ -82,9 +114,6 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
                 binding.dishTitle.setText(currentDish.getTitle());
                 binding.dishPrice.setText("$" + String.valueOf(currentDish.getPrice()));
                 binding.dishServingSize.setText(String.valueOf(currentDish.getServingSize()));
-                //        binding.dishVegOrNonveg.setText(currentDish.getTitle());
-                //        binding.dishAllergen.setText(currentDish.getTitle());
-                //        binding.dishSpiceLevel.setText(currentDish.getTitle());
                 binding.dishDescription.setText(currentDish.getDescription());
             }
 
@@ -93,13 +122,56 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
                 Toast.makeText(getContext(), "There was an error getting data.", Toast.LENGTH_LONG).show();
             }
         });
-
         MyOfferingsFragment myOfferingsFragment = new MyOfferingsFragment();
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         Bundle bundle = new Bundle();
-        bundle.putString(MyOfferingsFragment.CHEF_ID, getArguments().getString(CHEF_ID));
+        bundle.putString(MyOfferingsFragment.CHEF_ID, chefId);
         myOfferingsFragment.setArguments(bundle);
         fragmentManager.beginTransaction()
                 .replace(binding.moreDishesFromCurrentChefFl.getId(), myOfferingsFragment).commit();
+    }
+
+    private void addOrUpdateOrderDishRelation(Order currentOrder, Dish currentDish, int quantity) {
+        parseClient.getOrderDishRelationByOrderAndDishId(currentOrder.getObjectId(), currentDish.getObjectId(), new ParseClient.OrderDishRelationListener() {
+            @Override
+            public void onSuccess(OrderDishRelation orderDishRelation) {
+                orderDishRelation.setQuantity(quantity);
+                orderDishRelation.setPricePerItem(currentDish.getPrice());
+                parseClient.addOrderDishRelation(orderDishRelation);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                OrderDishRelation orderDishRelation = new OrderDishRelation();
+                orderDishRelation.setOrder(currentOrder);
+                orderDishRelation.setDish(currentDish);
+                orderDishRelation.setQuantity(quantity);
+                orderDishRelation.setPricePerItem(currentDish.getPrice());
+                parseClient.addOrderDishRelation(orderDishRelation);
+            }
+        });
+    }
+
+    private void setOrder(final String chefId, final String consumerId) {
+        parseClient.getOrderByConsumerIdAndChefId(consumerId, chefId, new ParseClient.OrderListener() {
+            @Override
+            public void onSuccess(Order order) {
+                currentOrder = order;
+            }
+            @Override
+            public void onFailure(Exception e) {
+                parseClient.addOrder(consumerId, chefId, Order.Status.NOT_ORDERED, new ParseClient.OrderListener() {
+                    @Override
+                    public void onSuccess(Order order) {
+                        currentOrder = order;
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+        });
     }
 }

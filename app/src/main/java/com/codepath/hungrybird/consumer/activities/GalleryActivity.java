@@ -232,6 +232,13 @@ public class GalleryActivity extends AppCompatActivity implements GallerySnapLis
     @Override
     public void onDishSelected(Dish dish) {
         // Todo: Send to dish detail
+        ConsumerChefDishesDetailFragment dishDetailsFragment = new ConsumerChefDishesDetailFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Bundle bundle = new Bundle();
+        bundle.putString(ConsumerChefDishesDetailFragment.DISH_ID, dish.getObjectId());
+        bundle.putString(ConsumerChefDishesDetailFragment.CHEF_ID, dish.getChef().getObjectId());
+        dishDetailsFragment.setArguments(bundle);
+        fragmentManager.beginTransaction().replace(R.id.flContent, dishDetailsFragment).addToBackStack(null).commit();
     }
 
     @Override
