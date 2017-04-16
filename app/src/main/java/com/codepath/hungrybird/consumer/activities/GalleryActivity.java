@@ -36,10 +36,15 @@ import com.codepath.hungrybird.consumer.fragments.OrderHistoryFramgent;
 import com.codepath.hungrybird.consumer.fragments.SimpsonsFragment;
 import com.codepath.hungrybird.databinding.ActivityGalleryBinding;
 import com.codepath.hungrybird.model.Dish;
+import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.User;
 import com.parse.ParseUser;
 
-public class GalleryActivity extends AppCompatActivity implements GallerySnapListAdapter.GalleryDishSelectedListener, DishArrayAdapter.DishSelected, OrderHistoryFramgent.OnOrderSelected {
+public class GalleryActivity extends AppCompatActivity implements
+        GallerySnapListAdapter.GalleryDishSelectedListener,
+        DishArrayAdapter.DishSelected,
+        OrderHistoryFramgent.OnOrderSelected,
+        ConsumerChefDishesDetailFragment.CartListener {
     private ActivityGalleryBinding binding;
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
@@ -250,5 +255,11 @@ public class GalleryActivity extends AppCompatActivity implements GallerySnapLis
         orderDetailsFragment.setArguments(bundle);
         fragmentManager.beginTransaction().replace(R.id.flContent, orderDetailsFragment)
                 .addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onCartPressed(Order order) {
+        // Send to cart fragment for the given order
+        System.out.println(order.getObjectId());
     }
 }
