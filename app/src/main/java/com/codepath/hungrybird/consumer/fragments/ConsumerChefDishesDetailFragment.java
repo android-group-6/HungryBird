@@ -61,6 +61,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.consumer_gallery_chef_dishes_detail_view, container, false);
+        binding.tvDishQuantity.setText(String.valueOf(1));
         return binding.getRoot();
     }
 
