@@ -28,6 +28,7 @@ import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
 import com.codepath.hungrybird.common.Transitions.DetailsTransition;
 import com.codepath.hungrybird.consumer.adapters.GallerySnapListAdapter;
+import com.codepath.hungrybird.consumer.fragments.CartFragment;
 import com.codepath.hungrybird.consumer.fragments.ConsumerChefDishesDetailFragment;
 import com.codepath.hungrybird.consumer.fragments.ContactUsFragment;
 import com.codepath.hungrybird.consumer.fragments.GalleryViewFragment;
@@ -260,6 +261,12 @@ public class GalleryActivity extends AppCompatActivity implements
     @Override
     public void onCartPressed(Order order) {
         // Send to cart fragment for the given order
-        System.out.println(order.getObjectId());
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        CartFragment cartFragment = new CartFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(CartFragment.OBJECT_ID, order.getObjectId());
+        cartFragment.setArguments(bundle);
+        fragmentManager.beginTransaction().replace(R.id.flContent, cartFragment)
+                .addToBackStack(null).commit();
     }
 }

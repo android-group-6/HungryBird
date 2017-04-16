@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
@@ -38,7 +39,7 @@ import rx.schedulers.Schedulers;
  */
 
 public class CartFragment extends Fragment {
-    public static final String OBJECT_ID = CartFragment.class.getSimpleName();
+    public static final String OBJECT_ID = "OBJECT_ID";
     ConsumerCartDetailsFragmentBinding binding;
     ArrayList<OrderDishRelation> orderDishRelations = new ArrayList<>();
     DateUtils dateUtils = new DateUtils();
@@ -129,6 +130,21 @@ public class CartFragment extends Fragment {
                         adapter.notifyDataSetChanged();
                         Glide.with(getContext()).load(response.order.getChef().getProfileImage().getUrl()).into(binding.consumerCartChefIv);
                         binding.consumerCartChefNameTv.setText(response.order.getChef().getUsername());
+                        binding.checkoutButton.setOnClickListener(v -> {
+                            response.order.setStatus(Order.Status.ORDERED.name());
+                            parseClient.addOrder(response.order, new ParseClient.OrderListener() {
+                                @Override
+                                public void onSuccess(Order order) {
+                                    Toast.makeText(getContext(), " order Id " + response.order.getObjectId(), Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onFailure(Exception e) {
+
+                                }
+                            });
+                        });
+
                     }
                 });
         adapter.setOnClickListener(v -> {

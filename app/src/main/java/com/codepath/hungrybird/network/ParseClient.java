@@ -22,6 +22,7 @@ import java.util.List;
 public class ParseClient {
 
     private static ParseClient instance;
+
     public static ParseClient getInstance() {
         if (instance == null) {
             instance = new ParseClient();
@@ -37,11 +38,13 @@ public class ParseClient {
 
     public interface DishListener {
         void onSuccess(Dish dish);
+
         void onFailure(Exception e);
     }
 
     public interface DishListListener {
         void onSuccess(List<Dish> dishes);
+
         void onFailure(Exception e);
     }
 
@@ -103,7 +106,8 @@ public class ParseClient {
         List<String> cuisineValues = new ArrayList<>();
         for (Dish.Cuisine cuisine : cuisines) {
             cuisineValues.add(cuisine.getCuisineValue())
-;        }
+            ;
+        }
         parseQuery.whereContainedIn("cuisine", cuisineValues);
         parseQuery.findInBackground(new FindCallback<Dish>() {
             @Override
@@ -132,15 +136,29 @@ public class ParseClient {
         });
     }
 
+    public void addOrder(Order order, final OrderListener orderListener) {
+        order.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    orderListener.onSuccess(order);
+                } else {
+                    orderListener.onFailure(e);
+                }
+            }
+        });
+    }
     // ---------- Order ---------------
 
     public interface OrderListener {
         void onSuccess(Order order);
+
         void onFailure(Exception e);
     }
 
     public interface OrderListListener {
         void onSuccess(List<Order> orders);
+
         void onFailure(Exception e);
     }
 
@@ -166,12 +184,14 @@ public class ParseClient {
                             }
                         });
                     }
+
                     @Override
                     public void onFailure(Exception e) {
                         listener.onFailure(e);
                     }
                 });
             }
+
             @Override
             public void onFailure(Exception e) {
                 listener.onFailure(e);
@@ -207,6 +227,7 @@ public class ParseClient {
                     }
                 });
             }
+
             @Override
             public void onFailure(Exception e) {
                 listener.onFailure(e);
@@ -221,7 +242,6 @@ public class ParseClient {
             @Override
             public void done(Order order, ParseException e) {
                 if (e == null) {
-                    Log.d("debug-data", order.getOrderName());
                     listener.onSuccess(order);
                 } else {
                     Log.d("error-parse", "error while getting dish by id ... " + orderId);
@@ -294,11 +314,13 @@ public class ParseClient {
 
     public interface OrderDishRelationListener {
         void onSuccess(OrderDishRelation orderDishRelation);
+
         void onFailure(Exception e);
     }
 
     public interface OrderDishRelationListListener {
         void onSuccess(List<OrderDishRelation> orderDishRelations);
+
         void onFailure(Exception e);
     }
 
@@ -350,6 +372,7 @@ public class ParseClient {
 
     public interface UserListener {
         void onSuccess(User user);
+
         void onFailure(Exception e);
     }
 

@@ -24,8 +24,10 @@ import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.OrderDishRelation;
 import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 /**
  * Created by DhwaniShah on 4/13/17.
@@ -178,7 +180,12 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
             public void onSuccess(OrderDishRelation orderDishRelation) {
                 orderDishRelation.setQuantity(quantity);
                 orderDishRelation.setPricePerItem(currentDish.getPrice());
-                parseClient.addOrderDishRelation(orderDishRelation);
+                parseClient.addOrderDishRelation(orderDishRelation, new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+
+                    }
+                });
             }
 
             @Override
@@ -188,7 +195,12 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
                 orderDishRelation.setDish(currentDish);
                 orderDishRelation.setQuantity(quantity);
                 orderDishRelation.setPricePerItem(currentDish.getPrice());
-                parseClient.addOrderDishRelation(orderDishRelation);
+                parseClient.addOrderDishRelation(orderDishRelation, new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+
+                    }
+                });
             }
         });
     }
