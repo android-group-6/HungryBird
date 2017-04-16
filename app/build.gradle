@@ -81,4 +81,5 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.1'
     // Stripe
     compile 'com.stripe:stripe-android:4.0.0'
+    compile 'com.loopj.android:android-async-http:1.4.9'
 }

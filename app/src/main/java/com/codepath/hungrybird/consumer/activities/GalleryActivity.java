@@ -23,11 +23,18 @@ import com.codepath.hungrybird.consumer.fragments.GalleryViewFragment;
 import com.codepath.hungrybird.consumer.fragments.OrderHistoryFramgent;
 import com.codepath.hungrybird.databinding.ActivityGalleryBinding;
 import com.codepath.hungrybird.model.User;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.parse.ParseUser;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
+
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 public class GalleryActivity extends AppCompatActivity {
     private ActivityGalleryBinding binding;
@@ -169,7 +176,23 @@ public class GalleryActivity extends AppCompatActivity {
                         public void onSuccess(Token token) {
                             // Send token to your server
                             Log.e("STRIPE_TOKEN", token.getId());
-                            
+                            //Charge: http://api.shahdhwani.com/HungryBird/charge.php
+                            AsyncHttpClient client = new AsyncHttpClient();
+                            RequestParams params = new RequestParams();
+                            params.put("token", token.getId());
+                            params.put("chargeVal", 2000);
+                            client.post("http://api.shahdhwani.com/HungryBird/charge.php", params, new JsonHttpResponseHandler() {
+                                    @Override
+                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                        Log.e("Success", response.toString());
+                                    }
+
+                                    @Override
+                                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                        super.onFailure(statusCode, headers, responseString, throwable);
+                                    }
+                                }
+                            );
                         }
                         public void onError(Exception error) {
                             // Show localized error message
