@@ -1,0 +1,130 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp" />
+
+
+        <!--consumer_order_history_view_item-->
+        <TextView
+            android:id="@+id/dish_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/item_image"
+            android:ellipsize="end"
+            android:maxLength="140"
+            android:maxLines="4"
+            android:maxWidth="200sp"
+            android:textColor="#ff000000"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            tools:text="Palak Paneer" />
+
+        <TextView
+            android:id="@+id/dish_item_service_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dish_item_name"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/item_image"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Serves 2"
+            android:textColor="#80000000"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/dish_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dish_item_service_size"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/item_image"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="$7.99"
+            android:textColor="#80000000"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/items_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="1"
+            android:textColor="#A0000000"
+            android:textSize="18sp"
+            android:textStyle="normal" />
+
+        <LinearLayout
+            android:id="@+id/add_to_card_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#D3D3D3"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:weightSum="3">
+
+            <ImageView
+                android:id="@+id/reduce_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_remove_circle_outline_black_24px" />
+
+
+            <TextView
+                android:id="@+id/updated_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="2"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/add_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_add_cart_circle_outline_black_24x" />
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</layout>

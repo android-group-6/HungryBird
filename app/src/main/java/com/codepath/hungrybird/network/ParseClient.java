@@ -49,6 +49,7 @@ public class ParseClient {
         dish.saveInBackground();
     }
 
+
     public void getDishById(final String id, final DishListener listener) {
         ParseQuery<Dish> parseQuery = ParseQuery.getQuery(Dish.class);
         parseQuery.getInBackground(id, new GetCallback<Dish>() {
@@ -215,6 +216,7 @@ public class ParseClient {
 
     public void getOrderById(final String orderId, final OrderListener listener) {
         ParseQuery<Order> parseQuery = ParseQuery.getQuery(Order.class);
+        parseQuery.include("chef");
         parseQuery.getInBackground(orderId, new GetCallback<Order>() {
             @Override
             public void done(Order order, ParseException e) {
@@ -300,8 +302,9 @@ public class ParseClient {
         void onFailure(Exception e);
     }
 
-    public void addOrderDishRelation(OrderDishRelation orderDishRelation) {
-        orderDishRelation.saveInBackground();
+    public void addOrderDishRelation(OrderDishRelation orderDishRelation, SaveCallback callback) {
+        orderDishRelation.saveInBackground(callback);
+
     }
 
     public void getOrderDishRelationsByOrderId(String orderId, final OrderDishRelationListListener listener) {
