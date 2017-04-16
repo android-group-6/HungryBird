@@ -41,7 +41,7 @@ public class Order extends ParseObject {
     }
 
     public void setConsumer(User user) {
-        put("consumer", user);
+        put("consumer", user.parseUser);
     }
 
     public User getChef() {

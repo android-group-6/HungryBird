@@ -290,6 +290,11 @@ public class ParseClient {
 
     // --------- OrderDishRelation -------
 
+    public interface OrderDishRelationListener {
+        void onSuccess(OrderDishRelation orderDishRelation);
+        void onFailure(Exception e);
+    }
+
     public interface OrderDishRelationListListener {
         void onSuccess(List<OrderDishRelation> orderDishRelations);
         void onFailure(Exception e);
@@ -319,6 +324,25 @@ public class ParseClient {
         });
     }
 
+    public void getOrderDishRelationByOrderAndDishId(String orderId, String dishId, OrderDishRelationListener listener) {
+        ParseQuery<Order> innerQueryOrder = ParseQuery.getQuery(Order.class);
+        innerQueryOrder.getInBackground(orderId);
+        ParseQuery<Dish> innerQueryDish = ParseQuery.getQuery(Dish.class);
+        innerQueryDish.getInBackground(dishId);
+        ParseQuery<OrderDishRelation> parseQuery = ParseQuery.getQuery(OrderDishRelation.class);
+        parseQuery.whereMatchesQuery("order", innerQueryOrder);
+        parseQuery.whereMatchesQuery("dish", innerQueryDish);
+        parseQuery.getFirstInBackground(new GetCallback<OrderDishRelation>() {
+            @Override
+            public void done(OrderDishRelation object, ParseException e) {
+                if (e == null) {
+                    listener.onSuccess(object);
+                } else {
+                    listener.onFailure(e);
+                }
+            }
+        });
+    }
     // --------- User ---------------
 
     public interface UserListener {
