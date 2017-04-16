@@ -39,6 +39,7 @@ import com.codepath.hungrybird.databinding.ActivityGalleryBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.User;
+import com.codepath.hungrybird.network.ParseClient;
 import com.parse.ParseUser;
 
 public class GalleryActivity extends AppCompatActivity implements
@@ -51,6 +52,8 @@ public class GalleryActivity extends AppCompatActivity implements
     private Toolbar toolbar;
     private NavigationView nvDrawer;
     private ActionBarDrawerToggle drawerToggle;
+
+    private int SEARCH_ACTIVITY_RESULT_CODE = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +129,8 @@ public class GalleryActivity extends AppCompatActivity implements
 //                fetchBooks(query);
                 Intent searchActivityIntent = new Intent(GalleryActivity.this, SearchActivity.class);
                 searchActivityIntent.putExtra("query", query);
-                startActivity(searchActivityIntent);
+                startActivityForResult(searchActivityIntent, SEARCH_ACTIVITY_RESULT_CODE);
+//                startActivity(searchActivityIntent);
                 return true;
             }
 
@@ -136,6 +140,25 @@ public class GalleryActivity extends AppCompatActivity implements
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SEARCH_ACTIVITY_RESULT_CODE && resultCode == RESULT_OK && data != null) {
+            String dishId = data.getStringExtra("dishId");
+            ParseClient.getInstance().getDishById(dishId, new ParseClient.DishListener() {
+                @Override
+                public void onSuccess(Dish dish) {
+                    onDishSelected(dish);
+                }
+                @Override
+                public void onFailure(Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.codepath.hungrybird.consumer.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -21,7 +23,7 @@ import com.codepath.hungrybird.network.ParseClient;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity implements DishArrayAdapter.DishSelected{
+public class SearchActivity extends AppCompatActivity implements DishArrayAdapter.DishSelected {
 
     public static final String TAG = SearchActivity.class.getSimpleName();
 
@@ -134,6 +136,10 @@ public class SearchActivity extends AppCompatActivity implements DishArrayAdapte
     @Override
     public void onDishSelected(Dish dish) {
         System.out.println(dish.getTitle());
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("dishId", dish.getObjectId());
+        setResult(Activity.RESULT_OK, resultIntent);
+        finish();
     }
 
 }
