@@ -1,6 +1,7 @@
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -24,18 +25,17 @@
             android:id="@+id/selectedDishPic_iv"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:maxHeight="100dp"
-            app:srcCompat="@drawable/ic_no_image_available"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
+            android:layout_below="@+id/chefProfilePic_iv"
             android:background="@android:color/darker_gray"
-            android:layout_below="@+id/chefProfilePic_iv" />
+            android:maxHeight="100dp"
+            app:srcCompat="@drawable/ic_no_image_available" />
 
         <TextView
             android:id="@+id/dishTitle"
-            android:transitionName="dishTitleTransition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -43,20 +43,19 @@
             android:layout_below="@+id/selectedDishPic_iv"
             android:layout_marginTop="10dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            tools:text="Paneer Tikka Masala"
-            android:layout_toLeftOf="@+id/dishPrice"
-            android:layout_toStartOf="@+id/dishPrice" />
+            android:transitionName="dishTitleTransition"
+            tools:text="Paneer Tikka Masala" />
 
         <TextView
             android:id="@+id/dishPrice"
-            android:transitionName="dishPriceTransition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            tools:text="$7.99"
-            android:layout_alignTop="@+id/dishTitle"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignTop="@+id/dishTitle"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:transitionName="dishPriceTransition"
+            tools:text="$7.99" />
 
         <TextView
             android:id="@+id/dishServingSize"
@@ -65,56 +64,56 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/dishPrice"
-            tools:text="2 people" />
-
-        <TextView
-            android:id="@+id/dishVegOrNonveg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/dishServingSize"
-            tools:text="Veggie Dish" />
-
-        <TextView
-            android:id="@+id/dishAllergen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/dishVegOrNonveg"
-            tools:text="Nuts" />
-
-        <TextView
-            android:id="@+id/dishSpiceLevel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/dishAllergen"
-            tools:text="Medium" />
+            tools:text="Serving Size : 2 people" />
 
         <TextView
             android:id="@+id/dishDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="This is an indian cheese filled with gravy. Mmmm mmm good! It's a classic."
-            android:layout_below="@+id/dishSpiceLevel"
-            android:layout_toLeftOf="@+id/textView5"
-            android:layout_toStartOf="@+id/textView5"
-            android:layout_marginRight="13dp"
-            android:layout_marginEnd="13dp" />
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/dishServingSize"
+            tools:text="This is an indian cheese filled with gravy. Mmmm mmm good! It's a classic." />
 
-        <Button
-            android:id="@+id/button3"
+        <TextView
+            android:id="@+id/tvMinus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add to cart"
-            android:layout_above="@+id/dishTitle"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_below="@id/dishDescription"
+            android:drawableLeft="@drawable/ic_add"
+            android:gravity="center_vertical" />
+
+
+        <TextView
+            android:id="@+id/tvDishQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tvMinus"
+            android:layout_toRightOf="@id/tvMinus"
+            android:gravity="center_vertical"
+            android:text="0"
+            tools:text="12" />
+
+        <TextView
+            android:id="@+id/tvPlus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dishDescription"
+            android:layout_alignBaseline="@+id/tvMinus"
+            android:layout_toRightOf="@id/tvDishQuantity"
+            android:drawableLeft="@drawable/ic_add"
+            android:gravity="center_vertical" />
+
+
+        <TextView
+            android:id="@+id/tvAddToCart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add To Cart"
+            android:background="@color/colorPrimaryDark"
+            android:layout_toRightOf="@id/tvPlus"
+            android:layout_alignBaseline="@+id/tvMinus"
+            android:gravity="center_vertical" />
 
         <TextView
             android:id="@+id/moreDishesFromCurrentChef_tv"
@@ -124,7 +123,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/dishDescription"
+            android:layout_below="@+id/tvAddToCart"
             android:layout_marginTop="10dp"
             android:text="More from this chef"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
@@ -134,33 +133,10 @@
             android:id="@+id/moreDishesFromCurrentChef_fl"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/moreDishesFromCurrentChef_tv">
-
+            android:layout_below="@id/moreDishesFromCurrentChef_tv"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            >
         </FrameLayout>
-
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/dishPrice"
-            android:layout_toEndOf="@+id/dishTitle"
-            android:layout_toRightOf="@+id/dishTitle"
-            android:ems="10"
-            android:inputType="number"
-            android:maxLength="2"
-            android:text="0"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/dishVegOrNonveg"
-            android:layout_toLeftOf="@+id/editText2"
-            android:layout_toStartOf="@+id/editText2"
-            android:text="X" />
-
     </RelativeLayout>
 </layout>

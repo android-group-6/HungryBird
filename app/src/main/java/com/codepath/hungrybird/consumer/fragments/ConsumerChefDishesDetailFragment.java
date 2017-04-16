@@ -48,6 +48,30 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         String id = getArguments().getString(DISH_ID);
+        binding.tvMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int oldQuantity = Integer.parseInt(binding.tvDishQuantity.getText().toString());
+                int newQuantity = oldQuantity - 1;
+                if (newQuantity >= 0) {
+                    binding.tvDishQuantity.setText(String.valueOf(newQuantity));
+                }
+            }
+        });
+        binding.tvPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int oldQuantity = Integer.parseInt(binding.tvDishQuantity.getText().toString());
+                int newQuantity = oldQuantity + 1;
+                binding.tvDishQuantity.setText(String.valueOf(newQuantity));
+            }
+        });
+        binding.tvAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("onAddToCart");
+            }
+        });
         parseClient.getUserById(getArguments().getString(CHEF_ID), new ParseClient.UserListener() {
             @Override
             public void onSuccess(User user) {
@@ -82,9 +106,6 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
                 binding.dishTitle.setText(currentDish.getTitle());
                 binding.dishPrice.setText("$" + String.valueOf(currentDish.getPrice()));
                 binding.dishServingSize.setText(String.valueOf(currentDish.getServingSize()));
-                //        binding.dishVegOrNonveg.setText(currentDish.getTitle());
-                //        binding.dishAllergen.setText(currentDish.getTitle());
-                //        binding.dishSpiceLevel.setText(currentDish.getTitle());
                 binding.dishDescription.setText(currentDish.getDescription());
             }
 
