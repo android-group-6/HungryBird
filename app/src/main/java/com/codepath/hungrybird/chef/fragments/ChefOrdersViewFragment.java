@@ -33,7 +33,6 @@ public class ChefOrdersViewFragment extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
     @Override
@@ -83,22 +82,5 @@ public class ChefOrdersViewFragment extends Fragment {
         refresh(null);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.mi_filter:
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FilterFragment filterFragment = new FilterFragment();
-                filterFragment.show(fm, FRAGMENT_TAG);
-
-                return true;
-            default:
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

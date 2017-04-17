@@ -1,27 +1,20 @@
 package com.codepath.hungrybird.chef.fragments;
 
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.hungrybird.HungryBirdApplication;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
-import com.codepath.hungrybird.consumer.fragments.FilterFragment;
 import com.codepath.hungrybird.databinding.ChefMyOfferingsFragmentBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.User;
@@ -86,37 +79,5 @@ public class MyOfferingsFragment extends Fragment {
         return binding.getRoot();
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.mi_filter:
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FilterFragment filterFragment = new FilterFragment();
-                filterFragment.show(fm, FRAGMENT_TAG);
-
-                return true;
-            default:
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

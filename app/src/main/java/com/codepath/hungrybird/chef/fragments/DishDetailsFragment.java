@@ -5,19 +5,14 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
-import com.codepath.hungrybird.consumer.fragments.FilterFragment;
 import com.codepath.hungrybird.databinding.ChefDishDetailsFragmentBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.network.ParseClient;
@@ -34,10 +29,6 @@ public class DishDetailsFragment extends Fragment {
 
     Dish currentDish;
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,22 +72,4 @@ public class DishDetailsFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.mi_filter:
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FilterFragment filterFragment = new FilterFragment();
-                filterFragment.show(fm, FRAGMENT_TAG);
-
-                return true;
-            default:
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

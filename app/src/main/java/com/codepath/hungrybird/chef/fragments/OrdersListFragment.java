@@ -107,15 +107,6 @@ public class OrdersListFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.mi_filter:
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FilterFragment filterFragment = new FilterFragment();
-                filterFragment.show(fm, FRAGMENT_TAG);
-
-                return true;
-            default:
-        }
         return super.onOptionsItemSelected(item);
     }
 }

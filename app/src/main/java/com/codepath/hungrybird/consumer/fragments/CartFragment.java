@@ -5,10 +5,13 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,8 +20,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
-import com.codepath.hungrybird.common.DateUtils;
-import com.codepath.hungrybird.common.StringsUtils;
 import com.codepath.hungrybird.databinding.ConsumerCartDetailsFragmentBinding;
 import com.codepath.hungrybird.databinding.ConsumerOrderCartDishItemBinding;
 import com.codepath.hungrybird.model.Dish;
@@ -47,9 +48,6 @@ public class CartFragment extends Fragment {
     ConsumerCartDetailsFragmentBinding binding;
     ArrayList<OrderDishRelation> orderDishRelations = new ArrayList<>();
 
-    DateUtils dateUtils = new DateUtils();
-    StringsUtils stringsUtils = new StringsUtils();
-    double finalPricing = 0;
     ParseClient parseClient;
 
     CartFragmentListener cartFragmentListener;
@@ -64,7 +62,19 @@ public class CartFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.getItem(0).setVisible(false);
+        super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Your Cart");
     }
 
     @Override

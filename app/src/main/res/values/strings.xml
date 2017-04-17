@@ -6,7 +6,7 @@
     <string name="facebook_app_id">125826644627732</string>
 
     <!-- Nav Drawer Menu Items -->
-    <string name="consumer_drawer_title_gallery_view">Gallary</string>
+    <string name="consumer_drawer_title_gallery_view">Hungry\'s Nest</string>
     <string name="consumer_drawer_title_order_history">Order History</string>
     <string name="consumer_drawer_title_contact_us">Contact Us</string>
     <string name="consumer_simpsons">The Simpsons</string>

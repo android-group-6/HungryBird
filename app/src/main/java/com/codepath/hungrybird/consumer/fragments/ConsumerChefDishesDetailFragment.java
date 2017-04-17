@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -57,6 +58,12 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Chef's Home");
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -74,7 +81,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(false);
-        menu.getItem(1).setVisible(false);
+//        menu.getItem(1).setVisible(false);
         super.onPrepareOptionsMenu(menu);
     }
 
@@ -85,6 +92,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
                 Activity activity = getActivity();
                 if (activity instanceof CartListener) {
                     CartListener cartListener = (CartListener) activity;
+
                     cartListener.onCartPressed(currentOrder);
                 }
         }

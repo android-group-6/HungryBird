@@ -5,6 +5,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,12 @@ public class OrderHistoryFramgent extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("History");
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -78,9 +85,9 @@ public class OrderHistoryFramgent extends Fragment {
                                     String status = stringsUtils.displayStatusString(order);
                                     if (status != null) {
                                         order.setStatus(status);
+                                        ret = true;
                                     }
                                 }
-                                ret = true;
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 ret = false;

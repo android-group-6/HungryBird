@@ -170,12 +170,6 @@ public class GalleryActivity extends AppCompatActivity implements
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-//        switch (item.getItemId()) {
-//            case R.id.action_search:
-//                Intent searchActivityIntent = new Intent(GalleryActivity.this, SearchActivity.class);
-//                startActivity(searchActivityIntent);
-//            default:
-//        }
         return super.onOptionsItemSelected(item);
     }
 
