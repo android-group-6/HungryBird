@@ -51,7 +51,6 @@ import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
@@ -168,6 +167,7 @@ public class GalleryActivity extends AppCompatActivity implements
                 public void onSuccess(Dish dish) {
                     onDishSelected(dish);
                 }
+
                 @Override
                 public void onFailure(Exception e) {
                     e.printStackTrace();
@@ -319,121 +319,15 @@ public class GalleryActivity extends AppCompatActivity implements
         bundle.putString(ConsumerCheckoutFragment.ORDER_ID, orderId);
         bundle.putString(ConsumerCheckoutFragment.TOTAL_PRICE, price);
         consumerCheckoutFragment.setArguments(bundle);
+        consumerCheckoutFragment.setTargetFragment(fragmentManager.findFragmentById(R.id.flContent), 10);
         fragmentManager.beginTransaction().replace(R.id.flContent, consumerCheckoutFragment)
-                .addToBackStack(null).commit();
+                .commit();
     }
 
     @Override
-    public void onPayNowClickListener(View v, String orderId, String price) {
-        EditText cardNumber = (EditText) v.getRootView().findViewById(R.id.cart_checkout_credit_num_et);
-        EditText expiryMonth = (EditText) v.getRootView().findViewById(R.id.cart_checkout_expiry_month_et);
-        EditText expiryYear = (EditText) v.getRootView().findViewById(R.id.cart_checkout_expiry_year_et);
-        EditText cvcNumber = (EditText) v.getRootView().findViewById(R.id.cart_checkout_cvc_et);
-        String convertedPrice = String.valueOf(Double.parseDouble(price)*100);
-        int totalPriceForStripe = Integer.parseInt(convertedPrice.substring(0, convertedPrice.indexOf(".")));
-        Log.e("CCNUM", cardNumber.getText() + " | " + orderId + " | " + totalPriceForStripe);
-        Card card = new Card(
-                cardNumber.getText().toString(),
-                Integer.parseInt(expiryMonth.getText().toString()),
-                Integer.parseInt(expiryYear.getText().toString()),
-                cvcNumber.getText().toString());
-
-        if (!card.validateCard()) {
-            Toast.makeText(getApplicationContext(), "No ", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
-            Stripe stripe = new Stripe(getApplicationContext(), "pk_test_u4lZ9tWVhEoZVKVa6FFN5oei");
-            stripe.createToken(
-                    card,
-                    new TokenCallback() {
-                        public void onSuccess(Token token) {
-                            // Send token to your server
-                            Log.e("STRIPE_TOKEN", token.getId());
-                            //Charge: http://api.shahdhwani.com/HungryBird/charge.php
-                            AsyncHttpClient client = new AsyncHttpClient();
-                            RequestParams params = new RequestParams();
-                            params.put("token", token.getId());
-                            params.put("chargeVal", totalPriceForStripe);
-                            params.put("orderId", orderId);
-                            client.post("http://api.shahdhwani.com/HungryBird/charge.php", params, new JsonHttpResponseHandler() {
-                                        @Override
-                                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                            try {
-                                                String transactionStatusCode = response.getString("response");
-                                                Log.e("Success", response.toString() + " " + response.getString("response"));
-                                                if (transactionStatusCode == "Success") {
-                                                    //CartFragment.onSuccessfulStripePayment(orderId);
-                                                    //CartFragment cartFragment = (CartFragment) getSupportFragmentManager().findFragmentById()
-                                                } else {
-                                                    Toast.makeText(getApplicationContext(), "There was an error.", Toast.LENGTH_LONG).show();
-                                                }
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-
-                                        }
-
-                                        @Override
-                                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                            super.onFailure(statusCode, headers, responseString, throwable);
-                                        }
-                                    }
-                            );
-                        }
-                        public void onError(Exception error) {
-                            // Show localized error message
-                            Toast.makeText(getApplicationContext(),
-                                    error.toString(),
-                                    Toast.LENGTH_LONG
-                            ).show();
-                        }
-                    }
-            );
-        }
-    }
-
-    public void onPayNowButtonClick(View v) {
-        EditText cardNumber = (EditText) v.getRootView().findViewById(R.id.cart_checkout_credit_num_et);
-        Card card = new Card(cardNumber.getText().toString(), 12, 2018, "123");
-
-        if (!card.validateCard()) {
-            Toast.makeText(getApplicationContext(), "No ", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
-            Stripe stripe = new Stripe(getApplicationContext(), "pk_test_u4lZ9tWVhEoZVKVa6FFN5oei");
-            stripe.createToken(
-                    card,
-                    new TokenCallback() {
-                        public void onSuccess(Token token) {
-                            // Send token to your server
-                            Log.e("STRIPE_TOKEN", token.getId());
-                            //Charge: http://api.shahdhwani.com/HungryBird/charge.php
-                            AsyncHttpClient client = new AsyncHttpClient();
-                            RequestParams params = new RequestParams();
-                            params.put("token", token.getId());
-                            params.put("chargeVal", 2000);
-                            client.post("http://api.shahdhwani.com/HungryBird/charge.php", params, new JsonHttpResponseHandler() {
-                                        @Override
-                                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                            Log.e("Success", response.toString());
-                                        }
-
-                                        @Override
-                                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                            super.onFailure(statusCode, headers, responseString, throwable);
-                                        }
-                                    }
-                            );
-                        }
-                        public void onError(Exception error) {
-                            // Show localized error message
-                            Toast.makeText(getApplicationContext(),
-                                    error.toString(),
-                                    Toast.LENGTH_LONG
-                            ).show();
-                        }
-                    }
-            );
-        }
+    public void onPaymentSuccessfully() {
+        Intent i = new Intent(this, GalleryActivity.class);
+        finish();
+        startActivity(i);
     }
 }

@@ -6,12 +6,28 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.databinding.ConsumerCheckoutFragmentBinding;
+import com.codepath.hungrybird.model.Order;
+import com.codepath.hungrybird.network.ParseClient;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.stripe.android.Stripe;
+import com.stripe.android.TokenCallback;
+import com.stripe.android.model.Card;
+import com.stripe.android.model.Token;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 public class ConsumerCheckoutFragment extends Fragment {
 
@@ -23,7 +39,8 @@ public class ConsumerCheckoutFragment extends Fragment {
     CheckoutFragmentListener checkoutFragmentListener;
 
     public interface CheckoutFragmentListener {
-        void onPayNowClickListener(View view, String orderId, String price);
+        void onPaymentSuccessfully();
+
     }
 
     @Override
@@ -54,11 +71,106 @@ public class ConsumerCheckoutFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.cartCheckoutPaynowBt.setText("PAY $" + getArguments().getString(TOTAL_PRICE) + " NOW");
+
         binding.cartCheckoutPaynowBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkoutFragmentListener.onPayNowClickListener(view, getArguments().getString(ORDER_ID), getArguments().getString(TOTAL_PRICE));
+                onPayNowClickListener();
+//                checkoutFragmentListener.onPayNowClickListener(view, getArguments().getString(ORDER_ID), getArguments().getString(TOTAL_PRICE));
             }
         });
+    }
+
+    Order order;
+
+    private void onPayNowClickListener() {
+        String orderId = getArguments().getString(ORDER_ID);
+
+        ParseClient.getInstance().getOrderById(orderId, new ParseClient.OrderListener() {
+            @Override
+            public void onSuccess(Order order) {
+                ConsumerCheckoutFragment.this.order = order;
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+
+            }
+        });
+
+        String convertedPrice = String.valueOf(Double.parseDouble(getArguments().getString(TOTAL_PRICE)) * 100);
+        int totalPriceForStripe = Integer.parseInt(convertedPrice.substring(0, convertedPrice.indexOf(".")));
+        Card card = new Card(
+                binding.cartCheckoutCreditNumEt.getText().toString(),
+                Integer.parseInt(binding.cartCheckoutExpiryMonthEt.getText().toString()),
+                Integer.parseInt(binding.cartCheckoutExpiryYearEt.getText().toString()),
+                binding.cartCheckoutCvcEt.getText().toString());
+
+        if (!card.validateCard()) {
+            Toast.makeText(getActivity().getApplicationContext(), "No ", Toast.LENGTH_LONG).show();
+        } else {
+
+            Toast.makeText(getActivity().getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
+            Stripe stripe = new Stripe(getActivity().getApplicationContext(), "pk_test_u4lZ9tWVhEoZVKVa6FFN5oei");
+            stripe.createToken(
+                    card,
+                    new TokenCallback() {
+                        public void onSuccess(Token token) {
+                            // Send token to your server
+                            Log.e("STRIPE_TOKEN", token.getId());
+                            //Charge: http://api.shahdhwani.com/HungryBird/charge.php
+                            AsyncHttpClient client = new AsyncHttpClient();
+                            RequestParams params = new RequestParams();
+                            params.put("token", token.getId());
+                            params.put("chargeVal", totalPriceForStripe);
+                            params.put("orderId", orderId);
+                            client.post("http://api.shahdhwani.com/HungryBird/charge.php", params, new JsonHttpResponseHandler() {
+                                        @Override
+                                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                            try {
+                                                String transactionStatusCode = response.getString("response");
+                                                Log.e("Success", response.toString() + " " + response.getString("response"));
+                                                if ("Success".equals(transactionStatusCode)) {
+                                                    binding.cartCheckoutPaynowBt.setText("Thanks for choosing us!");
+                                                    ConsumerCheckoutFragment.this.order.setStatus(Order.Status.ORDERED.name());
+                                                    ParseClient.getInstance().addOrder(ConsumerCheckoutFragment.this.order, new ParseClient.OrderListener() {
+                                                        @Override
+                                                        public void onSuccess(Order order) {
+                                                            checkoutFragmentListener.onPaymentSuccessfully();
+                                                        }
+
+                                                        @Override
+                                                        public void onFailure(Exception e) {
+
+                                                        }
+                                                    });
+                                                } else {
+                                                    Toast.makeText(getActivity().getApplicationContext(), "There was an error.", Toast.LENGTH_LONG).show();
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(int statusCode, Header[] headers, String
+                                                responseString, Throwable throwable) {
+                                            super.onFailure(statusCode, headers, responseString, throwable);
+                                        }
+                                    }
+                            );
+                        }
+
+                        public void onError(Exception error) {
+                            // Show localized error message
+                            Toast.makeText(getActivity().getApplicationContext(),
+                                    error.toString(),
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                    }
+            );
+        }
     }
 }
