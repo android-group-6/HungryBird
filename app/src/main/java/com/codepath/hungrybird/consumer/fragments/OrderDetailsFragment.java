@@ -55,7 +55,7 @@ public class OrderDetailsFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        menu.getItem(0).setVisible(false);
+//        menu.getItem(0).setVisible(false);
         super.onPrepareOptionsMenu(menu);
     }
 
