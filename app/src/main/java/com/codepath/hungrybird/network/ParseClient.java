@@ -6,6 +6,7 @@ import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.OrderDishRelation;
 import com.codepath.hungrybird.model.User;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -22,6 +23,7 @@ import java.util.List;
 public class ParseClient {
 
     private static ParseClient instance;
+
     public static ParseClient getInstance() {
         if (instance == null) {
             instance = new ParseClient();
@@ -37,17 +39,20 @@ public class ParseClient {
 
     public interface DishListener {
         void onSuccess(Dish dish);
+
         void onFailure(Exception e);
     }
 
     public interface DishListListener {
         void onSuccess(List<Dish> dishes);
+
         void onFailure(Exception e);
     }
 
     public void addDish(Dish dish) {
         dish.saveInBackground();
     }
+
 
     public void getDishById(final String id, final DishListener listener) {
         ParseQuery<Dish> parseQuery = ParseQuery.getQuery(Dish.class);
@@ -102,7 +107,8 @@ public class ParseClient {
         List<String> cuisineValues = new ArrayList<>();
         for (Dish.Cuisine cuisine : cuisines) {
             cuisineValues.add(cuisine.getCuisineValue())
-;        }
+            ;
+        }
         parseQuery.whereContainedIn("cuisine", cuisineValues);
         parseQuery.findInBackground(new FindCallback<Dish>() {
             @Override
@@ -118,7 +124,7 @@ public class ParseClient {
 
     public void getDishesBySearchQuery(String query, final DishListListener listener) {
         ParseQuery<Dish> parseQuery = ParseQuery.getQuery(Dish.class);
-        parseQuery.whereMatches("name", query);
+        parseQuery.whereMatches("title", query, "i");
         parseQuery.findInBackground(new FindCallback<Dish>() {
             @Override
             public void done(List<Dish> objects, ParseException e) {
@@ -131,15 +137,29 @@ public class ParseClient {
         });
     }
 
+    public void addOrder(Order order, final OrderListener orderListener) {
+        order.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    orderListener.onSuccess(order);
+                } else {
+                    orderListener.onFailure(e);
+                }
+            }
+        });
+    }
     // ---------- Order ---------------
 
     public interface OrderListener {
         void onSuccess(Order order);
+
         void onFailure(Exception e);
     }
 
     public interface OrderListListener {
         void onSuccess(List<Order> orders);
+
         void onFailure(Exception e);
     }
 
@@ -165,12 +185,14 @@ public class ParseClient {
                             }
                         });
                     }
+
                     @Override
                     public void onFailure(Exception e) {
                         listener.onFailure(e);
                     }
                 });
             }
+
             @Override
             public void onFailure(Exception e) {
                 listener.onFailure(e);
@@ -206,6 +228,7 @@ public class ParseClient {
                     }
                 });
             }
+
             @Override
             public void onFailure(Exception e) {
                 listener.onFailure(e);
@@ -215,11 +238,11 @@ public class ParseClient {
 
     public void getOrderById(final String orderId, final OrderListener listener) {
         ParseQuery<Order> parseQuery = ParseQuery.getQuery(Order.class);
+        parseQuery.include("chef");
         parseQuery.getInBackground(orderId, new GetCallback<Order>() {
             @Override
             public void done(Order order, ParseException e) {
                 if (e == null) {
-                    Log.d("debug-data", order.getOrderName());
                     listener.onSuccess(order);
                 } else {
                     Log.d("error-parse", "error while getting dish by id ... " + orderId);
@@ -251,6 +274,7 @@ public class ParseClient {
         innerQuery.getInBackground(consumerId);
         ParseQuery<Order> parseQuery = ParseQuery.getQuery(Order.class);
         parseQuery.whereMatchesQuery("consumer", innerQuery);
+        parseQuery.include("chef");
         parseQuery.findInBackground(new FindCallback<Order>() {
             @Override
             public void done(List<Order> objects, ParseException e) {
@@ -289,13 +313,36 @@ public class ParseClient {
 
     // --------- OrderDishRelation -------
 
-    public interface OrderDishRelationListListener {
-        void onSuccess(List<OrderDishRelation> orderDishRelations);
+    public interface OrderDishRelationListener {
+        void onSuccess(OrderDishRelation orderDishRelation);
+
         void onFailure(Exception e);
     }
 
-    public void addOrderDishRelation(OrderDishRelation orderDishRelation) {
-        orderDishRelation.saveInBackground();
+    public interface OrderDishRelationListListener {
+        void onSuccess(List<OrderDishRelation> orderDishRelations);
+
+        void onFailure(Exception e);
+    }
+
+
+    public void delete(final OrderDishRelation orderDishRelation, OrderDishRelationListener orderDishRelationListener) {
+
+        orderDishRelation.deleteInBackground(new DeleteCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    orderDishRelationListener.onSuccess(orderDishRelation);
+                } else {
+                    orderDishRelationListener.onFailure(e);
+                }
+            }
+        });
+    }
+
+    public void addOrderDishRelation(OrderDishRelation orderDishRelation, SaveCallback callback) {
+        orderDishRelation.saveInBackground(callback);
+
     }
 
     public void getOrderDishRelationsByOrderId(String orderId, final OrderDishRelationListListener listener) {
@@ -303,6 +350,9 @@ public class ParseClient {
         innerQuery.getInBackground(orderId);
         ParseQuery<OrderDishRelation> parseQuery = ParseQuery.getQuery(OrderDishRelation.class);
         parseQuery.whereMatchesQuery("order", innerQuery);
+        parseQuery.include("dish");
+        parseQuery.include("chef");
+        parseQuery.include("order");
         parseQuery.findInBackground(new FindCallback<OrderDishRelation>() {
             @Override
             public void done(List<OrderDishRelation> objects, ParseException e) {
@@ -315,10 +365,30 @@ public class ParseClient {
         });
     }
 
+    public void getOrderDishRelationByOrderAndDishId(String orderId, String dishId, OrderDishRelationListener listener) {
+        ParseQuery<Order> innerQueryOrder = ParseQuery.getQuery(Order.class);
+        innerQueryOrder.getInBackground(orderId);
+        ParseQuery<Dish> innerQueryDish = ParseQuery.getQuery(Dish.class);
+        innerQueryDish.getInBackground(dishId);
+        ParseQuery<OrderDishRelation> parseQuery = ParseQuery.getQuery(OrderDishRelation.class);
+        parseQuery.whereMatchesQuery("order", innerQueryOrder);
+        parseQuery.whereMatchesQuery("dish", innerQueryDish);
+        parseQuery.getFirstInBackground(new GetCallback<OrderDishRelation>() {
+            @Override
+            public void done(OrderDishRelation object, ParseException e) {
+                if (e == null) {
+                    listener.onSuccess(object);
+                } else {
+                    listener.onFailure(e);
+                }
+            }
+        });
+    }
     // --------- User ---------------
 
     public interface UserListener {
         void onSuccess(User user);
+
         void onFailure(Exception e);
     }
 

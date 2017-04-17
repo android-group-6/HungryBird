@@ -82,4 +82,6 @@ dependencies {
     // Stripe
     compile 'com.stripe:stripe-android:4.0.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
+    // Gravity Snapper
+    compile 'com.github.rubensousa:gravitysnaphelper:1.1'
 }

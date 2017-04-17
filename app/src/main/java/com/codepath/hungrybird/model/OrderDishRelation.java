@@ -32,4 +32,20 @@ public class OrderDishRelation extends ParseObject {
     public int getQuantity() {
         return getInt("quantity");
     }
+
+    public void setTaxPerItem(double taxPerItem) {
+        put("taxPerItem", taxPerItem);
+    }
+
+    public Double getTaxPerItem() {
+        return getDouble("taxPerItem");
+    }
+
+    public void setPricePerItem(double pricePerItem) {
+        put("pricePerItem", pricePerItem);
+    }
+
+    public Double gePricePerItem() {
+        return getDouble("pricePerItem");
+    }
 }

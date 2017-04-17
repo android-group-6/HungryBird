@@ -48,9 +48,11 @@ public class LoginActivity extends AppCompatActivity {
             if (user.isChef()) {
                 Intent i = new Intent(this, ChefLandingActivity.class);
                 startActivity(i);
+                finish();
             } else {
                 Intent i = new Intent(this, GalleryActivity.class);
                 startActivity(i);
+                finish();
             }
         }
 

@@ -1,0 +1,67 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp" />
+
+
+        <!--consumer_order_history_view_item-->
+        <TextView
+            android:id="@+id/consumer_order_detail_dish_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/item_image"
+            android:ellipsize="end"
+            android:maxLength="140"
+            android:maxLines="4"
+            android:maxWidth="200sp"
+            android:textColor="#ff000000"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            tools:text="Palak Paneer" />
+
+        <TextView
+            android:id="@+id/consumer_order_detail_quantity_details_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/consumer_order_detail_dish_name_tv"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/item_image"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="1 at $12.79"
+            android:textColor="#80000000"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/item_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="$12.79"
+            android:textColor="#A0000000"
+            android:textSize="18sp"
+            android:textStyle="normal" />
+    </RelativeLayout>
+
+</layout>

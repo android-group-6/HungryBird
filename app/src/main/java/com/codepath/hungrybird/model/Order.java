@@ -8,6 +8,24 @@ import com.parse.ParseObject;
  */
 @ParseClassName("Order")
 public class Order extends ParseObject {
+    private String shortDate;
+    private String displayStatus;
+
+    public String getDisplayStatus() {
+        return displayStatus;
+    }
+
+    public void setDisplayStatus(String displayStatus) {
+        this.displayStatus = displayStatus;
+    }
+
+    public void setShortDate(String shortDate) {
+        this.shortDate = shortDate;
+    }
+
+    public String getShortDate() {
+        return shortDate;
+    }
 
     public String getOrderName() {
         return getString("orderName");
@@ -23,7 +41,7 @@ public class Order extends ParseObject {
     }
 
     public void setConsumer(User user) {
-        put("consumer", user);
+        put("consumer", user.parseUser);
     }
 
     public User getChef() {
@@ -40,6 +58,38 @@ public class Order extends ParseObject {
 
     public void setStatus(String status) {
         put("status", status);
+    }
+
+    public Double getTotalPayment() {
+        return getDouble("totalPayment");
+    }
+
+    public void setTotalPayment(Double totalPayment) {
+        put("totalPayment", totalPayment);
+    }
+
+    public Double getShippingFee() {
+        return getDouble("shippingFee");
+    }
+
+    public void setShippingFee(Double totalTax) {
+        put("shippingFee", totalTax);
+    }
+
+    public String getPaymentType() {
+        return getString("paymentType");
+    }
+
+    public void setPaymentType(String paymentType) {
+        put("paymentType", paymentType);
+    }
+
+    public String getDeliveryAddress() {
+        return getString("deliveryAddress");
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        put("deliveryAddress", deliveryAddress);
     }
 
     public enum Status {
