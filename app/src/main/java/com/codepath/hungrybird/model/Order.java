@@ -92,13 +92,17 @@ public class Order extends ParseObject {
         put("deliveryAddress", deliveryAddress);
     }
 
+    public String getDisplayId() {
+        return "HB-" + getObjectId();
+    }
+
     public enum Status {
         NOT_ORDERED("NOT_ORDERED"),
         ORDERED("ORDERED"),
         IN_PROGRESS("IN_PROGRESS"),
         READY_FOR_PICKUP("READY_FOR_PICKUP"),
         OUT_FOR_DELIVERY("OUT_FOR_DELIVERY"),
-        DONE("DONE"),
+        COMPLETE("COMPLETE"),
         CANCELLED("CANCELLED");
 
         private String statusValue;

@@ -1,5 +1,6 @@
 package com.codepath.hungrybird.chef.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class ChefOrdersFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 3;
-    private String tabTitles[] = new String[]{"NEW", "IN PROGRESS", "DONE"};
+    private String tabTitles[] = new String[]{"NEW", "IN PROGRESS", "COMPLETE"};
     private OrdersListFragment ordersListFragments[] = new OrdersListFragment[]{null, null, null};
     private Context context;
     RecyclerView.OnScrollListener onScrollListener;
@@ -41,7 +42,10 @@ public class ChefOrdersFragmentPagerAdapter extends FragmentPagerAdapter {
                 newOrders.add(o);
             } else if (Order.Status.IN_PROGRESS.name().equals(o.getStatus())) {
                 inProgressOrders.add(o);
-            } else if (Order.Status.DONE.name().equals(o.getStatus())) {
+            } else if (Order.Status.COMPLETE.name().equals(o.getStatus()) ||
+                    Order.Status.CANCELLED.name().equals(o.getStatus()) ||
+                    Order.Status.READY_FOR_PICKUP.name().equals(o.getStatus()) ||
+                    Order.Status.OUT_FOR_DELIVERY.name().equals(o.getStatus())) {
                 doneOrders.add(o);
             }
         }

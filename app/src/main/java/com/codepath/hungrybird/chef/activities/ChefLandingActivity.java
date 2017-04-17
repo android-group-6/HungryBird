@@ -18,20 +18,20 @@ import android.widget.Toast;
 
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
-import com.codepath.hungrybird.chef.adapters.OrderArrayAdapter;
 import com.codepath.hungrybird.chef.fragments.ChefOrdersViewFragment;
 import com.codepath.hungrybird.chef.fragments.ContactDetailsFragment;
 import com.codepath.hungrybird.chef.fragments.DishAddEditFragment;
 import com.codepath.hungrybird.chef.fragments.MyOfferingsFragment;
 import com.codepath.hungrybird.chef.fragments.MyRegisterFragment;
 import com.codepath.hungrybird.common.LoginActivity;
+import com.codepath.hungrybird.consumer.fragments.OrderDetailsFragment;
+import com.codepath.hungrybird.consumer.fragments.OrderHistoryFramgent;
 import com.codepath.hungrybird.databinding.ActivityChefLandingBinding;
 import com.codepath.hungrybird.model.Dish;
-import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.User;
 import com.parse.ParseUser;
 
-public class ChefLandingActivity extends AppCompatActivity implements DishArrayAdapter.DishSelected, OrderArrayAdapter.OrderSelected {
+public class ChefLandingActivity extends AppCompatActivity implements DishArrayAdapter.DishSelected, OrderHistoryFramgent.OnOrderSelected {
     public static final String TAG = ChefLandingActivity.class.getSimpleName();
 
     private ActivityChefLandingBinding binding;
@@ -210,8 +210,16 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+
     @Override
-    public void onOrderSelected(Order order) {
+    public void onOrderSelected(String orderId) {
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Bundle bundle = new Bundle();
+        bundle.putString(OrderDetailsFragment.OBJECT_ID, orderId);
+        OrderDetailsFragment orderDetailsFragment = new OrderDetailsFragment();
+        orderDetailsFragment.setArguments(bundle);
+        fragmentManager.beginTransaction().replace(R.id.flContent, orderDetailsFragment).addToBackStack(null).commit();
 
     }
 }

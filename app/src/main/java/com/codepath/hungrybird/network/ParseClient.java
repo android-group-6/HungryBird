@@ -6,6 +6,7 @@ import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.OrderDishRelation;
 import com.codepath.hungrybird.model.User;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -322,6 +323,21 @@ public class ParseClient {
         void onSuccess(List<OrderDishRelation> orderDishRelations);
 
         void onFailure(Exception e);
+    }
+
+
+    public void delete(final OrderDishRelation orderDishRelation, OrderDishRelationListener orderDishRelationListener) {
+
+        orderDishRelation.deleteInBackground(new DeleteCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    orderDishRelationListener.onSuccess(orderDishRelation);
+                } else {
+                    orderDishRelationListener.onFailure(e);
+                }
+            }
+        });
     }
 
     public void addOrderDishRelation(OrderDishRelation orderDishRelation, SaveCallback callback) {
