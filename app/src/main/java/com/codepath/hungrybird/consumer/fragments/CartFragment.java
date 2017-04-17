@@ -43,10 +43,7 @@ public class CartFragment extends Fragment {
     public static final String OBJECT_ID = "OBJECT_ID";
     ConsumerCartDetailsFragmentBinding binding;
     ArrayList<OrderDishRelation> orderDishRelations = new ArrayList<>();
-    DateUtils dateUtils = new DateUtils();
-    StringsUtils stringsUtils = new StringsUtils();
-    double finalPricing = 0;
-
+    double totalPriceBeforeTax = 0.0;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,10 +129,12 @@ public class CartFragment extends Fragment {
                         Glide.with(getContext()).load(response.order.getChef().getProfileImage().getUrl()).into(binding.consumerCartChefIv);
                         binding.consumerCartChefNameTv.setText(response.order.getChef().getUsername());
                         binding.checkoutButton.setOnClickListener(v -> {
+                            response.order.setTotalPayment(totalPriceBeforeTax);
                             response.order.setStatus(Order.Status.ORDERED.name());
                             parseClient.addOrder(response.order, new ParseClient.OrderListener() {
                                 @Override
                                 public void onSuccess(Order order) {
+
                                     Toast.makeText(getContext(), " order Id " + response.order.getObjectId(), Toast.LENGTH_SHORT).show();
                                 }
 
@@ -253,7 +252,7 @@ public class CartFragment extends Fragment {
     }
 
     private void updatePricing(List<OrderDishRelation> orderDishRelations) {
-        double totalPriceBeforeTax = 0.0;
+
         for (OrderDishRelation o : orderDishRelations) {
             totalPriceBeforeTax += o.getQuantity() * o.getDish().getPrice();
         }
