@@ -68,7 +68,7 @@ public class OrderHistoryFramgent extends Fragment {
                         .filter(order -> {
                             boolean ret = true;
                             try {
-                                String shortDate = dateUtils.getDate(order.getCreatedAt());
+                                String shortDate = dateUtils.getDate(order.getUpdatedAt());
                                 order.setShortDate(shortDate);
                                 if (Order.Status.NOT_ORDERED.name().equals(order.getStatus())) {
                                     order.setStatus("Not Ordered");

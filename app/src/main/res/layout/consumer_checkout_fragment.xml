@@ -98,13 +98,14 @@
 
         </LinearLayout>
 
-        <Button
+        <TextView
             android:id="@+id/cart_checkout_paynow_bt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:background="@color/colorPrimary"
             android:textColor="@android:color/white"
             android:text="Pay Now"
+            android:gravity="center"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"

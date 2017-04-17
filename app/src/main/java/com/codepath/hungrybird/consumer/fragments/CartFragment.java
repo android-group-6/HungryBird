@@ -158,11 +158,9 @@ public class CartFragment extends Fragment {
                         binding.consumerCartChefNameTv.setText(response.order.getChef().getUsername());
                         binding.checkoutButton.setOnClickListener(v -> {
                             response.order.setTotalPayment(totalPriceBeforeTax);
-                            response.order.setStatus(Order.Status.ORDERED.name());
                             parseClient.addOrder(response.order, new ParseClient.OrderListener() {
                                 @Override
                                 public void onSuccess(Order order) {
-
                                     String price = (binding.consumerCartPriceBeforeTax.getText().toString()).substring(1);
                                     //Double sentPrice = Double.parseDouble(price);
                                     Log.e("SFDSD", binding.consumerCartPriceBeforeTax.getText().toString() + " | " + price + " " + order.getTotalPayment());

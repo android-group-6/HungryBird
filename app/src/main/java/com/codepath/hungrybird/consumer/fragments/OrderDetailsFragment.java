@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
@@ -75,6 +76,8 @@ public class OrderDetailsFragment extends Fragment {
             binding.orderStatusSpinner.setVisibility(View.VISIBLE);
             binding.orderStatusSpinner.setAdapter(staticAdapter);
             binding.consumerOrderStatus.setVisibility(View.GONE);
+        } else {
+            binding.orderStatusSpinner.setVisibility(View.GONE);
         }
 
         parseClient.getOrderDishRelationsByOrderId(orderObjectId, new ParseClient.OrderDishRelationListListener() {
@@ -89,7 +92,7 @@ public class OrderDetailsFragment extends Fragment {
                         }
 
                         try {
-                            Date d = order.getCreatedAt();
+                            Date d = order.getUpdatedAt();
                             String date = dateUtils.getDate(d);
                             binding.consumerOrderDateTv.setText(date);
                         } catch (Exception e) {
@@ -136,17 +139,22 @@ public class OrderDetailsFragment extends Fragment {
             OrderDishRelation order = orderDishRelations.get(position);
             ConsumerOrderDetailsDishItemBinding binding = (ConsumerOrderDetailsDishItemBinding) (holder.binding);
             Dish dish = order.getDish();
-            if (dish.getPrimaryImage() != null) {
-                Glide.with(getActivity()).load(dish.getPrimaryImage().getUrl()).into(binding.itemImage);
+            if (dish != null) {
+
+                if (dish.getPrimaryImage() != null) {
+                    Glide.with(getActivity()).load(dish.getPrimaryImage().getUrl()).into(binding.itemImage);
+                }
+
+                int count = order.getQuantity();
+
+                Double pricePerItem = order.gePricePerItem();
+                double totalPrice = count * pricePerItem;
+                binding.consumerOrderDetailQuantityDetailsTv.setText("" + count + " at $" + pricePerItem + " each");
+                binding.itemTotalPrice.setText("$" + totalPrice);
+                binding.consumerOrderDetailDishNameTv.setText(dish.getDishName());
+            } else {
+                Toast.makeText(getActivity(), "Missing Dish", Toast.LENGTH_SHORT).show();
             }
-
-            int count = order.getQuantity();
-
-            Double pricePerItem = order.gePricePerItem();
-            double totalPrice = count * pricePerItem;
-            binding.consumerOrderDetailQuantityDetailsTv.setText("" + count + " at $" + pricePerItem + " each");
-            binding.itemTotalPrice.setText("$" + totalPrice);
-            binding.consumerOrderDetailDishNameTv.setText(dish.getDishName());
 
 
             //todo: get price from order

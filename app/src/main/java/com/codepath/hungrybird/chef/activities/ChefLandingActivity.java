@@ -194,7 +194,7 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
     }
 
     @Override
-    public void onDishSelected(Dish dish) {
+    public void onDishSelected(Dish dish, boolean fromChefPage) {
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         Bundle bundle = new Bundle();

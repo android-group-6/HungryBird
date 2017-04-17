@@ -134,7 +134,7 @@ public class SearchActivity extends AppCompatActivity implements DishArrayAdapte
     }
 
     @Override
-    public void onDishSelected(Dish dish) {
+    public void onDishSelected(Dish dish, boolean fromChefPage) {
         System.out.println(dish.getTitle());
         Intent resultIntent = new Intent();
         resultIntent.putExtra("dishId", dish.getObjectId());
