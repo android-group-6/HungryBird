@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.model.DishList;
-import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 
 import java.util.ArrayList;
 
@@ -21,7 +19,7 @@ import java.util.ArrayList;
  * Created by dshah on 4/10/2017.
  */
 
-public class GallerySnapListContainerAdapter extends RecyclerView.Adapter<GallerySnapListContainerAdapter.ViewHolder> implements GravitySnapHelper.SnapListener {
+public class GallerySnapListContainerAdapter extends RecyclerView.Adapter<GallerySnapListContainerAdapter.ViewHolder> {
 
     public static final int VERTICAL = 0;
     public static final int HORIZONTAL = 1;
@@ -71,11 +69,6 @@ public class GallerySnapListContainerAdapter extends RecyclerView.Adapter<Galler
     @Override
     public int getItemCount() {
         return mDishes.size();
-    }
-
-    @Override
-    public void onSnap(int position) {
-        Log.d("Snapped: ", position + "");
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

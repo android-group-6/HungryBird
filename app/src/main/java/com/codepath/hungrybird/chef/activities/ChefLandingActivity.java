@@ -21,7 +21,6 @@ import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
 import com.codepath.hungrybird.chef.fragments.ChefOrdersViewFragment;
 import com.codepath.hungrybird.chef.fragments.ContactDetailsFragment;
 import com.codepath.hungrybird.chef.fragments.DishAddEditFragment;
-import com.codepath.hungrybird.chef.fragments.DishDetailsFragment;
 import com.codepath.hungrybird.chef.fragments.MyOfferingsFragment;
 import com.codepath.hungrybird.chef.fragments.MyRegisterFragment;
 import com.codepath.hungrybird.common.LoginActivity;
@@ -199,10 +198,10 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         Bundle bundle = new Bundle();
-        bundle.putString(DishDetailsFragment.DISH_ID, dish.getObjectId());
-        DishDetailsFragment dishDetailsFragment = new DishDetailsFragment();
-        dishDetailsFragment.setArguments(bundle);
-        fragmentManager.beginTransaction().replace(R.id.flContent, dishDetailsFragment).addToBackStack(null).commit();
+        bundle.putString(DishAddEditFragment.DISH_ID, dish.getObjectId());
+        DishAddEditFragment dishAddEditFragment = new DishAddEditFragment();
+        dishAddEditFragment.setArguments(bundle);
+        fragmentManager.beginTransaction().replace(R.id.flContent, dishAddEditFragment).addToBackStack(null).commit();
 
         // update the actionbar to show the up carat/affordanced
 //        drawerToggle.setDrawerIndicatorEnabled(false);

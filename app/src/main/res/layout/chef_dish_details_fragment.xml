@@ -8,9 +8,8 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="250dp"
-            android:scaleType="fitXY"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
             android:background="@android:color/darker_gray"
             android:src="@drawable/ic_no_image_available"
             android:layout_alignParentTop="true"

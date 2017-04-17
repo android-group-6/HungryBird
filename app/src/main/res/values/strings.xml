@@ -38,6 +38,16 @@
         <item>NON_VEG</item>
     </string-array>
 
+    <string-array name="cuisine_types">
+        <item>indian</item>
+        <item>italian</item>
+        <item>thai</item>
+        <item>mexican</item>
+        <item>chinese</item>
+        <item>japanese</item>
+        <item>greek</item>
+    </string-array>
+
     <string-array name="order_status_array">
         <item>@string/order_status_received</item>
         <item>@string/order_status_in_progress</item>
@@ -46,6 +56,7 @@
         <item>@string/order_status_complete</item>
         <item>@string/order_status_cancel</item>
     </string-array>
+
     <string name="order_status_received">Received</string>
     <string name="order_status_in_progress">In Progress</string>
     <string name="order_status_ready_for_pickup">Ready For Pickup</string>
