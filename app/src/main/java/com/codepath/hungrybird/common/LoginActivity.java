@@ -20,6 +20,7 @@ import com.codepath.hungrybird.model.User;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -85,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_LONG).show();
                         Log.d("MyApp", "User logged in through Facebook!");
                         getUserDetailsFromParse();
+
                         if (binding.activityLoginLoginTypeChck.isChecked()) {
                             Intent i = new Intent(this, ChefLandingActivity.class);
                             startActivity(i);
@@ -135,6 +137,12 @@ public class LoginActivity extends AppCompatActivity {
 
         User user = new User(ParseUser.getCurrentUser());
         HungryBirdApplication.Instance().setUser(user);
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+
+            }
+        });
 
 //Fetch profile photo
         try {
