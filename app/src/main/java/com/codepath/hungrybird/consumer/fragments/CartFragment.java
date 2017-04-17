@@ -161,7 +161,7 @@ public class CartFragment extends Fragment {
                                     //Double sentPrice = Double.parseDouble(price);
                                     Log.e("SFDSD", binding.consumerCartPriceBeforeTax.getText().toString() + " | " + price + " " + order.getTotalPayment());
                                     Toast.makeText(getContext(), " order Id " + response.order.getObjectId(), Toast.LENGTH_SHORT).show();
-                                    //cartFragmentListener.onCheckoutListener(response.order.getObjectId(), price);
+                                    cartFragmentListener.onCheckoutListener(response.order.getObjectId(), price);
                                 }
 
                                 @Override
