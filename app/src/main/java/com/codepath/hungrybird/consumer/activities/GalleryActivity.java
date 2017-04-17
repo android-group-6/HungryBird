@@ -311,8 +311,7 @@ public class GalleryActivity extends AppCompatActivity implements
         bundle.putString(ConsumerCheckoutFragment.ORDER_ID, orderId);
         bundle.putString(ConsumerCheckoutFragment.TOTAL_PRICE, price);
         consumerCheckoutFragment.setArguments(bundle);
-        consumerCheckoutFragment.setTargetFragment(fragmentManager.findFragmentById(R.id.flContent), 10);
-        fragmentManager.beginTransaction().replace(R.id.flContent, consumerCheckoutFragment)
+        fragmentManager.beginTransaction().replace(R.id.flContent, consumerCheckoutFragment).addToBackStack(null)
                 .commit();
     }
 

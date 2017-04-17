@@ -24,6 +24,7 @@ import com.codepath.hungrybird.databinding.ConsumerOrderCartDishItemBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.OrderDishRelation;
+import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
@@ -154,7 +155,11 @@ public class CartFragment extends Fragment {
                         CartFragment.this.orderDishRelations.clear();
                         CartFragment.this.orderDishRelations.addAll(response.orderDishRelation);
                         adapter.notifyDataSetChanged();
-                        Glide.with(getContext()).load(response.order.getChef().getProfileImage().getUrl()).into(binding.consumerCartChefIv);
+                        User user = response.order.getChef();
+                        if (user.getProfileImageUrl() != null) {
+                            Glide.with(getContext()).load(user.getProfileImageUrl()).into(binding.consumerCartChefIv);
+                        }
+
                         binding.consumerCartChefNameTv.setText(response.order.getChef().getUsername());
                         binding.checkoutButton.setOnClickListener(v -> {
                             response.order.setTotalPayment(totalPriceBeforeTax);
