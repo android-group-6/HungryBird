@@ -8,28 +8,31 @@ More detailed list: https://github.com/android-group-6/HungryBird/blob/master/Us
 
 **required**
 
-- [ ] **Login/SignUp Screens**
-  - [ ] SignUp using facebook as consumer or chef
-  - [ ] Login using facebook as consumer or chef
-- [ ] **Discovery Screens**
-  - [ ] Consumer should be able to browse dishes which are trending, nearby, cuisine based etc.
-  - [ ] Consumer should be able to search dishes.
-- [ ] **Dish Screens**
-  - [ ] Consumer should be able to view dishes offered by a chef.
-  - [ ] Consumer should be able to add dishes to cart.
-  - [ ] Consumer should be able to view details of a dish.
-- [ ] **Cart/Checkout Screens**
-  - [ ] Consumer should be able to view an order and update them.
-  - [ ] Consumer should be able to checkout an order and specify pickup/delivery options.
+- [x] **Login/SignUp Screens**
+  - [x] SignUp using facebook as consumer or chef
+  - [x] Login using facebook as consumer or chef
+- [x] **Discovery Screens**
+  - [x] Consumer should be able to browse dishes which are trending, nearby, cuisine based etc.
+  - [x] Consumer should be able to search dishes.
+- [x] **Dish Screens**
+  - [x] Consumer should be able to view dishes offered by a chef.
+  - [x] Consumer should be able to add dishes to cart.
+  - [x] Consumer should be able to view details of a dish.
+- [x] **Cart/Checkout Screens**
+  - [x] Consumer should be able to view an order and update them.
+  - [x] Consumer should be able to checkout an order
+  - [ ] Consumer should be able to specify pickup/delivery options.
   - [ ] Chef should receive a notification of an order.
-- [ ] **Chef's Stories**
+- [x] **Chef's Stories**
      **Chef should be able to**
-  - [ ] see all the pending, In progres and done orders
-  - [ ] Change status of each order and notify consumer for the relevant once
-  - [ ] See all of the offering
-  - [ ] Add Deleted and modify Dishes and Dish details 
+  - [x] see all the new, in-progres and complete orders
+  - [x] change status of each order.
+  - [ ] notify consumer for the relevant once.
+  - [x] See all of the offerings
+  - [x] add, delete and modify dishes.
  
 **optional**
+
 - [ ] **Profile Screen**
   - [ ] Youtube embedded video channels for the chef
   - [ ] Contact information using twilio
