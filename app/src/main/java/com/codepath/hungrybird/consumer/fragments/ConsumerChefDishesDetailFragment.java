@@ -122,6 +122,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
             public void onClick(View v) {
                 int quantity = Integer.parseInt(binding.tvDishQuantity.getText().toString());
                 addOrUpdateOrderDishRelation(currentOrder, currentDish, quantity);
+                Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
             }
         });
         parseClient.getUserById(chefId, new ParseClient.UserListener() {

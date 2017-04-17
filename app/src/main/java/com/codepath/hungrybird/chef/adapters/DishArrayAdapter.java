@@ -30,7 +30,7 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     DishSelected dishSelected;
 
     public interface DishSelected {
-        void onDishSelected(Dish dish);
+        void onDishSelected(Dish dish, boolean fromChefPage);
     }
 
     public DishArrayAdapter(Activity activity, List<Dish> dishArrayList) {
@@ -110,7 +110,7 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
                     Dish dish = dishArrayList.get(position);
                     if (dishSelected != null) {
-                        dishSelected.onDishSelected(dish);
+                        dishSelected.onDishSelected(dish, true);
                     }
                     // We can access the data within the views
 

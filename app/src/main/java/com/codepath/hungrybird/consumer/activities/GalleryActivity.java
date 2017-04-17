@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,11 +18,9 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,18 +41,7 @@ import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 import com.parse.ParseUser;
-import com.stripe.android.Stripe;
-import com.stripe.android.TokenCallback;
-import com.stripe.android.model.Card;
-import com.stripe.android.model.Token;
-
-import org.json.JSONObject;
-
-import cz.msebera.android.httpclient.Header;
 
 public class GalleryActivity extends AppCompatActivity implements
         GallerySnapListAdapter.GalleryDishSelectedListener,
@@ -165,7 +153,7 @@ public class GalleryActivity extends AppCompatActivity implements
             ParseClient.getInstance().getDishById(dishId, new ParseClient.DishListener() {
                 @Override
                 public void onSuccess(Dish dish) {
-                    onDishSelected(dish);
+                    onDishSelected(dish, false);
                 }
 
                 @Override
@@ -275,7 +263,7 @@ public class GalleryActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onDishSelected(Dish dish) {
+    public void onDishSelected(Dish dish, boolean fromChefPage) {
         // Todo: Send to dish detail
         ConsumerChefDishesDetailFragment dishDetailsFragment = new ConsumerChefDishesDetailFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -283,7 +271,11 @@ public class GalleryActivity extends AppCompatActivity implements
         bundle.putString(ConsumerChefDishesDetailFragment.DISH_ID, dish.getObjectId());
         bundle.putString(ConsumerChefDishesDetailFragment.CHEF_ID, dish.getChef().getObjectId());
         dishDetailsFragment.setArguments(bundle);
-        fragmentManager.beginTransaction().replace(R.id.flContent, dishDetailsFragment).addToBackStack(null).commit();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.flContent, dishDetailsFragment);
+        if (fromChefPage == false) {
+            fragmentTransaction.addToBackStack(null);
+        }
+        fragmentTransaction.commit();
     }
 
     @Override
