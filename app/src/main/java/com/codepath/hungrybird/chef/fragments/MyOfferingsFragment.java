@@ -4,6 +4,7 @@ package com.codepath.hungrybird.chef.fragments;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -77,6 +78,13 @@ public class MyOfferingsFragment extends Fragment {
         myOfferingsRView.addItemDecoration(dividerItemDecoration);
 
         return binding.getRoot();
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("My Offerings");
     }
 
 

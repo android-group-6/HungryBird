@@ -5,7 +5,6 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,13 +17,14 @@ import android.view.ViewGroup;
 
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
-import com.codepath.hungrybird.consumer.fragments.FilterFragment;
+import com.codepath.hungrybird.common.DateUtils;
 import com.codepath.hungrybird.consumer.fragments.OrderHistoryFramgent;
 import com.codepath.hungrybird.databinding.ChefContactDetailsFragmentBinding;
 import com.codepath.hungrybird.databinding.ChefOrderListItemBinding;
 import com.codepath.hungrybird.model.Order;
 import com.parse.ParseObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class OrdersListFragment extends Fragment {
@@ -35,6 +35,7 @@ public class OrdersListFragment extends Fragment {
     ArrayList<Order> orderArrayList = new ArrayList<>();
     BaseItemHolderAdapter<Order> orderArrayAdapter;
     OrderHistoryFramgent.OnOrderSelected orderSelected;
+    private DateUtils dateUtils = new DateUtils();
 
     public void update(ArrayList<Order> orderList) {
         orderArrayList.clear();
@@ -80,8 +81,14 @@ public class OrdersListFragment extends Fragment {
         orderArrayAdapter.setViewBinder((holder, item, position) -> {
             Order order = orderArrayList.get(position);
             ChefOrderListItemBinding orderBinding = (ChefOrderListItemBinding) (holder.binding);
-            orderBinding.chefOrderListItemOrderNameTv.setText(order.getOrderName());
-            orderBinding.chefOrderListItemDishCountValueTv.setText("" + 1);
+            orderBinding.chefOrderListItemOrderNameTv.setText(order.getDisplayId());
+            String displayDate = null;
+            try {
+                displayDate = dateUtils.getDate(order.getUpdatedAt());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            orderBinding.chefOrderListItemDishCountValueTv.setText(displayDate);
         });
 
 

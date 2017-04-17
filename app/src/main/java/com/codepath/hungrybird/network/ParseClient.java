@@ -6,6 +6,7 @@ import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.OrderDishRelation;
 import com.codepath.hungrybird.model.User;
+import com.parse.CountCallback;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -234,6 +235,7 @@ public class ParseClient {
         innerQuery.getInBackground(chefId);
         ParseQuery<Order> parseQuery = ParseQuery.getQuery(Order.class);
         parseQuery.whereMatchesQuery("chef", innerQuery);
+        parseQuery.orderByDescending("updatedAt");
         parseQuery.findInBackground(new FindCallback<Order>() {
             @Override
             public void done(List<Order> objects, ParseException e) {
@@ -291,6 +293,11 @@ public class ParseClient {
     }
 
     // --------- OrderDishRelation -------
+
+    public interface CountListener {
+        void onSuccess(int count);
+        void onFailure(Exception e);
+    }
 
     public interface OrderDishRelationListener {
         void onSuccess(OrderDishRelation orderDishRelation);
@@ -359,6 +366,20 @@ public class ParseClient {
                     listener.onSuccess(object);
                 } else {
                     listener.onFailure(e);
+                }
+            }
+        });
+    }
+
+    public void getDishCountByOrderId(String orderId, CountListener countListener) {
+        ParseQuery<OrderDishRelation> parseQuery = ParseQuery.getQuery(OrderDishRelation.class);
+        parseQuery.countInBackground(new CountCallback() {
+            @Override
+            public void done(int count, ParseException e) {
+                if (e == null) {
+                    countListener.onSuccess(count);
+                } else {
+                    countListener.onFailure(e);
                 }
             }
         });

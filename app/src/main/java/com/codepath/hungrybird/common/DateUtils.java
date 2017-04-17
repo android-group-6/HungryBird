@@ -12,10 +12,11 @@ import java.util.Date;
 public class DateUtils {
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     SimpleDateFormat shortFormat = new SimpleDateFormat("MMM dd, yyyy");
+    SimpleDateFormat format2  = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm ");
     Calendar c = Calendar.getInstance();
 
     public String getDate(Date date) throws ParseException {
         c.setTime(date);
-        return shortFormat.format(c.getTime());
+        return format2.format(c.getTime());
     }
 }
