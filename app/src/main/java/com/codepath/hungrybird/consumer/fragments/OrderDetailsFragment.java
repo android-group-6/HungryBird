@@ -15,6 +15,7 @@ import android.widget.Spinner;
 
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
+import com.codepath.hungrybird.chef.fragments.ChefOrdersViewFragment;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
 import com.codepath.hungrybird.common.DateUtils;
 import com.codepath.hungrybird.common.StringsUtils;
@@ -179,7 +180,13 @@ public class OrderDetailsFragment extends Fragment {
                     ParseClient.getInstance().addOrder(order, new ParseClient.OrderListener() {
                         @Override
                         public void onSuccess(Order order) {
-
+                            Fragment fragment = getTargetFragment();
+                            if (getTargetRequestCode() == 10) {
+                                if (fragment instanceof ChefOrdersViewFragment) {
+                                    ChefOrdersViewFragment chefOrdersViewFragment = (ChefOrdersViewFragment) fragment;
+                                    chefOrdersViewFragment.refresh(order);
+                                }
+                            }
                         }
 
                         @Override
