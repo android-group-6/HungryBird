@@ -82,16 +82,6 @@ public class OrdersListFragment extends Fragment {
             ChefOrderListItemBinding orderBinding = (ChefOrderListItemBinding) (holder.binding);
             orderBinding.chefOrderListItemOrderNameTv.setText(order.getOrderName());
             orderBinding.chefOrderListItemDishCountValueTv.setText("" + 1);
-
-//            binding.consumerOrderDateTv.setText(order.getShortDate());
-//            binding.consumerOrderStatus.setText(order.getStatus());
-//            binding.consumerOrderCode.setText(order.getObjectId());
-//            binding.consumerOrderDeliveryStatus.setText(order.getStatus());
-//            Object o = order.get("chef");
-//            ParseObject po = (ParseObject) o;
-//            String chefName = (String) (po.get("chefName"));
-//            binding.consumerOrderChefName.setText(chefName);
-
         });
 
 

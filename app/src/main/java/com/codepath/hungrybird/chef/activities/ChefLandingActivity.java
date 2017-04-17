@@ -217,9 +217,11 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
         FragmentManager fragmentManager = getSupportFragmentManager();
         Bundle bundle = new Bundle();
         bundle.putString(OrderDetailsFragment.OBJECT_ID, orderId);
+
         OrderDetailsFragment orderDetailsFragment = new OrderDetailsFragment();
+        orderDetailsFragment.setTargetFragment(fragmentManager.findFragmentById(R.id.flContent), 10);
         orderDetailsFragment.setArguments(bundle);
-        fragmentManager.beginTransaction().replace(R.id.flContent, orderDetailsFragment).addToBackStack(null).commit();
+        fragmentManager.beginTransaction().add(R.id.flContent, orderDetailsFragment).addToBackStack(null).commit();
 
     }
 }

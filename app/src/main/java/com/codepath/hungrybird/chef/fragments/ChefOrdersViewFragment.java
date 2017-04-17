@@ -50,6 +50,7 @@ public class ChefOrdersViewFragment extends Fragment {
                 allOrders.clear();
                 allOrders.addAll(orders);
                 sampleFragmentPagerAdapter.updateOrders(allOrders);
+                sampleFragmentPagerAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -61,6 +62,25 @@ public class ChefOrdersViewFragment extends Fragment {
         binding.viewpager.setAdapter(sampleFragmentPagerAdapter);
         binding.slidingTabs.setupWithViewPager(binding.viewpager);
         return binding.getRoot();
+    }
+
+    public void refresh(Order order) {
+        if (order != null) {
+            for (Order o : allOrders) {
+                if (order.getObjectId().equals(o.getObjectId())) {
+                    o.setStatus(order.getStatus());
+                    break;
+                }
+            }
+        }
+        sampleFragmentPagerAdapter.updateOrders(allOrders);
+        sampleFragmentPagerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh(null);
     }
 
     @Override
