@@ -21,12 +21,15 @@ import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChefOrdersViewFragment extends Fragment {
     public static final String TAG = ChefOrdersViewFragment.class.getSimpleName();
     ParseClient parseClient = ParseClient.getInstance();
     public static final String FRAGMENT_TAG = "FILTER_FRAGMENT_TAG";
+    ChefOrdersFragmentPagerAdapter sampleFragmentPagerAdapter;
+    ArrayList<Order> allOrders = new ArrayList<>();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,13 +41,15 @@ public class ChefOrdersViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ChefOrdersViewFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.chef_orders_view_fragment, container, false);
-        final ChefOrdersFragmentPagerAdapter sampleFragmentPagerAdapter = new ChefOrdersFragmentPagerAdapter(getActivity().getSupportFragmentManager(),
+        sampleFragmentPagerAdapter = new ChefOrdersFragmentPagerAdapter(getActivity().getSupportFragmentManager(),
                 getActivity(), null);
         User currentUser = new User(ParseUser.getCurrentUser());
-        parseClient.getOrdersByChefId(currentUser.getObjectId(), new ParseClient.OrderListListener () {
+        parseClient.getOrdersByChefId(currentUser.getObjectId(), new ParseClient.OrderListListener() {
             @Override
             public void onSuccess(List<Order> orders) {
-                sampleFragmentPagerAdapter.updateOrders(orders);
+                allOrders.clear();
+                allOrders.addAll(orders);
+                sampleFragmentPagerAdapter.updateOrders(allOrders);
             }
 
             @Override

@@ -11,7 +11,7 @@ public class StringsUtils {
         String ret = null;
         if (Order.Status.NOT_ORDERED.name().equals(order.getStatus())) {
             ret = "Not Ordered";
-        } else if (Order.Status.DONE.name().equals(order.getStatus())) {
+        } else if (Order.Status.COMPLETE.name().equals(order.getStatus())) {
             ret = "Completed";
         } else if (Order.Status.IN_PROGRESS.name().equals(order.getStatus())) {
             ret = "In Progress";

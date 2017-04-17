@@ -1,6 +1,5 @@
 package com.codepath.hungrybird.model;
 
-import com.codepath.hungrybird.HungryBirdApplication;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -85,7 +84,12 @@ public class Dish extends ParseObject {
 
     public static enum Cuisine {
         INDIAN("indian"),
-        ITALIAN("italian");
+        ITALIAN("italian"),
+        THAI("thai"),
+        MEXICAN("mexican"),
+        CHINESE("chinese"),
+        JAPANESE("japanese"),
+        GREEK("greek");
 
         private String cuisineValue;
 

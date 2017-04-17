@@ -20,7 +20,10 @@ import com.codepath.hungrybird.model.DishList;
 import com.codepath.hungrybird.network.ParseClient;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GalleryViewFragment extends Fragment {
     public static final String TAG = GalleryViewFragment.class.getSimpleName();
@@ -29,13 +32,16 @@ public class GalleryViewFragment extends Fragment {
 
     ConsumerGalleryViewBinding binding;
     private boolean mHorizontal = true;
-    List<Dish> mTopIndianDishes, mTopItalianDishes;
+    Map<Dish.Cuisine, List<Dish>> cuisine2Dishes = new HashMap<>();
+    List<Dish.Cuisine> allCuisines;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mTopIndianDishes = new ArrayList<>();
-        mTopItalianDishes = new ArrayList<>();
+        allCuisines = Arrays.asList(Dish.Cuisine.values());
+        for (Dish.Cuisine cuisine : allCuisines) {
+            cuisine2Dishes.put(cuisine, new ArrayList<>());
+        }
     }
 
     @Override
@@ -51,16 +57,28 @@ public class GalleryViewFragment extends Fragment {
 
     private void setupAdapter() {
         GallerySnapListContainerAdapter gallerySnapListContainerAdapter = new GallerySnapListContainerAdapter(getActivity());
-        gallerySnapListContainerAdapter.addSnap(new DishList(Gravity.CENTER_HORIZONTAL, "Indian", mTopIndianDishes));
-        gallerySnapListContainerAdapter.addSnap(new DishList(Gravity.CENTER_HORIZONTAL, "Italian", mTopItalianDishes));
+        for (Dish.Cuisine cuisine : allCuisines) {
+            List<Dish> dishes = cuisine2Dishes.get(cuisine);
+            if (dishes != null && !dishes.isEmpty()) {
+                gallerySnapListContainerAdapter.addSnap(new DishList(Gravity.CENTER_HORIZONTAL, cuisine.getCuisineValue(), dishes));
+            }
+        }
         binding.recyclerView.setAdapter(gallerySnapListContainerAdapter);
     }
 
     private void loadAllTopCuisineDishes() {
-        ParseClient.getInstance().getDishesByCuisine(Dish.Cuisine.INDIAN, new ParseClient.DishListListener() {
+        for (Dish.Cuisine cuisine : allCuisines) {
+            loadIndianTopCuisineDishes(cuisine);
+        }
+    }
+
+    private void loadIndianTopCuisineDishes(Dish.Cuisine cuisine) {
+        ParseClient.getInstance().getDishesByCuisine(cuisine, new ParseClient.DishListListener() {
             @Override
             public void onSuccess(List<Dish> dishes) {
-                mTopIndianDishes = dishes;
+                List<Dish> topDishes = cuisine2Dishes.get(cuisine);
+                topDishes.clear();
+                topDishes.addAll(dishes);
                 setupAdapter();
             }
 
@@ -69,18 +87,7 @@ public class GalleryViewFragment extends Fragment {
 
             }
         });
-        ParseClient.getInstance().getDishesByCuisine(Dish.Cuisine.ITALIAN, new ParseClient.DishListListener() {
-            @Override
-            public void onSuccess(List<Dish> dishes) {
-                mTopItalianDishes = dishes;
-                setupAdapter();
-            }
 
-            @Override
-            public void onFailure(Exception e) {
-
-            }
-        });
     }
 
 //    @Override
