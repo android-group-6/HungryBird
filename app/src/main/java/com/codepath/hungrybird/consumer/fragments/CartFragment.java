@@ -252,10 +252,11 @@ public class CartFragment extends Fragment {
     }
 
     private void updatePricing(List<OrderDishRelation> orderDishRelations) {
-
+        double temp = 0.0;
         for (OrderDishRelation o : orderDishRelations) {
-            totalPriceBeforeTax += o.getQuantity() * o.getDish().getPrice();
+            temp += o.getQuantity() * o.getDish().getPrice();
         }
+        totalPriceBeforeTax = temp;
         binding.consumerCartPriceBeforeTax.setText("$" + Math.round(totalPriceBeforeTax * 100.00) / 100.00);
     }
 
