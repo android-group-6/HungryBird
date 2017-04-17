@@ -213,29 +213,6 @@ public class ParseClient {
         });
     }
 
-    public void upsertOrder(Order order, final OrderListener listener) {
-        getOrderByConsumerIdAndChefId(order.getConsumer().getObjectId(), order.getChef().getObjectId(), new OrderListener() {
-            @Override
-            public void onSuccess(final Order updatedOrder) {
-                updatedOrder.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            listener.onSuccess(updatedOrder);
-                        } else {
-                            listener.onFailure(e);
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                listener.onFailure(e);
-            }
-        });
-    }
-
     public void getOrderById(final String orderId, final OrderListener listener) {
         ParseQuery<Order> parseQuery = ParseQuery.getQuery(Order.class);
         parseQuery.include("chef");
@@ -295,6 +272,7 @@ public class ParseClient {
         ParseQuery<Order> parseQuery = ParseQuery.getQuery(Order.class);
         parseQuery.whereMatchesQuery("consumer", innerQueryConsumer);
         parseQuery.whereMatchesQuery("chef", innerQueryChef);
+        parseQuery.whereMatches("status", Order.Status.NOT_ORDERED.getStatusValue());
         parseQuery.getFirstInBackground(new GetCallback<Order>() {
             @Override
             public void done(Order object, ParseException e) {
