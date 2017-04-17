@@ -69,11 +69,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/serving_sizes"
-            android:layout_alignTop="@+id/textViewServingSize"
             android:layout_marginLeft="14dp"
             android:layout_marginStart="14dp"
-            android:layout_toEndOf="@+id/textViewServingSize"
-            android:layout_toRightOf="@+id/textViewServingSize" />
+            android:layout_alignTop="@+id/textViewServingSize"
+            android:layout_toRightOf="@+id/textViewServingSize"
+            android:layout_toEndOf="@+id/textViewServingSize" />
 
         <TextView
             android:id="@+id/textViewDishType"
@@ -101,45 +101,63 @@
             android:id="@+id/textViewPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/spinnerDishType"
-            android:layout_toEndOf="@+id/spinnerDishType"
-            android:layout_toRightOf="@+id/spinnerDishType"
-            android:text="$" />
+            android:text="$"
+            android:layout_alignBaseline="@+id/editTextPrice"
+            android:layout_alignBottom="@+id/editTextPrice"
+            android:layout_toRightOf="@+id/textViewDishType"
+            android:layout_toEndOf="@+id/textViewDishType" />
 
         <EditText
             android:id="@+id/editTextPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/spinnerDishType"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_toEndOf="@+id/textViewPrice"
-            android:layout_toRightOf="@+id/textViewPrice"
             android:ems="10"
             android:hint="price"
             android:inputType="textPersonName"
-            android:text="9.99" />
+            android:text="9.99"
+            android:layout_below="@+id/spinnerDishType"
+            android:layout_alignLeft="@+id/spinnerDishType"
+            android:layout_alignStart="@+id/spinnerDishType" />
 
         <Button
             android:id="@+id/buttonSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="11dp"
+            android:text="save"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="16dp"
-            android:layout_toEndOf="@+id/textViewDishType"
-            android:layout_toRightOf="@+id/textViewDishType"
-            android:text="save" />
+            android:layout_alignLeft="@+id/textViewDishType"
+            android:layout_alignStart="@+id/textViewDishType"
+            android:layout_marginLeft="35dp"
+            android:layout_marginStart="35dp" />
 
         <Button
             android:id="@+id/buttonCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="cancel"
+            android:layout_alignBaseline="@+id/buttonSave"
             android:layout_alignBottom="@+id/buttonSave"
-            android:layout_marginEnd="14dp"
-            android:layout_marginRight="14dp"
-            android:layout_toLeftOf="@+id/buttonSave"
-            android:layout_toStartOf="@+id/buttonSave"
-            android:text="cancel" />
+            android:layout_toRightOf="@+id/textViewCuisine"
+            android:layout_toEndOf="@+id/textViewCuisine" />
+
+        <TextView
+            android:id="@+id/textViewCuisine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/editTextPrice"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/spinnerCuisine"
+            android:text="Cuisine" />
+
+        <Spinner
+            android:id="@+id/spinnerCuisine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/cuisine_types"
+            android:layout_toRightOf="@+id/textViewServingSize"
+            android:layout_alignTop="@+id/textViewPrice" />
 
     </RelativeLayout>
 </layout>

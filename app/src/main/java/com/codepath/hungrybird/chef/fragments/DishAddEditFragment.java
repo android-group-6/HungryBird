@@ -217,6 +217,7 @@ public class DishAddEditFragment extends Fragment {
             currentDish.setChef(new User(ParseUser.getCurrentUser()));
             currentDish.setServingSize(Integer.valueOf((String)binding.spinnerServingSize.getSelectedItem()));
             currentDish.setVeg(checkVeg((String)binding.spinnerDishType.getSelectedItem()));
+            currentDish.setCuisine((String) binding.spinnerCuisine.getSelectedItem());
         } catch (Exception e) {
             Toast.makeText(getContext(), "error adapting view to model " , Toast.LENGTH_LONG).show();
         }
