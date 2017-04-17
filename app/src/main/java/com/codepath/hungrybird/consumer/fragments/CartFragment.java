@@ -1,11 +1,13 @@
 package com.codepath.hungrybird.consumer.fragments;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,10 +45,36 @@ public class CartFragment extends Fragment {
     public static final String OBJECT_ID = "OBJECT_ID";
     ConsumerCartDetailsFragmentBinding binding;
     ArrayList<OrderDishRelation> orderDishRelations = new ArrayList<>();
+
+    DateUtils dateUtils = new DateUtils();
+    StringsUtils stringsUtils = new StringsUtils();
+    double finalPricing = 0;
+    ParseClient parseClient;
+
+    CartFragmentListener cartFragmentListener;
+
+    public interface CartFragmentListener {
+        public void onCheckoutListener(String orderId, String price);
+    }
+
+
     double totalPriceBeforeTax = 0.0;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof CartFragmentListener) {
+            cartFragmentListener = (CartFragmentListener) context;
+        } else {
+            throw new ClassCastException(context.toString()
+                    + " must implement CartFragment.CartFragmentListener");
+        }
     }
 
     @Override
@@ -56,7 +84,7 @@ public class CartFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.consumer_cart_details_fragment, container, false);
         Bundle bundle = getArguments();
         String orderObjectId = bundle.getString(OBJECT_ID);
-        ParseClient parseClient = ParseClient.getInstance();
+        parseClient = ParseClient.getInstance();
 
         final BaseItemHolderAdapter<OrderDishRelation> adapter =
                 new BaseItemHolderAdapter(getContext(), R.layout.consumer_order_cart_dish_item, orderDishRelations);
@@ -135,7 +163,13 @@ public class CartFragment extends Fragment {
                                 @Override
                                 public void onSuccess(Order order) {
 
+                                    String price = (binding.consumerCartPriceBeforeTax.getText().toString()).substring(1);
+                                    //Double sentPrice = Double.parseDouble(price);
+                                    Log.e("SFDSD", binding.consumerCartPriceBeforeTax.getText().toString() + " | " + price + " " + order.getTotalPayment());
+
+
                                     Toast.makeText(getContext(), " order Id " + response.order.getObjectId(), Toast.LENGTH_SHORT).show();
+                                    cartFragmentListener.onCheckoutListener(response.order.getObjectId(), price);
                                 }
 
                                 @Override
@@ -258,6 +292,10 @@ public class CartFragment extends Fragment {
         }
         totalPriceBeforeTax = temp;
         binding.consumerCartPriceBeforeTax.setText("$" + Math.round(totalPriceBeforeTax * 100.00) / 100.00);
+    }
+
+    public static void onSuccessfulStripePayment(String orderId) {
+
     }
 
     View view = null;
