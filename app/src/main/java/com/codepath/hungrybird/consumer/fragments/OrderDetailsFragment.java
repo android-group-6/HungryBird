@@ -29,10 +29,12 @@ import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.OrderDishRelation;
 import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
+import com.parse.ParseCloud;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -200,6 +202,11 @@ public class OrderDetailsFragment extends Fragment {
                 }
                 if (newStatus != null) {
                     order.setStatus(newStatus.name());
+                    if (newStatus.equals(Order.Status.COMPLETE)) {
+                        HashMap<String, String> payload = new HashMap<>();
+                        payload.put("customData", order.getDisplayId() + " " + newStatus.getStatusValue());
+                        ParseCloud.callFunctionInBackground("pushChannelTest", payload);
+                    }
                     ParseClient.getInstance().addOrder(order, new ParseClient.OrderListener() {
                         @Override
                         public void onSuccess(Order order) {

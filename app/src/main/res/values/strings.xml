@@ -4,6 +4,7 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="facebook_app_id">125826644627732</string>
+    <string name="gcm_sender_id">id:106569523238</string>
 
     <!-- Nav Drawer Menu Items -->
     <string name="consumer_drawer_title_gallery_view">Hungry\'s Nest</string>

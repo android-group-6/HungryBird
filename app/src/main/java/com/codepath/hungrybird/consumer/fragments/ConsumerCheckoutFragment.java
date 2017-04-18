@@ -22,6 +22,7 @@ import com.codepath.hungrybird.network.ParseClient;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.parse.ParseCloud;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
@@ -29,6 +30,8 @@ import com.stripe.android.model.Token;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -153,6 +156,10 @@ public class ConsumerCheckoutFragment extends Fragment {
                                                 Log.e("Success", response.toString() + " " + response.getString("response"));
                                                 if ("Success".equals(transactionStatusCode)) {
                                                     binding.cartCheckoutPaynowBt.setText("Thanks for choosing us!");
+                                                    // send push notification
+                                                    HashMap<String, String> payload = new HashMap<>();
+                                                    payload.put("customData", order.getDisplayId());
+                                                    ParseCloud.callFunctionInBackground("pushChannelTest", payload);
                                                     ConsumerCheckoutFragment.this.order.setStatus(Order.Status.ORDERED.name());
                                                     ParseClient.getInstance().addOrder(ConsumerCheckoutFragment.this.order, new ParseClient.OrderListener() {
                                                         @Override
