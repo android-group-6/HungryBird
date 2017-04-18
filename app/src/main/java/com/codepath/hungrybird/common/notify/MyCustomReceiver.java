@@ -79,7 +79,7 @@ public class MyCustomReceiver extends BroadcastReceiver {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_launcher)
-                .setContentTitle("New Order: " + datavalue)
+                .setContentTitle(datavalue)
                 .setContentText("Pushed!")
                 .setContentIntent(pIntent)
                 .setAutoCancel(true); // Hides the notification after its been selected

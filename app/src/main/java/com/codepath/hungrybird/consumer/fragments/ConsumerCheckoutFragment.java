@@ -158,7 +158,7 @@ public class ConsumerCheckoutFragment extends Fragment {
                                                     binding.cartCheckoutPaynowBt.setText("Thanks for choosing us!");
                                                     // send push notification
                                                     HashMap<String, String> payload = new HashMap<>();
-                                                    payload.put("customData", order.getDisplayId());
+                                                    payload.put("customData", "New Order : " + order.getDisplayId());
                                                     ParseCloud.callFunctionInBackground("pushChannelTest", payload);
                                                     ConsumerCheckoutFragment.this.order.setStatus(Order.Status.ORDERED.name());
                                                     ParseClient.getInstance().addOrder(ConsumerCheckoutFragment.this.order, new ParseClient.OrderListener() {
