@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
@@ -19,6 +20,7 @@ import com.codepath.hungrybird.databinding.ConsumerOrderHistoryViewItemBinding;
 import com.codepath.hungrybird.databinding.OrderHistoryBinding;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.network.ParseClient;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -68,47 +70,54 @@ public class OrderHistoryFramgent extends Fragment {
         });
         binding.consumerOrderListRv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         binding.consumerOrderListRv.setAdapter(adapter);
-        ParseClient.getInstance().getOrdersByConsumerId(ParseUser.getCurrentUser().getObjectId(), new ParseClient.OrderListListener() {
-            @Override
-            public void onSuccess(List<Order> os) {
-                Observable.from(os)
-                        .filter(order -> {
-                            boolean ret = true;
-                            try {
-                                String shortDate = dateUtils.getDate(order.getUpdatedAt());
-                                order.setShortDate(shortDate);
-                                if (Order.Status.NOT_ORDERED.name().equals(order.getStatus())) {
-                                    order.setStatus("Not Ordered");
-                                    ret = false;
-                                } else {
-                                    StringsUtils stringsUtils = new StringsUtils();
-                                    String status = stringsUtils.displayStatusString(order);
-                                    if (status != null) {
-                                        order.setStatus(status);
-                                        ret = true;
+        try {
+
+
+            ParseClient.getInstance().getOrdersByConsumerId(ParseUser.getCurrentUser().getObjectId(), new ParseClient.OrderListListener() {
+                @Override
+                public void onSuccess(List<Order> os) {
+                    Observable.from(os)
+                            .filter(order -> {
+                                boolean ret = true;
+                                try {
+                                    String shortDate = dateUtils.getDate(order.getUpdatedAt());
+                                    order.setShortDate(shortDate);
+                                    if (Order.Status.NOT_ORDERED.name().equals(order.getStatus())) {
+                                        ret = false;
+                                    } else {
+                                        StringsUtils stringsUtils = new StringsUtils();
+                                        String status = stringsUtils.displayStatusString(order);
+                                        if (status != null) {
+                                            order.setDisplayStatus(status);
+                                            ret = true;
+                                        }
                                     }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    ret = false;
                                 }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                ret = false;
-                            }
-                            return ret;
-                        })
-                        .toList()
-                        .subscribeOn(Schedulers.computation())
-                        .observeOn(AndroidSchedulers.mainThread()).subscribe(orders1 -> {
-                    orders.clear();
-                    orders.addAll(orders1);
-                    adapter.notifyDataSetChanged();
+                                return ret;
+                            })
+                            .toList()
+                            .subscribeOn(Schedulers.computation())
+                            .observeOn(AndroidSchedulers.mainThread()).subscribe(orders1 -> {
+                        orders.clear();
+                        orders.addAll(orders1);
+                        adapter.notifyDataSetChanged();
 
-                });
-            }
+                    });
+                }
 
-            @Override
-            public void onFailure(Exception e) {
+                @Override
+                public void onFailure(Exception e) {
 
-            }
-        });
+                }
+            });
+        } catch (ParseException e) {
+            Toast.makeText(getContext(), "Error fetching results", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Unknown error", Toast.LENGTH_SHORT).show();
+        }
         adapter.setViewBinder((holder, item, position) -> {
             Order order = orders.get(position);
             ConsumerOrderHistoryViewItemBinding binding = (ConsumerOrderHistoryViewItemBinding) (holder.binding);
@@ -117,9 +126,8 @@ public class OrderHistoryFramgent extends Fragment {
             binding.consumerOrderCode.setText(order.getObjectId());
             binding.consumerOrderDeliveryStatus.setText(order.getStatus());
             Object o = order.get("chef");
-            ParseObject po = (ParseObject) o;
-            String chefName = (String) (po.get("chefName"));
-            binding.consumerOrderChefName.setText(chefName);
+            ParseUser po = (ParseUser) o;
+            binding.consumerOrderChefName.setText(po.getUsername());
 
         });
         return binding.getRoot();

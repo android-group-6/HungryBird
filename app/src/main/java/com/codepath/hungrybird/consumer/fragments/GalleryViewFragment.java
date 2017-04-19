@@ -17,6 +17,7 @@ import com.codepath.hungrybird.databinding.ConsumerGalleryViewBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.DishList;
 import com.codepath.hungrybird.network.ParseClient;
+import com.parse.ParseException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,20 +76,24 @@ public class GalleryViewFragment extends Fragment {
     }
 
     private void loadIndianTopCuisineDishes(Dish.Cuisine cuisine) {
-        ParseClient.getInstance().getDishesByCuisine(cuisine, new ParseClient.DishListListener() {
-            @Override
-            public void onSuccess(List<Dish> dishes) {
-                List<Dish> topDishes = cuisine2Dishes.get(cuisine);
-                topDishes.clear();
-                topDishes.addAll(dishes);
-                setupAdapter();
-            }
+        try {
+            ParseClient.getInstance().getDishesByCuisine(cuisine, new ParseClient.DishListListener() {
+                @Override
+                public void onSuccess(List<Dish> dishes) {
+                    List<Dish> topDishes = cuisine2Dishes.get(cuisine);
+                    topDishes.clear();
+                    topDishes.addAll(dishes);
+                    setupAdapter();
+                }
 
-            @Override
-            public void onFailure(Exception e) {
+                @Override
+                public void onFailure(Exception e) {
 
-            }
-        });
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }

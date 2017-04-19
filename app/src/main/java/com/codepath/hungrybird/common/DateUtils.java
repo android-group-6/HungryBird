@@ -17,6 +17,6 @@ public class DateUtils {
 
     public String getDate(Date date) throws ParseException {
         c.setTime(date);
-        return format2.format(c.getTime());
+        return shortFormat.format(c.getTime());
     }
 }
