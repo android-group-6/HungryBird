@@ -6,6 +6,7 @@ import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.OrderDishRelation;
 import com.codepath.hungrybird.model.User;
+import com.codepath.hungrybird.network.PostmatesClient;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.parse.Parse;
@@ -65,6 +66,12 @@ public class HungryBirdApplication extends Application {
         FacebookSdk.sdkInitialize(getApplicationContext());
         ParseFacebookUtils.initialize(getApplicationContext());
 
+        // test postmates api
+        PostmatesClient postmatesClient = PostmatesClient.getInstance();
+//        postmatesClient.deliveries();
+//        postmatesClient.deliveryQuotes();
+//        postmatesClient.createDelivery();
+//        postmatesClient.deliveryById();
     }
 
     private void registerModels() {
