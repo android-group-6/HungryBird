@@ -32,6 +32,7 @@ import com.codepath.hungrybird.network.ParseClient;
 import com.parse.ParseCloud;
 import com.parse.ParseUser;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -48,6 +49,12 @@ public class OrderDetailsFragment extends Fragment {
     ArrayList<OrderDishRelation> orderDishRelations = new ArrayList<>();
     DateUtils dateUtils = new DateUtils();
     StringsUtils stringsUtils = new StringsUtils();
+    private static DecimalFormat df = new DecimalFormat();
+
+    static {
+        df.setMinimumFractionDigits(2);
+        df.setMaximumFractionDigits(2);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +64,11 @@ public class OrderDetailsFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-//        menu.getItem(0).setVisible(false);
+        if (menu.size() > 0) {
+            for (int i = 0; i < menu.size(); i++) {
+                menu.getItem(i).setVisible(false);
+            }
+        }
         super.onPrepareOptionsMenu(menu);
     }
 
@@ -125,15 +136,15 @@ public class OrderDetailsFragment extends Fragment {
                     double subtotal = totalTax + totalPriceBeforeTax;
                     double finalTotal = subtotal + shippingAndService;
 
-                    binding.itemsTotalValue.setText("$" + totalPriceBeforeTax);
-                    binding.itemsTotalTaxValue.setText("$" + Math.round(100 * totalTax) / 100.0);
+                    binding.itemsTotalValue.setText(getRoundedTwoPlaces(totalPriceBeforeTax));
+                    binding.itemsTotalTaxValue.setText(getRoundedTwoPlaces(totalTax));
                     String shipping = "FREE";
                     if (new Double(0.0).compareTo(shippingAndService) != 0) {
-                        shipping = "$" + Math.round(100 * shippingAndService) / 100.0;
+                        shipping = getRoundedTwoPlaces(shippingAndService);
                     }
                     binding.shippingServiceValue.setText(shipping);
-                    binding.itemsTotalSubtotalValue.setText("$" + subtotal);
-                    binding.finalTotal.setText("$" + finalTotal);
+                    binding.itemsTotalSubtotalValue.setText(getRoundedTwoPlaces(subtotal));
+                    binding.finalTotal.setText(getRoundedTwoPlaces(finalTotal));
                 }
 
                 OrderDetailsFragment.this.orderDishRelations.addAll(orderDishRelations);
@@ -172,6 +183,10 @@ public class OrderDetailsFragment extends Fragment {
             //todo: get quantity and calculate
         });
         return binding.getRoot();
+    }
+
+    private String getRoundedTwoPlaces(double val) {
+        return "$" + df.format(Math.round(100 * val) / 100.0);
     }
 
     @Override

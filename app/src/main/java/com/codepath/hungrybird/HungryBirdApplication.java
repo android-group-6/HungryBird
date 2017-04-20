@@ -61,7 +61,7 @@ public class HungryBirdApplication extends Application {
                 .applicationId(PARSE_APP_ID) // should correspond to APP_ID env variable
                 .clientKey(null)  // set explicitly unless clientKey is explicitly configured on Parse server
                 .addNetworkInterceptor(new ParseLogInterceptor())
-                .server(PARSE_SERVER_URL).build());
+                .server(PARSE_SERVER_URL).enableLocalDataStore().build());
 
 //        ParseUser.enableAutomaticUser();
         ParseACL parseACL = new ParseACL();
@@ -69,7 +69,6 @@ public class HungryBirdApplication extends Application {
         parseACL.setPublicWriteAccess(true);
         FacebookSdk.sdkInitialize(getApplicationContext());
         ParseFacebookUtils.initialize(getApplicationContext());
-
         ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
         currentInstallation.saveInBackground();
     }

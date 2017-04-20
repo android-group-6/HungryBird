@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -61,6 +62,7 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
 
         // Set the default fragment
         final FragmentManager fragmentManager = getSupportFragmentManager();
+        addBackButtonToToolbar();
         fragmentManager.beginTransaction().replace(R.id.flContent, new ChefOrdersViewFragment()).commit();
         // Highlight the selected item has been done by NavigationView
         nvDrawer.getMenu().getItem(0).setChecked(true);
@@ -80,6 +82,33 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
             Toast.makeText(this, "Add Clicked", Toast.LENGTH_SHORT).show();
             // Insert the fragment by replacing any existing fragment
             fragmentManager.beginTransaction().replace(R.id.flContent, new DishAddEditFragment()).addToBackStack(null).commit();
+        });
+    }
+
+    private void addBackButtonToToolbar() {
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true); // show back button
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onBackPressed();
+                        }
+                    });
+                } else {
+                    //show hamburger
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    drawerToggle.syncState();
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDrawer.openDrawer(GravityCompat.START);
+                        }
+                    });
+                }
+            }
         });
     }
 

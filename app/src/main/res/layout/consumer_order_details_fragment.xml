@@ -1,4 +1,5 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
@@ -9,7 +10,8 @@
         <android.support.v7.widget.CardView
             android:id="@+id/card_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -30,7 +32,7 @@
                     android:maxLines="4"
                     android:maxWidth="200sp"
                     android:textColor="#ff000000"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="normal"
                     tools:text="Mar 27, 2017" />
 
@@ -47,19 +49,19 @@
                     android:maxWidth="150sp"
                     android:text="Completed"
                     android:textColor="#ff000000"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="normal" />
 
                 <Spinner
                     android:id="@+id/order_status_spinner"
                     android:layout_width="wrap_content"
-                    android:entries="@array/order_status_array"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:ellipsize="end"
+                    android:entries="@array/order_status_array"
                     android:textStyle="normal" />
 
                 <TextView
@@ -105,7 +107,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/card_view"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="0dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -125,7 +128,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/consumer_order_details_rv"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="70dp"
+                    android:layout_marginTop="10dp"
                     android:text="Items" />
 
                 <TextView
@@ -136,7 +140,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="10dp"
-                    android:text="" />
+                    android:textSize="14sp"
+                    tools:text="$9.99" />
 
                 <TextView
                     android:id="@+id/items_total_tax_label"
@@ -144,8 +149,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/items_total_label"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="Tax" />
+                    android:layout_marginLeft="70dp"
+                    android:text="Tax"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/items_total_tax_value"
@@ -155,7 +161,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="10dp"
-                    tools:text="items" />
+                    android:textSize="14sp"
+                    tools:text="$0.00" />
 
 
                 <TextView
@@ -164,8 +171,11 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/items_total_tax_label"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="Subtotal" />
+                    android:layout_marginLeft="70dp"
+                    android:text="Subtotal"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/items_total_subtotal_value"
@@ -175,7 +185,11 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="10dp"
-                    tools:text="" />
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+
+                    tools:text="$9.99" />
 
             </RelativeLayout>
 
@@ -187,7 +201,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/subtotal_card_view"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="70dp"
             android:layout_marginTop="20dp"
             android:text="Shippping and Service" />
 
@@ -207,8 +221,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/shipping_service_label"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:text="Total" />
+            android:layout_marginLeft="70dp"
+            android:text="Order Total"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/final_total"
@@ -218,6 +236,9 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
-            tools:text="" />
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="$10.99" />
     </RelativeLayout>
 </layout>

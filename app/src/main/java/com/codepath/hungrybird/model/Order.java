@@ -19,6 +19,10 @@ public class Order extends ParseObject {
         this.displayStatus = displayStatus;
     }
 
+    public String getDisplayId() {
+        return "HB-" + getObjectId();
+    }
+
     public void setShortDate(String shortDate) {
         this.shortDate = shortDate;
     }
@@ -92,10 +96,37 @@ public class Order extends ParseObject {
         put("deliveryAddress", deliveryAddress);
     }
 
-    public String getDisplayId() {
-        return "HB-" + getObjectId();
+    public boolean isDelivery() {
+        return getBoolean("delivery");
     }
 
+    public void setDelivery(boolean delivery) {
+        put("delivery" , delivery);
+    }
+
+    public String getDeliveryQuoteId() {
+        return getString("deliveryQuoteId");
+    }
+
+    public void setDeliveryQuoteId(String deliveryQuoteId) {
+        put("deliveryQuoteId", deliveryQuoteId);
+    }
+
+    public String getDeliveryId() {
+        return getString("deliveryId");
+    }
+
+    public void setDeliveryId(String deliveryId) {
+        put("deliveryId", deliveryId);
+    }
+
+    public void setDeliveryFee(double deliveryFee) {
+        put("deliveryFee", deliveryFee);
+    }
+
+    public Double getDeliveryFee() {
+        return getDouble("deliveryFee");
+    }
     public enum Status {
         NOT_ORDERED("NOT_ORDERED"),
         ORDERED("ORDERED"),

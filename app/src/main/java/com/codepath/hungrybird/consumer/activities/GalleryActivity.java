@@ -9,6 +9,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -79,11 +80,39 @@ public class GalleryActivity extends AppCompatActivity implements
 
         // Set the default fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
+        addBackButtonToToolbar();
         fragmentManager.beginTransaction().replace(R.id.flContent, new GalleryViewFragment()).commit();
         // Highlight the selected item has been done by NavigationView
         nvDrawer.getMenu().getItem(0).setChecked(true);
         // Set action bar title
         setTitle(nvDrawer.getMenu().getItem(0).getTitle());
+    }
+
+    private void addBackButtonToToolbar() {
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true); // show back button
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onBackPressed();
+                        }
+                    });
+                } else {
+                    //show hamburger
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    drawerToggle.syncState();
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDrawer.openDrawer(GravityCompat.START);
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {

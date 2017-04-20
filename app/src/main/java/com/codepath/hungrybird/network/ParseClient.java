@@ -11,6 +11,7 @@ import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -88,12 +89,17 @@ public class ParseClient {
         });
     }
 
-    public void getDishesByCuisine(Dish.Cuisine cuisine, final DishListListener listListener) {
+    public void getDishesByCuisine(Dish.Cuisine cuisine, final DishListListener listListener) throws ParseException {
         ParseQuery<Dish> parseQuery = ParseQuery.getQuery(Dish.class);
+        List<Dish> dishes = parseQuery.find();
+        ParseObject.pinAllInBackground(dishes);
+
         parseQuery.whereMatches("cuisine", cuisine.getCuisineValue());
+
         parseQuery.findInBackground(new FindCallback<Dish>() {
             @Override
             public void done(List<Dish> objects, ParseException e) {
+
                 if (e == null) {
                     listListener.onSuccess(objects);
                 } else {
@@ -248,14 +254,14 @@ public class ParseClient {
         });
     }
 
-    public void getOrdersByConsumerId(String consumerId, final OrderListListener listener) {
+    public void getOrdersByConsumerId(String consumerId, final OrderListListener listener) throws ParseException {
         ParseQuery<ParseUser> innerQuery = ParseQuery.getQuery(ParseUser.class);
         innerQuery.getInBackground(consumerId);
         ParseQuery<Order> parseQuery = ParseQuery.getQuery(Order.class);
-        parseQuery.whereMatchesQuery("consumer", innerQuery);
-        parseQuery.orderByDescending("updatedAt");
-        parseQuery.include("chef");
-        parseQuery.findInBackground(new FindCallback<Order>() {
+        List<Order> orders = parseQuery.whereMatchesQuery("consumer", innerQuery).orderByDescending("updatedAt").include("chef").find();
+        ParseObject.pinAllInBackground(orders);
+
+        parseQuery.fromLocalDatastore().findInBackground(new FindCallback<Order>() {
             @Override
             public void done(List<Order> objects, ParseException e) {
                 if (e == null) {
@@ -296,6 +302,7 @@ public class ParseClient {
 
     public interface CountListener {
         void onSuccess(int count);
+
         void onFailure(Exception e);
     }
 

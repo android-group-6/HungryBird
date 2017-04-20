@@ -32,7 +32,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".consumer.activities.GalleryActivity" />
+        <activity android:name=".consumer.activities.GalleryActivity"
+            android:windowSoftInputMode="adjustPan"/>
 
         <meta-data
             android:name="io.fabric.ApiKey"
@@ -67,8 +68,10 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".chef.activities.ChefLandingActivity" />
-        <activity android:name=".consumer.activities.SearchActivity" >
+        <activity android:name=".chef.activities.ChefLandingActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".consumer.activities.SearchActivity"
+            android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 
