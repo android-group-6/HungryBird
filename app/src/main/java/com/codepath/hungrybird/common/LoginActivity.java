@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,17 +16,15 @@ import com.codepath.hungrybird.chef.activities.ChefLandingActivity;
 import com.codepath.hungrybird.consumer.activities.GalleryActivity;
 import com.codepath.hungrybird.databinding.ActivityLoginBinding;
 import com.codepath.hungrybird.model.User;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
-import com.parse.SignUpCallback;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.HttpMethod;
+import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,11 +79,12 @@ public class LoginActivity extends AppCompatActivity {
                     } else if (user.isNew()) {
                         Log.d("MyApp", "User signed up and logged in through Facebook!");
                         getUserDetailsFromFB();
+                        associateUserWithInstallation();
                     } else {
                         Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_LONG).show();
                         Log.d("MyApp", "User logged in through Facebook!");
                         getUserDetailsFromParse();
-
+                        associateUserWithInstallation();
                         if (binding.activityLoginLoginTypeChck.isChecked()) {
                             Intent i = new Intent(this, ChefLandingActivity.class);
                             startActivity(i);
@@ -97,6 +95,15 @@ public class LoginActivity extends AppCompatActivity {
                         this.finish();
                     }
                 });
+    }
+
+    private void associateUserWithInstallation() {
+        ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentInstallation != null && currentUser != null) {
+            currentInstallation.put("user", currentUser);
+        }
+        currentInstallation.saveInBackground();
     }
 
     private void getUserDetailsFromFB() {

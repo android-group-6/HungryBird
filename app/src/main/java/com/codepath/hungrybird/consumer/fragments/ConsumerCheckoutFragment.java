@@ -210,6 +210,7 @@ public class ConsumerCheckoutFragment extends Fragment {
         // send push notification
         HashMap<String, String> payload = new HashMap<>();
         payload.put("customData", "New Order : " + order.getDisplayId());
+        payload.put("targetUserId", order.getChef().getObjectId());
         ParseCloud.callFunctionInBackground("pushChannelTest", payload);
         // change order status
         ConsumerCheckoutFragment.this.order.setStatus(Order.Status.ORDERED.name());

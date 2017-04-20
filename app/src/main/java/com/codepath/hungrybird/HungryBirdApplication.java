@@ -12,6 +12,7 @@ import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseInstallation;
+import com.parse.ParseUser;
 import com.parse.interceptors.ParseLogInterceptor;
 
 import io.fabric.sdk.android.Fabric;
@@ -70,6 +71,10 @@ public class HungryBirdApplication extends Application {
         FacebookSdk.sdkInitialize(getApplicationContext());
         ParseFacebookUtils.initialize(getApplicationContext());
         ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentInstallation != null && currentUser != null) {
+            currentInstallation.put("user", currentUser);
+        }
         currentInstallation.saveInBackground();
     }
 

@@ -220,6 +220,7 @@ public class OrderDetailsFragment extends Fragment {
                     if (newStatus.equals(Order.Status.COMPLETE)) {
                         HashMap<String, String> payload = new HashMap<>();
                         payload.put("customData", order.getDisplayId() + " " + newStatus.getStatusValue());
+                        payload.put("targetUserId", order.getConsumer().getObjectId());
                         ParseCloud.callFunctionInBackground("pushChannelTest", payload);
                     }
                     ParseClient.getInstance().addOrder(order, new ParseClient.OrderListener() {
