@@ -26,6 +26,34 @@ public class DeliveryResponse {
         this.pickUp = new DeliveryContext(jsonObject.getJSONObject("pickup"));
         this.dropOff = new DeliveryContext(jsonObject.getJSONObject("dropoff"));
     }
+
+    public String getDeliveryId() {
+        return deliveryId;
+    }
+
+    public DeliveryStatus getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public double getFee() {
+        return fee;
+    }
+
+    public String getManifestDescription() {
+        return manifestDescription;
+    }
+
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public DeliveryContext getPickUp() {
+        return pickUp;
+    }
+
+    public DeliveryContext getDropOff() {
+        return dropOff;
+    }
 }
 
 enum DeliveryStatus {
