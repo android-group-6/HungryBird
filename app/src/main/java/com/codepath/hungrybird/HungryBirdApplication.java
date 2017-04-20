@@ -64,7 +64,6 @@ public class HungryBirdApplication extends Application {
         parseACL.setPublicWriteAccess(true);
         FacebookSdk.sdkInitialize(getApplicationContext());
         ParseFacebookUtils.initialize(getApplicationContext());
-
     }
 
     private void registerModels() {

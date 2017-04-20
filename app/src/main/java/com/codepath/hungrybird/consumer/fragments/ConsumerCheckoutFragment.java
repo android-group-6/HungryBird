@@ -18,7 +18,10 @@ import android.widget.Toast;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.databinding.ConsumerCheckoutFragmentBinding;
 import com.codepath.hungrybird.model.Order;
+import com.codepath.hungrybird.model.postmates.DeliveryRequest;
+import com.codepath.hungrybird.model.postmates.DeliveryResponse;
 import com.codepath.hungrybird.network.ParseClient;
+import com.codepath.hungrybird.network.PostmatesClient;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -40,6 +43,8 @@ public class ConsumerCheckoutFragment extends Fragment {
     ConsumerCheckoutFragmentBinding binding;
 
     CheckoutFragmentListener checkoutFragmentListener;
+
+    Order order;
 
     public interface CheckoutFragmentListener {
         void onPaymentSuccessfully();
@@ -102,8 +107,6 @@ public class ConsumerCheckoutFragment extends Fragment {
         });
     }
 
-    Order order;
-
     private void onPayNowClickListener() {
         String orderId = getArguments().getString(ORDER_ID);
 
@@ -152,19 +155,23 @@ public class ConsumerCheckoutFragment extends Fragment {
                                                 String transactionStatusCode = response.getString("response");
                                                 Log.e("Success", response.toString() + " " + response.getString("response"));
                                                 if ("Success".equals(transactionStatusCode)) {
-                                                    binding.cartCheckoutPaynowBt.setText("Thanks for choosing us!");
-                                                    ConsumerCheckoutFragment.this.order.setStatus(Order.Status.ORDERED.name());
-                                                    ParseClient.getInstance().addOrder(ConsumerCheckoutFragment.this.order, new ParseClient.OrderListener() {
-                                                        @Override
-                                                        public void onSuccess(Order order) {
-                                                            checkoutFragmentListener.onPaymentSuccessfully();
-                                                        }
+                                                    if (order.isDelivery()) {
+                                                        DeliveryRequest deliveryRequest = deliveryRequest(order.getDeliveryQuoteId());
+                                                        PostmatesClient.getInstance().createDelivery(deliveryRequest, new PostmatesClient.DeliveryResponseListener() {
+                                                            @Override
+                                                            public void onSuccess(DeliveryResponse deliveryResponse) {
+                                                                order.setDeliveryId(deliveryResponse.getDeliveryId());
+                                                                postStripeSuccess();
+                                                            }
 
-                                                        @Override
-                                                        public void onFailure(Exception e) {
+                                                            @Override
+                                                            public void onFailure(Exception e) {
 
-                                                        }
-                                                    });
+                                                            }
+                                                        });
+                                                    } else {
+                                                        postStripeSuccess();
+                                                    }
                                                 } else {
                                                     Toast.makeText(getActivity().getApplicationContext(), "There was an error.", Toast.LENGTH_LONG).show();
                                                 }
@@ -193,5 +200,36 @@ public class ConsumerCheckoutFragment extends Fragment {
                     }
             );
         }
+    }
+
+    private void postStripeSuccess() {
+        binding.cartCheckoutPaynowBt.setText("Thanks for choosing us!");
+        ConsumerCheckoutFragment.this.order.setStatus(Order.Status.ORDERED.name());
+        ParseClient.getInstance().addOrder(ConsumerCheckoutFragment.this.order, new ParseClient.OrderListener() {
+            @Override
+            public void onSuccess(Order order) {
+                checkoutFragmentListener.onPaymentSuccessfully();
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+
+            }
+        });
+    }
+
+    private DeliveryRequest deliveryRequest(String deliveryQuoteId) {
+        DeliveryRequest deliveryRequest = new DeliveryRequest();
+        deliveryRequest.setQuoteId(deliveryQuoteId);
+        deliveryRequest.setManifest("manifest");
+        // chef info
+        deliveryRequest.setPickUpName("chef's name");
+        deliveryRequest.setPickUpPhoneNumber("111-111-1111");
+        deliveryRequest.setPickUpAddress("20 McAllister St, San Francisco, CA"); // chef's address
+        // consumer info
+        deliveryRequest.setDropOffName("consumer's name");
+        deliveryRequest.setDropOffPhoneNumber("222-222-2222");
+        deliveryRequest.setDropOffAddress("101 Market St, San Francisco, CA"); // consumer's address
+        return deliveryRequest;
     }
 }

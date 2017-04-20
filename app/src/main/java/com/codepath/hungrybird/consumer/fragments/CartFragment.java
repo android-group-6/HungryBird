@@ -11,9 +11,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,7 +26,10 @@ import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.OrderDishRelation;
 import com.codepath.hungrybird.model.User;
+import com.codepath.hungrybird.model.postmates.DeliveryQuoteRequest;
+import com.codepath.hungrybird.model.postmates.DeliveryQuoteResponse;
 import com.codepath.hungrybird.network.ParseClient;
+import com.codepath.hungrybird.network.PostmatesClient;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
@@ -51,6 +54,8 @@ public class CartFragment extends Fragment {
     ParseClient parseClient;
 
     CartFragmentListener cartFragmentListener;
+
+    private String deliveryQuoteId;
 
     public interface CartFragmentListener {
         public void onCheckoutListener(String orderId, String price);
@@ -96,6 +101,43 @@ public class CartFragment extends Fragment {
         Bundle bundle = getArguments();
         String orderObjectId = bundle.getString(OBJECT_ID);
         parseClient = ParseClient.getInstance();
+
+        binding.radioButtonPickup.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    binding.tvAddress.setVisibility(View.GONE);
+                    binding.tvDeliveryCost.setText("$ 0.00");
+                }
+            }
+        });
+
+        binding.radioButtonDelivery.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    binding.tvAddress.setVisibility(View.VISIBLE);
+                    // Get Quote
+                    String pickUpAddress = "20 McAllister St, San Francisco, CA"; // TODO integrate with real values
+                    String dropOffAddress = "101 Market St, San Francisco, CA";   // TODO integrate with real values
+                    DeliveryQuoteRequest deliveryQuoteRequest = new DeliveryQuoteRequest(pickUpAddress, dropOffAddress);
+                    PostmatesClient.getInstance().deliveryQuotes(deliveryQuoteRequest, new PostmatesClient.DeliveryQuoteResponseListener() {
+                        @Override
+                        public void onSuccess(DeliveryQuoteResponse deliveryQuoteResponse) {
+                            deliveryQuoteId = deliveryQuoteResponse.getQuoteId();
+                            binding.tvDeliveryCost.setText("$ "  +  String.valueOf(deliveryQuoteResponse.getFee()));
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+                            binding.tvDeliveryCost.setText("$ 1.00");
+                        }
+                    });
+                }
+            }
+        });
+
+        binding.tvAddress.setText("101 San Fernando San Jose 95110"); // TODO integrate with real values
 
         final BaseItemHolderAdapter<OrderDishRelation> adapter =
                 new BaseItemHolderAdapter(getContext(), R.layout.consumer_order_cart_dish_item, orderDishRelations);
@@ -172,6 +214,11 @@ public class CartFragment extends Fragment {
 
                         binding.consumerCartChefNameTv.setText(response.order.getChef().getUsername());
                         binding.checkoutButton.setOnClickListener(v -> {
+                            boolean isDelivery = binding.rgDelivery.getCheckedRadioButtonId() == R.id.radioButtonDelivery;
+                            response.order.setDelivery(isDelivery ? true : false);
+                            if (isDelivery && deliveryQuoteId != null) {
+                                response.order.setDeliveryQuoteId(deliveryQuoteId);
+                            }
                             response.order.setTotalPayment(totalPriceBeforeTax);
                             parseClient.addOrder(response.order, new ParseClient.OrderListener() {
                                 @Override
@@ -179,8 +226,6 @@ public class CartFragment extends Fragment {
                                     String price = (binding.consumerCartPriceBeforeTax.getText().toString()).substring(1);
                                     //Double sentPrice = Double.parseDouble(price);
                                     Log.e("SFDSD", binding.consumerCartPriceBeforeTax.getText().toString() + " | " + price + " " + order.getTotalPayment());
-
-
                                     Toast.makeText(getContext(), " order Id " + response.order.getObjectId(), Toast.LENGTH_SHORT).show();
                                     cartFragmentListener.onCheckoutListener(response.order.getObjectId(), price);
                                 }
@@ -305,10 +350,6 @@ public class CartFragment extends Fragment {
         }
         totalPriceBeforeTax = temp;
         binding.consumerCartPriceBeforeTax.setText("$" + Math.round(totalPriceBeforeTax * 100.00) / 100.00);
-    }
-
-    public static void onSuccessfulStripePayment(String orderId) {
-
     }
 
     View view = null;
