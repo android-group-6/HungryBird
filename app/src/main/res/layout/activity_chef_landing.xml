@@ -43,7 +43,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
                 android:background="@android:color/white"
-                app:headerLayout="@layout/nav_header"
+                app:headerLayout="@layout/navigation_drawer_header"
                 app:menu="@menu/chef_drawer_view">
 
             </android.support.design.widget.NavigationView>
@@ -56,6 +56,6 @@
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
             android:src="@drawable/ic_add"
-            app:backgroundTint="#57ADEE" />
+            app:backgroundTint="@color/colorAccent" />
     </android.support.design.widget.CoordinatorLayout>
 </layout>
