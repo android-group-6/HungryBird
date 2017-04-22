@@ -1,6 +1,8 @@
 package com.codepath.hungrybird.consumer.adapters;
 
 import android.app.Activity;
+import android.graphics.Rect;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -60,10 +62,17 @@ public class GallerySnapListContainerAdapter extends RecyclerView.Adapter<Galler
     public void onBindViewHolder(ViewHolder holder, int position) {
         DishList dishList = mDishes.get(position);
         holder.snapTextView.setText(dishList.getText());
-        holder.recyclerView.setLayoutManager(new LinearLayoutManager(holder.recyclerView.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(holder.recyclerView.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        holder.recyclerView.setLayoutManager(layoutManager);
         holder.recyclerView.setOnFlingListener(null);
+//        final int divider = holder.recyclerView.getContext().getResources().getDimension(R.dimen.di);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(holder.recyclerView.getContext(),
+                layoutManager.getOrientation());
+        dividerItemDecoration.setDrawable(holder.recyclerView.getResources().getDrawable(R.drawable.divider_hor));
+        holder.recyclerView.addItemDecoration(dividerItemDecoration);
+
         new LinearSnapHelper().attachToRecyclerView(holder.recyclerView);
-            holder.recyclerView.setAdapter(new GallerySnapListAdapter(mActivity, mActivity.getApplicationContext(), true, false, dishList.getApps()));
+        holder.recyclerView.setAdapter(new GallerySnapListAdapter(mActivity, mActivity.getApplicationContext(), true, false, dishList.getApps()));
     }
 
     @Override

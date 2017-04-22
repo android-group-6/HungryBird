@@ -17,6 +17,8 @@ import com.parse.ParseFile;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 /**
  * Created by dshah on 4/10/2017.
  */
@@ -54,12 +56,14 @@ public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapList
             String imgUrl = parseFile.getUrl();
             Glide.with(mContext)
                     .load(imgUrl)
-                    .placeholder(R.drawable.ic_launcher)
+                    .placeholder(R.drawable.placeholder)
                     .fallback(R.drawable.futurama)
+                    .bitmapTransform(
+                            new RoundedCornersTransformation(mContext, 5, 5))
                     .into(holder.imageView);
         }
         holder.nameTextView.setText(app.getTitle());
-        holder.dishTypeTextView.setText(app.isVeg() ? "Veg" : "Non Veg");
+//        holder.dishTypeTextView.setText(app.isVeg() ? "Veg" : "Non Veg");
         holder.ratingTextView.setText("$" + String.valueOf(app.getPrice()));
     }
 
@@ -77,7 +81,7 @@ public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapList
 
         public ImageView imageView;
         public TextView nameTextView;
-        public TextView dishTypeTextView;
+        //        public TextView dishTypeTextView;
         public TextView ratingTextView;
 
         public ViewHolder(View itemView) {
@@ -85,7 +89,7 @@ public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapList
             itemView.setOnClickListener(this);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
             nameTextView = (TextView) itemView.findViewById(R.id.nameTextView);
-            dishTypeTextView = (TextView) itemView.findViewById(R.id.dishTypeTextView);
+//            dishTypeTextView = (TextView) itemView.findViewById(R.id.dishTypeTextView);
             ratingTextView = (TextView) itemView.findViewById(R.id.ratingTextView);
         }
 
