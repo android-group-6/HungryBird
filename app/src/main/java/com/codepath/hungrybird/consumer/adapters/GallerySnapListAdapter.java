@@ -15,6 +15,7 @@ import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.model.Dish;
 import com.parse.ParseFile;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
@@ -30,6 +31,17 @@ public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapList
     private boolean mPager;
     Context mContext;
     GalleryDishSelectedListener galleryDishSelectedListener;
+    private static DecimalFormat df = new DecimalFormat();
+
+    static {
+        df.setMinimumFractionDigits(2);
+        df.setMaximumFractionDigits(2);
+    }
+
+    private String getRoundedTwoPlaces(double val) {
+        return "$" + df.format(Math.round(100 * val) / 100.0);
+    }
+
 
     public interface GalleryDishSelectedListener {
         void onDishSelected(View v, Dish dish);
@@ -63,8 +75,7 @@ public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapList
                     .into(holder.imageView);
         }
         holder.nameTextView.setText(app.getTitle());
-//        holder.dishTypeTextView.setText(app.isVeg() ? "Veg" : "Non Veg");
-        holder.ratingTextView.setText("$" + String.valueOf(app.getPrice()));
+        holder.ratingTextView.setText(getRoundedTwoPlaces(app.getPrice()));
     }
 
     @Override
@@ -81,7 +92,6 @@ public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapList
 
         public ImageView imageView;
         public TextView nameTextView;
-        //        public TextView dishTypeTextView;
         public TextView ratingTextView;
 
         public ViewHolder(View itemView) {
@@ -89,7 +99,6 @@ public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapList
             itemView.setOnClickListener(this);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
             nameTextView = (TextView) itemView.findViewById(R.id.nameTextView);
-//            dishTypeTextView = (TextView) itemView.findViewById(R.id.dishTypeTextView);
             ratingTextView = (TextView) itemView.findViewById(R.id.ratingTextView);
         }
 

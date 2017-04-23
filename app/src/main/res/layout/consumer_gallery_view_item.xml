@@ -4,23 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="160dp"
-        android:layout_height="90dp"
-        android:layout_marginBottom="4dp"
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_number_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/placeholder" />
+        app:cardCornerRadius="4dp"
+        android:layout_marginBottom="4dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:scaleType="centerCrop"
+            android:layout_width="@dimen/gallery_image_width"
+            android:layout_height="@dimen/gallery_image_height"
+
+            android:src="@drawable/placeholder" />
+
+    </android.support.v7.widget.CardView>
 
     <TextView
         android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/imageView"
+        android:layout_below="@id/card_number_label"
         android:ellipsize="marquee"
         android:maxLength="18"
         android:maxLines="1"
@@ -32,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/imageView"
+        android:layout_below="@id/card_number_label"
         android:gravity="right"
         android:text="$19.99"
         android:textColor="@color/black_alpha_60"

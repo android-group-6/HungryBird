@@ -16,9 +16,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
 import com.codepath.hungrybird.common.Transitions.DetailsTransition;
@@ -42,7 +45,10 @@ import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class GalleryActivity extends AppCompatActivity implements
         GallerySnapListAdapter.GalleryDishSelectedListener,
@@ -58,12 +64,14 @@ public class GalleryActivity extends AppCompatActivity implements
     private ActionBarDrawerToggle drawerToggle;
 
     private int SEARCH_ACTIVITY_RESULT_CODE = 300;
+    private TextView userNameTv;
+    private TextView userEmailTv;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         User currentUser = new User(ParseUser.getCurrentUser());
-        Toast.makeText(GalleryActivity.this, "Current User ... " + currentUser.getUsername(), Toast.LENGTH_LONG).show();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_gallery);
 
         // Find the toolbar view inside the activity layout
@@ -75,6 +83,21 @@ public class GalleryActivity extends AppCompatActivity implements
         mDrawer = binding.drawerLayout;
         drawerToggle = setupDrawerToggle();
         nvDrawer = binding.nvView;
+        View headerLayout = nvDrawer.getHeaderView(0);
+
+        imageView = (ImageView) headerLayout.findViewById(R.id.navigation_drawer_user_account_picture_profile);
+        userNameTv = (TextView) headerLayout.findViewById(R.id.navigation_drawer_account_information_display_name);
+        userEmailTv = (TextView) headerLayout.findViewById(R.id.navigation_drawer_account_information_email);
+
+        userNameTv.setText(currentUser.getUsername());
+        userEmailTv.setText(currentUser.getEmail());
+        final ParseFile parseFile = currentUser.getProfileImage();
+        if (parseFile != null && TextUtils.isEmpty(parseFile.getUrl()) == false) {
+            Glide.with(this).load(parseFile.getUrl()).bitmapTransform(new CropCircleTransformation(this))
+                    .into(imageView);
+        }
+
+
         mDrawer.addDrawerListener(drawerToggle);
         setupDrawerContent(nvDrawer);
 
@@ -344,4 +367,14 @@ public class GalleryActivity extends AppCompatActivity implements
         finish();
         startActivity(i);
     }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawer.isDrawerOpen(Gravity.LEFT)) {
+            mDrawer.closeDrawers();
+            return;
+        }
+        super.onBackPressed();
+    }
+
 }

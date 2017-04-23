@@ -54,9 +54,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
-        binding.activityLoginButton.setOnClickListener(v -> {
-            loginWithFacebook();
+        binding.activityLoginChef.setOnClickListener(v -> {
+            loginWithFacebook(true);
         });
+        binding.activityLoginConsumer.setOnClickListener(v -> {
+            loginWithFacebook(false);
+        });
+
     }
 
     @Override
@@ -65,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void loginWithFacebook() {
+    private void loginWithFacebook(final boolean isChef) {
         ArrayList<String> permissions = new ArrayList();
         permissions.add("email");
         permissions.add("public_profile");
@@ -85,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("MyApp", "User logged in through Facebook!");
                         getUserDetailsFromParse();
                         associateUserWithInstallation();
-                        if (binding.activityLoginLoginTypeChck.isChecked()) {
+                        if (isChef) {
                             Intent i = new Intent(this, ChefLandingActivity.class);
                             startActivity(i);
                         } else {

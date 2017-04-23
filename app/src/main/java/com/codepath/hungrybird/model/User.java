@@ -58,4 +58,8 @@ public class User {
         return parseUser.getUsername();
     }
 
+    public String getEmail() {
+        return parseUser.getEmail();
+    }
+
 }
