@@ -17,6 +17,7 @@ import com.parse.ParseFile;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.CropTransformation;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
@@ -59,6 +60,7 @@ public class GallerySnapListAdapter extends RecyclerView.Adapter<GallerySnapList
                     .placeholder(R.drawable.placeholder)
                     .fallback(R.drawable.futurama)
                     .bitmapTransform(
+                            new CropTransformation(mContext, 160, 90),
                             new RoundedCornersTransformation(mContext, 5, 5))
                     .into(holder.imageView);
         }
