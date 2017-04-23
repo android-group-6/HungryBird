@@ -11,6 +11,7 @@
         android:id="@+id/card_number_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         app:cardCornerRadius="4dp"
         android:layout_marginBottom="4dp">
 
@@ -19,7 +20,7 @@
             android:scaleType="centerCrop"
             android:layout_width="@dimen/gallery_image_width"
             android:layout_height="@dimen/gallery_image_height"
-            android:layout_centerHorizontal="true"
+
             android:src="@drawable/placeholder" />
 
     </android.support.v7.widget.CardView>
@@ -41,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/imageView"
+        android:layout_below="@id/card_number_label"
         android:gravity="right"
         android:text="$19.99"
         android:textColor="@color/black_alpha_60"
