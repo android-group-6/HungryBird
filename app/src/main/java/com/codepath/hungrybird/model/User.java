@@ -62,4 +62,13 @@ public class User {
         return parseUser.getEmail();
     }
 
+    public String getPrimaryAddress() {
+        return parseUser.getString("primaryAddress");
+    }
+
+    public void setPrimaryAddress(String address) {
+        parseUser.put("primaryAddress", address);
+    }
+
+
 }

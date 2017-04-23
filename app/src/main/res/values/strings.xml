@@ -71,4 +71,5 @@
     <string name="activity_mixed_trans">activity_mixed_transition</string>
     <string name="fragment_image_trans">fragment_image_transition</string>
 
+    <string name="autocomplete_hint">Enter place name or address</string>
 </resources>

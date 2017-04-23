@@ -105,28 +105,30 @@ public class OrderDetailsFragment extends Fragment {
             public void onSuccess(List<OrderDishRelation> orderDishRelations) {
 
                 if (orderDishRelations.isEmpty() == false) {
-                    Order order = orderDishRelations.get(0).getOrder();
-                    if (order != null) {
+                    Order orderDishRelation = orderDishRelations.get(0).getOrder();
+                    if (orderDishRelation != null) {
                         if (isChef) {
-                            setSpinnerToValue(binding.orderStatusSpinner, order);
+                            setSpinnerToValue(binding.orderStatusSpinner, orderDishRelation);
                         }
 
                         try {
-                            Date d = order.getUpdatedAt();
+                            Date d = orderDishRelation.getUpdatedAt();
                             String date = dateUtils.getDate(d);
                             binding.consumerOrderDateTv.setText(date);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        binding.consumerOrderCode.setText(order.getDisplayId());
-                        binding.consumerOrderStatus.setText(stringsUtils.displayStatusString(order));
-                        binding.paymentType.setText(order.getPaymentType());
-                        binding.deliveryAddress.setText(order.getDeliveryAddress());
-
+                        binding.consumerOrderCode.setText(orderDishRelation.getDisplayId());
+                        binding.consumerOrderStatus.setText(stringsUtils.displayStatusString(orderDishRelation));
+                        if (orderDishRelation.isDelivery()) {
+                            binding.deliveryAddress.setText(orderDishRelation.getDeliveryAddress());
+                        } else {
+                            binding.deliveryAddress.setText("Pick Up Requested");
+                        }
                     }
                     double totalTax = 0.0;
                     double totalPriceBeforeTax = 0.0;
-                    Double shippingAndService = order.getShippingFee();
+                    Double shippingAndService = orderDishRelation.getShippingFee();
                     for (OrderDishRelation o : orderDishRelations) {
                         totalTax += o.getQuantity() * o.getTaxPerItem();
                         totalPriceBeforeTax += o.getQuantity() * o.gePricePerItem();
