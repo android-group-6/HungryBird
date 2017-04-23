@@ -12,11 +12,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
 import com.codepath.hungrybird.chef.fragments.ChefOrdersViewFragment;
@@ -30,7 +34,10 @@ import com.codepath.hungrybird.consumer.fragments.OrderHistoryFramgent;
 import com.codepath.hungrybird.databinding.ActivityChefLandingBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.User;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class ChefLandingActivity extends AppCompatActivity implements DishArrayAdapter.DishSelected, OrderHistoryFramgent.OnOrderSelected {
     public static final String TAG = ChefLandingActivity.class.getSimpleName();
@@ -40,6 +47,10 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
     private Toolbar toolbar;
     private NavigationView nvDrawer;
     ActionBarDrawerToggle drawerToggle;
+    private TextView userNameTv;
+    private TextView userEmailTv;
+    private ImageView imageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +70,20 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
         nvDrawer = binding.nvView;
         mDrawer.addDrawerListener(drawerToggle);
         setupDrawerContent(nvDrawer);
+
+        //Set user id and image
+        View headerLayout = nvDrawer.getHeaderView(0);
+        imageView = (ImageView) headerLayout.findViewById(R.id.navigation_drawer_user_account_picture_profile);
+        userNameTv = (TextView) headerLayout.findViewById(R.id.navigation_drawer_account_information_display_name);
+        userEmailTv = (TextView) headerLayout.findViewById(R.id.navigation_drawer_account_information_email);
+        userNameTv.setText(currentUser.getUsername());
+        userEmailTv.setText(currentUser.getEmail());
+        final ParseFile parseFile = currentUser.getProfileImage();
+        if (parseFile != null && TextUtils.isEmpty(parseFile.getUrl()) == false) {
+            Glide.with(this).load(parseFile.getUrl()).bitmapTransform(new CropCircleTransformation(this))
+                    .into(imageView);
+        }
+
 
         // Set the default fragment
         final FragmentManager fragmentManager = getSupportFragmentManager();
@@ -83,6 +108,7 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
             // Insert the fragment by replacing any existing fragment
             fragmentManager.beginTransaction().replace(R.id.flContent, new DishAddEditFragment()).addToBackStack(null).commit();
         });
+        mDrawer.closeDrawers();
     }
 
     private void addBackButtonToToolbar() {
@@ -252,5 +278,14 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
         orderDetailsFragment.setArguments(bundle);
         fragmentManager.beginTransaction().add(R.id.flContent, orderDetailsFragment).addToBackStack(null).commit();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawer.isShown()) {
+            mDrawer.closeDrawers();
+            return;
+        }
+        super.onBackPressed();
     }
 }

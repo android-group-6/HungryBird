@@ -366,4 +366,14 @@ public class GalleryActivity extends AppCompatActivity implements
         finish();
         startActivity(i);
     }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawer.isShown()) {
+            mDrawer.closeDrawers();
+            return;
+        }
+        super.onBackPressed();
+    }
+
 }
