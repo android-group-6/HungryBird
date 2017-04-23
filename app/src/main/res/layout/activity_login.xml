@@ -6,34 +6,65 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/facebook_normal_blue"
+        android:padding="20dp"
         tools:context="com.codepath.hungrybird.common.LoginActivity">
 
-        <ImageView
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_alignBottom="@+id/activity_login_button"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="51dp"
-            android:foregroundGravity="center"
-            android:scaleType="fitXY" />
 
-        <Button
-            android:id="@+id/activity_login_button"
+        <TextView
+            android:id="@+id/activity_login_consumer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_margin="20dp"
+            android:layout_height="50dp"
+            android:layout_above="@+id/or_block"
             android:background="@color/facebook_dark_blue"
-            android:text="@string/login_label"
+            android:drawableLeft="@drawable/fb_f_logo_white"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:text="@string/login_label_consumer"
             android:textColor="#ffffff" />
 
-        <CheckBox
-            android:id="@+id/activity_login_login_type_chck"
+        <FrameLayout
+            android:id="@+id/or_block"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/activity_login_button"
-            android:layout_margin="20dp"
-            android:text="Login as Chef"
-            android:textColor="@android:color/white" />
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="center_vertical"
+                android:background="#40000000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/facebook_normal_blue"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Or"
+                android:textColor="#80000000"
+                android:textSize="14sp" />
+
+        </FrameLayout>
+
+        <TextView
+
+            android:id="@+id/activity_login_chef"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/or_block"
+            android:layout_centerVertical="true"
+            android:background="@color/facebook_dark_blue"
+            android:drawableLeft="@drawable/fb_f_logo_white"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:text="@string/login_label_chef"
+            android:textColor="#ffffff" />
+
+
     </RelativeLayout>
 </layout>

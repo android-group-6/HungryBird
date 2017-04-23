@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,17 +16,14 @@ import com.codepath.hungrybird.chef.activities.ChefLandingActivity;
 import com.codepath.hungrybird.consumer.activities.GalleryActivity;
 import com.codepath.hungrybird.databinding.ActivityLoginBinding;
 import com.codepath.hungrybird.model.User;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
-import com.parse.SignUpCallback;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.HttpMethod;
+import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,9 +53,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
-        binding.activityLoginButton.setOnClickListener(v -> {
-            loginWithFacebook();
+        binding.activityLoginChef.setOnClickListener(v -> {
+            loginWithFacebook(true);
         });
+        binding.activityLoginConsumer.setOnClickListener(v -> {
+            loginWithFacebook(false);
+        });
+
     }
 
     @Override
@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void loginWithFacebook() {
+    private void loginWithFacebook(final boolean isChef) {
         ArrayList<String> permissions = new ArrayList();
         permissions.add("email");
         permissions.add("public_profile");
@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("MyApp", "User logged in through Facebook!");
                         getUserDetailsFromParse();
 
-                        if (binding.activityLoginLoginTypeChck.isChecked()) {
+                        if (isChef) {
                             Intent i = new Intent(this, ChefLandingActivity.class);
                             startActivity(i);
                         } else {
