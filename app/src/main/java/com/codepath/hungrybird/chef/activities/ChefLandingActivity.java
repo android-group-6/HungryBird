@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -282,7 +283,7 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
 
     @Override
     public void onBackPressed() {
-        if (mDrawer.isShown()) {
+        if (mDrawer.isDrawerOpen(Gravity.LEFT)) {
             mDrawer.closeDrawers();
             return;
         }

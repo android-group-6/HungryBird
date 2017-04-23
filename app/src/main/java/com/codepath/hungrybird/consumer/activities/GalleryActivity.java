@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -369,7 +370,7 @@ public class GalleryActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        if (mDrawer.isShown()) {
+        if (mDrawer.isDrawerOpen(Gravity.LEFT)) {
             mDrawer.closeDrawers();
             return;
         }
