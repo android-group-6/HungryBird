@@ -219,8 +219,16 @@ public class OrderDetailsFragment extends Fragment {
                     order.setStatus(newStatus.name());
                     if (newStatus.equals(Order.Status.COMPLETE)) {
                         HashMap<String, String> payload = new HashMap<>();
-                        payload.put("customData", order.getDisplayId() + " " + newStatus.getStatusValue());
                         payload.put("targetUserId", order.getConsumer().getObjectId());
+                        payload.put("orderId", order.getObjectId());
+                        payload.put("fromChef", String.valueOf(true));
+                        payload.put("title", "Order Completed");
+                        boolean isDelivery = order.isDelivery();
+                        String textMessage = "Your order to " + order.getChef().getUsername() + " is ready for pickup";
+                        if (isDelivery) {
+                            textMessage = "Your order to " + order.getChef().getUsername() + " is out for delivery";
+                        }
+                        payload.put("text", textMessage);
                         ParseCloud.callFunctionInBackground("pushChannelTest", payload);
                     }
                     ParseClient.getInstance().addOrder(order, new ParseClient.OrderListener() {

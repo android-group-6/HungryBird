@@ -5,17 +5,17 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.activities.ChefLandingActivity;
+import com.codepath.hungrybird.consumer.activities.GalleryActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Iterator;
 
 public class MyCustomReceiver extends BroadcastReceiver {
     private static final String TAG = "MyCustomReceiver";
@@ -39,28 +39,61 @@ public class MyCustomReceiver extends BroadcastReceiver {
             try {
                 JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
                 Log.d(TAG, "got action " + action + " on channel " + channel + " with:");
+                String orderId = json.getString("orderId");
+                boolean fromChef = json.getBoolean("fromChef");
+                String title = json.getString("title");
+                String text = json.getString("text");
+                createNotification(context, title, text, orderId, fromChef);
                 // Iterate the parse keys if needed
-                Iterator<String> itr = json.keys();
-                while (itr.hasNext()) {
-                    String key = (String) itr.next();
-                    String value = json.getString(key);
-                    Log.d(TAG, "..." + key + " => " + value);
-                    // Extract custom push data
-                    if (key.equals("customdata")) {
-                        // create a local notification
-                        createNotification(context, value);
-                    } else if (key.equals("launch")) {
-                        // Handle push notification by invoking activity directly
-                        launchSomeActivity(context, value);
-                    } else if (key.equals("broadcast")) {
-                        // OR trigger a broadcast to activity
-                        triggerBroadcastToActivity(context, value);
-                    }
-                }
+//                Iterator<String> itr = json.keys();
+//                while (itr.hasNext()) {
+//                    String key = (String) itr.next();
+//                    String value = json.getString(key);
+//                    Log.d(TAG, "..." + key + " => " + value);
+//                    // Extract custom push data
+//                    if (key.equals("customdata")) {
+//                        // create a local notification
+//                        createNotification(context, value);
+//                    } else if (key.equals("launch")) {
+//                        // Handle push notification by invoking activity directly
+//                        launchSomeActivity(context, value);
+//                    } else if (key.equals("broadcast")) {
+//                        // OR trigger a broadcast to activity
+//                        triggerBroadcastToActivity(context, value);
+//                    }
+//                }
             } catch (JSONException ex) {
                 Log.d(TAG, "JSON failed!");
             }
         }
+    }
+
+    private void createNotification(Context context, String title, String text, String orderId, boolean fromChef) {
+        Intent intent;
+        if (fromChef) {
+            intent = new Intent(context, GalleryActivity.class);
+        } else {
+            intent = new Intent(context, ChefLandingActivity.class);
+        }
+        // Next, let's turn this into a PendingIntent using
+        //   public static PendingIntent getActivity(Context context, int requestCode,
+        //       Intent intent, int flags)
+        int requestID = (int) System.currentTimeMillis(); //unique requestID to differentiate between various notification with same NotifId
+        int flags = PendingIntent.FLAG_CANCEL_CURRENT; // cancel old intent and create new one
+        PendingIntent pIntent = PendingIntent.getActivity(context, requestID, intent, flags);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_round))
+                .setContentTitle(title)
+                .setContentText(text)
+                .setContentIntent(pIntent)
+                .setAutoCancel(true); // Hides the notification after its been selected
+
+        NotificationManager mNotificationManager = (NotificationManager) context
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+
     }
 
     public static final int NOTIFICATION_ID = 45;
@@ -78,7 +111,7 @@ public class MyCustomReceiver extends BroadcastReceiver {
         PendingIntent pIntent = PendingIntent.getActivity(context, requestID, intent, flags);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(R.drawable.placeholder)
                 .setContentTitle(datavalue)
                 .setContentText("Pushed!")
                 .setContentIntent(pIntent)
