@@ -117,6 +117,7 @@ public class ParseClient {
             ;
         }
         parseQuery.whereContainedIn("cuisine", cuisineValues);
+        parseQuery.include("chef");
         parseQuery.findInBackground(new FindCallback<Dish>() {
             @Override
             public void done(List<Dish> objects, ParseException e) {
