@@ -4,6 +4,8 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/article_adaptor_article_card_view"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -21,7 +23,6 @@
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp" />
-
 
             <TextView
                 android:id="@+id/chef_offering_list_item_dish_name_tv"
@@ -72,7 +73,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textSize="14sp"
