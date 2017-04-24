@@ -25,6 +25,7 @@ import com.codepath.hungrybird.network.PostmatesClient;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.parse.ParseCloud;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
@@ -32,6 +33,8 @@ import com.stripe.android.model.Token;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -204,6 +207,15 @@ public class ConsumerCheckoutFragment extends Fragment {
 
     private void postStripeSuccess() {
         binding.cartCheckoutPaynowBt.setText("Thanks for choosing us!");
+        // send push notification
+        HashMap<String, String> payload = new HashMap<>();
+        payload.put("targetUserId", order.getChef().getObjectId());
+        payload.put("orderId", order.getObjectId());
+        payload.put("fromChef", String.valueOf(false));
+        payload.put("title", "Order Received");
+        payload.put("text", "A new order has been received from " + order.getConsumer().getUsername());
+        ParseCloud.callFunctionInBackground("pushChannelTest", payload);
+        // change order status
         ConsumerCheckoutFragment.this.order.setStatus(Order.Status.ORDERED.name());
         ParseClient.getInstance().addOrder(ConsumerCheckoutFragment.this.order, new ParseClient.OrderListener() {
             @Override
