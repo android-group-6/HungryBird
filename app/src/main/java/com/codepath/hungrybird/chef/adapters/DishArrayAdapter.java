@@ -34,14 +34,17 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public DishArrayAdapter(Activity activity, List<Dish> dishArrayList) {
+        this(activity, dishArrayList, (DishSelected) activity);
+    }
+
+    public DishArrayAdapter(Activity activity, List<Dish> dishArrayList, DishSelected dishSelected) {
         this.dishArrayList = dishArrayList;
         this.context = activity;
-        dishSelected = (DishSelected)activity;
+        this.dishSelected = dishSelected;
         if (dishArrayList == null) {
             throw new NullPointerException("Article ArrayList Can't Be Null or Empty");
         }
     }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
@@ -89,6 +92,7 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public int getItemCount() {
         return dishArrayList.size();
     }
+
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access

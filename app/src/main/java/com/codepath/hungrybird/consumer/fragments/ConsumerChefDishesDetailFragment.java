@@ -5,8 +5,9 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,7 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
-import com.codepath.hungrybird.chef.fragments.MyOfferingsFragment;
+import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
 import com.codepath.hungrybird.databinding.ConsumerGalleryChefDishesDetailViewBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
@@ -30,22 +31,34 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by DhwaniShah on 4/13/17.
  */
 
-public class ConsumerChefDishesDetailFragment extends Fragment {
+public class ConsumerChefDishesDetailFragment extends Fragment implements DishArrayAdapter.DishSelected {
 
     public static final String TAG = ConsumerChefDishesDetailFragment.class.getSimpleName();
     public static final String DISH_ID = "DISH_ID";
     public static final String CHEF_ID = "CHEF_ID";
-    public static final String FRAGMENT_TAG = "FILTER_FRAGMENT_TAG";
 
     ParseClient parseClient = ParseClient.getInstance();
     ConsumerGalleryChefDishesDetailViewBinding binding;
 
     Dish currentDish;
     Order currentOrder;
+
+    DishArrayAdapter dishArrayAdapter;
+    List<Dish> dishesArrayList = new ArrayList<>();
+
+    @Override
+    public void onDishSelected(Dish dish, boolean fromChefPage) {
+        currentDish = dish;
+        updateCurrentDishView();
+    }
+
 
     public interface CartListener {
         void onCartPressed(Order order);
@@ -69,6 +82,15 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.consumer_gallery_chef_dishes_detail_view, container, false);
         binding.tvDishQuantity.setText(String.valueOf(1));
+
+        dishArrayAdapter = new DishArrayAdapter(getActivity(), dishesArrayList, this);
+        binding.content.chefMyoffersingsLv.setAdapter(dishArrayAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        binding.content.chefMyoffersingsLv.setLayoutManager(linearLayoutManager);
+        //Added divider between line items
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.content.chefMyoffersingsLv.getContext(), linearLayoutManager.getOrientation());
+        binding.content.chefMyoffersingsLv.addItemDecoration(dividerItemDecoration);
+
         return binding.getRoot();
     }
 
@@ -156,18 +178,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
             public void onSuccess(Dish dish) {
                 Log.i(TAG, dish.toString());
                 currentDish = dish;
-                ParseFile dishPic = currentDish.getPrimaryImage();
-                if (dishPic != null && dishPic.getUrl() != null) {
-                    String imgUrl = dishPic.getUrl();
-                    Glide.with(getContext())
-                            .load(imgUrl)
-                            .into(binding.selectedDishPicIv);
-                }
-
-                binding.dishTitle.setText(currentDish.getTitle());
-                binding.dishPrice.setText("$" + String.valueOf(currentDish.getPrice()));
-                binding.dishServingSize.setText(String.valueOf(currentDish.getServingSize()));
-                binding.dishDescription.setText(currentDish.getDescription());
+                updateCurrentDishView();
             }
 
             @Override
@@ -175,13 +186,34 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
                 Toast.makeText(getContext(), "There was an error getting data.", Toast.LENGTH_LONG).show();
             }
         });
-        MyOfferingsFragment myOfferingsFragment = new MyOfferingsFragment();
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        Bundle bundle = new Bundle();
-        bundle.putString(MyOfferingsFragment.CHEF_ID, chefId);
-        myOfferingsFragment.setArguments(bundle);
-        fragmentManager.beginTransaction()
-                .replace(binding.moreDishesFromCurrentChefFl.getId(), myOfferingsFragment).commit();
+        parseClient.getDishesByChefId(chefId, new ParseClient.DishListListener() {
+            @Override
+            public void onSuccess(List<Dish> dishes) {
+                dishesArrayList.addAll(dishes);
+                dishArrayAdapter.notifyDataSetChanged();
+                Log.d(TAG, "onSuccess: " + dishes);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+
+            }
+        });
+    }
+
+    private void updateCurrentDishView() {
+        ParseFile dishPic = currentDish.getPrimaryImage();
+        if (dishPic != null && dishPic.getUrl() != null) {
+            String imgUrl = dishPic.getUrl();
+            Glide.with(getContext())
+                    .load(imgUrl)
+                    .into(binding.selectedDishPicIv);
+        }
+
+        binding.dishTitle.setText(currentDish.getTitle());
+        binding.dishPrice.setText("$" + String.valueOf(currentDish.getPrice()));
+        binding.dishServingSize.setText(String.valueOf(currentDish.getServingSize()));
+        binding.dishDescription.setText(currentDish.getDescription());
     }
 
     private void addOrUpdateOrderDishRelation(Order currentOrder, Dish currentDish, int quantity) {
