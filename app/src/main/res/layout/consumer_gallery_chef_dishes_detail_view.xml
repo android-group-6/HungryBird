@@ -184,6 +184,7 @@
                 android:layout_alignBaseline="@+id/tvMinus"
                 android:layout_toRightOf="@id/tvMinus"
                 android:gravity="center_vertical"
+                android:textColor="@color/colorPrimary"
                 android:text="0"
                 android:textStyle="bold"
                 tools:text="12" />

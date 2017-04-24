@@ -16,6 +16,7 @@
                 android:layout_height="200dp"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="2dp"
+                android:src="@drawable/ic_no_image_available"
                 android:scaleType="centerCrop" />
 
             <Button
@@ -41,7 +42,7 @@
                 android:layout_below="@+id/buttonUploadImage"
                 android:layout_marginTop="11dp"
                 android:ems="10"
-                android:hint="dish title"
+                android:hint="Dish Name"
                 android:inputType="textPersonName" />
 
             <EditText
@@ -53,7 +54,7 @@
                 android:layout_below="@+id/editTextDishTitle"
                 android:layout_marginTop="15dp"
                 android:ems="10"
-                android:hint="dish description"
+                android:hint="Dish Description"
                 android:inputType="textPersonName" />
 
             <TextView
@@ -62,11 +63,12 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/editTextDishDescription"
                 android:layout_marginTop="71dp"
-                android:text="Serving Size" />
+                android:text="Serving Size:" />
 
             <Spinner
                 android:id="@+id/spinnerServingSize"
-                android:layout_width="wrap_content"
+                android:dropDownWidth="75dp"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/textViewServingSize"
                 android:layout_marginLeft="14dp"
@@ -84,10 +86,11 @@
                 android:layout_marginStart="14dp"
                 android:layout_toEndOf="@+id/spinnerServingSize"
                 android:layout_toRightOf="@+id/spinnerServingSize"
-                android:text="Dish Type" />
+                android:text="Dish Type:" />
 
             <Spinner
                 android:id="@+id/spinnerDishType"
+                android:dropDownWidth="100dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/textViewDishType"
@@ -127,10 +130,11 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignTop="@+id/spinnerCuisine"
-                android:text="Cuisine" />
+                android:text="Cuisine:" />
 
             <Spinner
                 android:id="@+id/spinnerCuisine"
+                android:dropDownWidth="100dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/textViewPrice"
