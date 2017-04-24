@@ -29,11 +29,13 @@ import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.OrderDishRelation;
 import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
+import com.parse.ParseCloud;
 import com.parse.ParseUser;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -105,28 +107,30 @@ public class OrderDetailsFragment extends Fragment {
             public void onSuccess(List<OrderDishRelation> orderDishRelations) {
 
                 if (orderDishRelations.isEmpty() == false) {
-                    Order order = orderDishRelations.get(0).getOrder();
-                    if (order != null) {
+                    Order orderDishRelation = orderDishRelations.get(0).getOrder();
+                    if (orderDishRelation != null) {
                         if (isChef) {
-                            setSpinnerToValue(binding.orderStatusSpinner, order);
+                            setSpinnerToValue(binding.orderStatusSpinner, orderDishRelation);
                         }
 
                         try {
-                            Date d = order.getUpdatedAt();
+                            Date d = orderDishRelation.getUpdatedAt();
                             String date = dateUtils.getDate(d);
                             binding.consumerOrderDateTv.setText(date);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        binding.consumerOrderCode.setText(order.getDisplayId());
-                        binding.consumerOrderStatus.setText(stringsUtils.displayStatusString(order));
-                        binding.paymentType.setText(order.getPaymentType());
-                        binding.deliveryAddress.setText(order.getDeliveryAddress());
-
+                        binding.consumerOrderCode.setText(orderDishRelation.getDisplayId());
+                        binding.consumerOrderStatus.setText(stringsUtils.displayStatusString(orderDishRelation));
+                        if (orderDishRelation.isDelivery()) {
+                            binding.deliveryAddress.setText(orderDishRelation.getDeliveryAddress());
+                        } else {
+                            binding.deliveryAddress.setText("Pick Up Requested");
+                        }
                     }
                     double totalTax = 0.0;
                     double totalPriceBeforeTax = 0.0;
-                    Double shippingAndService = order.getShippingFee();
+                    Double shippingAndService = orderDishRelation.getShippingFee();
                     for (OrderDishRelation o : orderDishRelations) {
                         totalTax += o.getQuantity() * o.getTaxPerItem();
                         totalPriceBeforeTax += o.getQuantity() * o.gePricePerItem();
@@ -215,6 +219,20 @@ public class OrderDetailsFragment extends Fragment {
                 }
                 if (newStatus != null) {
                     order.setStatus(newStatus.name());
+                    if (newStatus.equals(Order.Status.COMPLETE)) {
+                        HashMap<String, String> payload = new HashMap<>();
+                        payload.put("targetUserId", order.getConsumer().getObjectId());
+                        payload.put("orderId", order.getObjectId());
+                        payload.put("fromChef", String.valueOf(true));
+                        payload.put("title", "Order Completed");
+                        boolean isDelivery = order.isDelivery();
+                        String textMessage = "Your order to " + order.getChef().getUsername() + " is ready for pickup";
+                        if (isDelivery) {
+                            textMessage = "Your order to " + order.getChef().getUsername() + " is out for delivery";
+                        }
+                        payload.put("text", textMessage);
+                        ParseCloud.callFunctionInBackground("pushChannelTest", payload);
+                    }
                     ParseClient.getInstance().addOrder(order, new ParseClient.OrderListener() {
                         @Override
                         public void onSuccess(Order order) {

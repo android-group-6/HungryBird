@@ -47,7 +47,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:maxWidth="150sp"
-                    android:text="Completed"
+                    tools:text="Completed"
                     android:textColor="#ff000000"
                     android:textSize="16sp"
                     android:textStyle="normal" />
@@ -74,11 +74,19 @@
                     android:layout_marginLeft="10dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-
-                    android:text="HB-sfo-2345-45645"
                     android:textColor="#80000000"
                     android:textSize="14sp"
-                    android:textStyle="normal" />
+                    android:textStyle="normal"
+                    tools:text="HB-sfo-2345-45645" />
+
+                <ImageView
+                    android:id="@+id/location_bubble"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/consumer_order_code"
+                    android:layout_marginLeft="8dp"
+                    android:src="@drawable/location_bubble" />
 
                 <TextView
                     android:id="@+id/delivery_address"
@@ -86,8 +94,11 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/consumer_order_code"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:drawableLeft="@drawable/location_bubble"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/location_bubble"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:maxLength="35"
                     tools:text="some address" />
 
                 <TextView
@@ -96,8 +107,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/delivery_address"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="VISA-8003" />
+                    android:layout_marginLeft="8dp"
+                    android:text="VISA-8003"
+                    android:visibility="visible" />
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>

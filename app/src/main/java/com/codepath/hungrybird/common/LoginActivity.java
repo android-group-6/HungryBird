@@ -22,6 +22,7 @@ import com.facebook.HttpMethod;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -82,11 +83,12 @@ public class LoginActivity extends AppCompatActivity {
                     } else if (user.isNew()) {
                         Log.d("MyApp", "User signed up and logged in through Facebook!");
                         getUserDetailsFromFB();
+                        associateUserWithInstallation();
                     } else {
                         Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_LONG).show();
                         Log.d("MyApp", "User logged in through Facebook!");
                         getUserDetailsFromParse();
-
+                        associateUserWithInstallation();
                         if (isChef) {
                             Intent i = new Intent(this, ChefLandingActivity.class);
                             startActivity(i);
@@ -97,6 +99,15 @@ public class LoginActivity extends AppCompatActivity {
                         this.finish();
                     }
                 });
+    }
+
+    private void associateUserWithInstallation() {
+        ParseInstallation currentInstallation = ParseInstallation.getCurrentInstallation();
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentInstallation != null && currentUser != null) {
+            currentInstallation.put("user", currentUser);
+        }
+        currentInstallation.saveInBackground();
     }
 
     private void getUserDetailsFromFB() {
