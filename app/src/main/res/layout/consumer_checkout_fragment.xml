@@ -49,7 +49,7 @@
                 android:ems="10"
                 android:inputType="number"
                 android:hint="Credit Card Number"
-                android:text="4242424242424242"
+                android:text=""
                 android:maxLength="16" />
 
             <LinearLayout
@@ -65,7 +65,7 @@
                     android:ems="10"
                     android:inputType="number"
                     android:hint="Expiry Month (xx)"
-                    android:text="12"
+                    android:text=""
                     android:maxLength="2" />
 
                 <EditText
@@ -76,7 +76,7 @@
                     android:ems="10"
                     android:inputType="number"
                     android:hint="Expiry Year (xxxx)"
-                    android:text="2018"
+                    android:text=""
                     android:maxLength="4" />
             </LinearLayout>
 
@@ -87,7 +87,7 @@
                 android:ems="10"
                 android:inputType="number"
                 android:hint="CVC"
-                android:text="123"
+                android:text=""
                 android:maxLength="4" />
 
             <EditText
