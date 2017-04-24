@@ -3,6 +3,7 @@ package com.codepath.hungrybird.chef.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;
     DishSelected dishSelected;
+    private int selectedPosition = 0;
 
     public interface DishSelected {
         void onDishSelected(Dish dish, boolean fromChefPage);
@@ -78,6 +80,11 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             if (dish.getPrimaryImage() != null && dish.getPrimaryImage().getUrl() != null) {
                 Glide.with(holder.binding.getRoot().getContext()).load(dish.getPrimaryImage().getUrl()).into(holder.binding.chefOfferingListItemDishIv);
             }
+            if(selectedPosition == position){
+                holder.itemView.setBackgroundResource(R.color.colorSelected);
+            } else{
+                holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+            }
         } else {
             ((ProgressViewHolder) viewHolder).progressBar.setIndeterminate(true);
         }
@@ -116,6 +123,9 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     if (dishSelected != null) {
                         dishSelected.onDishSelected(dish, true);
                     }
+                    notifyItemChanged(selectedPosition); // old position
+                    selectedPosition = getLayoutPosition();
+                    notifyItemChanged(selectedPosition); // new position
                     // We can access the data within the views
 
                     /* No longer needed this code As we are Using Chrome Tab now
