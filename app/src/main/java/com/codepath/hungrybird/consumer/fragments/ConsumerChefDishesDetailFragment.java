@@ -24,7 +24,6 @@ import com.codepath.hungrybird.databinding.ConsumerGalleryChefDishesDetailViewBi
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.OrderDishRelation;
-import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -135,7 +134,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
             public void onClick(View v) {
                 int oldQuantity = Integer.parseInt(binding.tvDishQuantity.getText().toString());
                 int newQuantity = oldQuantity - 1;
-                if (newQuantity >= 0) {
+                if (newQuantity > 0) {
                     binding.tvDishQuantity.setText(String.valueOf(newQuantity));
                 }
             }
@@ -197,7 +196,15 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         binding.dishTitle.setText(currentDish.getTitle());
         binding.dishPrice.setText("$" + String.valueOf(currentDish.getPrice()));
         binding.dishServingSize.setText(String.valueOf(currentDish.getServingSize()));
-        binding.dishDescription.setText(currentDish.getDescription());
+        String description = currentDish.getDescription();
+        if (description == null || description.isEmpty()) {
+            binding.dishDescription.setVisibility(View.GONE);
+        } else {
+            binding.dishDescription.setVisibility(View.VISIBLE);
+            binding.dishDescription.setText(description);
+        }
+//        binding.dishDescription.setText(description);
+        binding.tvDishQuantity.setText(String.valueOf(1));
     }
 
     private void addOrUpdateOrderDishRelation(Order currentOrder, Dish currentDish, int quantity) {
