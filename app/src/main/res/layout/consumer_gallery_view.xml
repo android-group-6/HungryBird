@@ -6,9 +6,23 @@
         android:layout_height="match_parent"
         android:background="@android:color/white">
 
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/gallery_header_bg2"
+            android:fontFamily="cursive"
+            android:paddingTop="30dp"
+            android:text="Pick from your favorite cuisine"
+            android:textAlignment="center"
+            android:textColor="@color/text_white_primary"
+            android:textSize="26dp"
+            android:textStyle="bold" />
+
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/textView5"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <android.support.v7.widget.RecyclerView
