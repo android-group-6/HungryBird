@@ -52,11 +52,11 @@ public class HungryBirdApplication extends Application {
         // set applicationId, and server server based on the values in the Heroku settings.
         // clientKey is not needed unless explicitly configured
         // any network interceptors must be added with the Configuration Builder given this syntax
-//        String PARSE_SERVER_URL = "https://parse-demo-2.herokuapp.com/parse/";
-//        String PARSE_APP_ID = "parse-demo-2-app-id";
+        String PARSE_SERVER_URL = "https://parse-demo-2.herokuapp.com/parse/";
+        String PARSE_APP_ID = "parse-demo-2-app-id";
 
-        String PARSE_SERVER_URL = "https://hungry-bird.herokuapp.com/parse/";
-        String PARSE_APP_ID = "hungry-bird-app-id";
+//        String PARSE_SERVER_URL = "https://hungry-bird.herokuapp.com/parse/";
+//        String PARSE_APP_ID = "hungry-bird-app-id";
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId(PARSE_APP_ID) // should correspond to APP_ID env variable
