@@ -30,6 +30,8 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 /**
  * Created by DhwaniShah on 4/13/17.
  */
@@ -141,6 +143,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment {
                     String imgUrl = chefProfilePic.getUrl();
                     Glide.with(getContext())
                             .load(imgUrl)
+                            .bitmapTransform(new CropCircleTransformation(getContext()))
                             .into(binding.chefProfilePicIv);
                 }
                 binding.chefNameTv.setText(user.getUsername());
