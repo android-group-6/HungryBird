@@ -73,7 +73,8 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Chef's Home");
+        String title = getArguments().getString("CHEF_NAME");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title + "\'s Kitchen");
     }
 
     @Override
@@ -110,7 +111,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.mi_cart :
+            case R.id.mi_cart:
                 Activity activity = getActivity();
                 if (activity instanceof CartListener) {
                     CartListener cartListener = (CartListener) activity;
@@ -155,24 +156,6 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                 Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
             }
         });
-        parseClient.getUserById(chefId, new ParseClient.UserListener() {
-            @Override
-            public void onSuccess(User user) {
-                ParseFile chefProfilePic = user.getProfileImage();
-                if (chefProfilePic != null && chefProfilePic.getUrl() != null) {
-                    String imgUrl = chefProfilePic.getUrl();
-                    Glide.with(getContext())
-                            .load(imgUrl)
-                            .into(binding.chefProfilePicIv);
-                }
-                binding.chefNameTv.setText(user.getUsername());
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-
-            }
-        });
         parseClient.getDishById(dishId, new ParseClient.DishListener() {
             @Override
             public void onSuccess(Dish dish) {
@@ -207,6 +190,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
             String imgUrl = dishPic.getUrl();
             Glide.with(getContext())
                     .load(imgUrl)
+                    .placeholder(R.drawable.placeholder)
                     .into(binding.selectedDishPicIv);
         }
 
@@ -253,6 +237,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
             public void onSuccess(Order order) {
                 currentOrder = order;
             }
+
             @Override
             public void onFailure(Exception e) {
                 parseClient.addOrder(consumerId, chefId, Order.Status.NOT_ORDERED, new ParseClient.OrderListener() {
