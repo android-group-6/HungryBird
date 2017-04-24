@@ -1,6 +1,7 @@
 package com.codepath.hungrybird.consumer.adapters;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.codepath.hungrybird.R;
+import com.codepath.hungrybird.common.ColorChooser;
 import com.codepath.hungrybird.model.DishList;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class GallerySnapListContainerAdapter extends RecyclerView.Adapter<Galler
     public static final int VERTICAL = 0;
     public static final int HORIZONTAL = 1;
     Activity mActivity;
+    ColorChooser colorChooser = new ColorChooser();
 
     private ArrayList<DishList> mDishes;
     // Disable touch detection for parent recyclerView if we use vertical nested recyclerViews
@@ -61,7 +64,14 @@ public class GallerySnapListContainerAdapter extends RecyclerView.Adapter<Galler
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         DishList dishList = mDishes.get(position);
-        holder.snapTextView.setText(dishList.getText());
+        String color = colorChooser.getColor(dishList.getText());
+        if (color != null) {
+            holder.snapTextView.setBackgroundColor(Color.parseColor(color));
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(dishList.getText());
+        sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+        holder.snapTextView.setText(sb.toString());
         LinearLayoutManager layoutManager = new LinearLayoutManager(holder.recyclerView.getContext(), LinearLayoutManager.HORIZONTAL, false);
         holder.recyclerView.setLayoutManager(layoutManager);
         holder.recyclerView.setOnFlingListener(null);
