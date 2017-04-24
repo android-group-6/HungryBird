@@ -92,7 +92,7 @@ public class ParseClient {
     public void getDishesByCuisine(Dish.Cuisine cuisine, final DishListListener listListener) throws ParseException {
         ParseQuery<Dish> parseQuery = ParseQuery.getQuery(Dish.class);
         List<Dish> dishes = parseQuery.find();
-        ParseObject.pinAllInBackground(dishes);
+
 
         parseQuery.whereMatches("cuisine", cuisine.getCuisineValue());
 
