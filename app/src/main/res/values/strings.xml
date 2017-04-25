@@ -73,4 +73,12 @@
     <string name="fragment_image_trans">fragment_image_transition</string>
 
     <string name="autocomplete_hint">Enter place name or address</string>
+    <string name="order_new_title_text">No New Order Received</string>
+    <string name="order_new_details_text">When you will get a new order, you\'ll see\nthem here</string>
+    <string name="order_in_progress_title_text">Nothing In Progress</string>
+    <string name="order_in_progress_details_text">Change status of the newly received order to\n\"In Progress\"\nto see them here</string>
+    <string name="order_done_title_text">No Orders Completed Yet</string>
+    <string name="order_done_details_text">Change status of the\n\"In Progress\" order to \"Completed\"\nto see them here</string>
+
+
 </resources>
