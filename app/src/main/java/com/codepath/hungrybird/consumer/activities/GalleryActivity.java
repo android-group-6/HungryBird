@@ -317,6 +317,7 @@ public class GalleryActivity extends AppCompatActivity implements
         Bundle bundle = new Bundle();
         bundle.putString(ConsumerChefDishesDetailFragment.DISH_ID, dish.getObjectId());
         bundle.putString(ConsumerChefDishesDetailFragment.CHEF_ID, dish.getChef().getObjectId());
+        bundle.putString("CHEF_NAME", dish.getChef().getUsername());
         dishDetailsFragment.setArguments(bundle);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.flContent, dishDetailsFragment);
         if (fromChefPage == false) {

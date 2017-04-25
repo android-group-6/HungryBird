@@ -66,20 +66,6 @@ public class SearchActivity extends AppCompatActivity implements DishArrayAdapte
         searchItem.expandActionView();
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
-//        searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem menuItem) {
-//                SearchView searchView = (SearchView) menuItem.getActionView();
-//                searchView.onActionViewExpanded();
-//                searchView.setQuery(query, true);
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem p_menuItem) {
-//                return true;
-//            }
-//        });
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {

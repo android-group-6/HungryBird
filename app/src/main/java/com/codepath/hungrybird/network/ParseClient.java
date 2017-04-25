@@ -58,6 +58,7 @@ public class ParseClient {
 
     public void getDishById(final String id, final DishListener listener) {
         ParseQuery<Dish> parseQuery = ParseQuery.getQuery(Dish.class);
+        parseQuery.include("chef");
         parseQuery.getInBackground(id, new GetCallback<Dish>() {
             @Override
             public void done(Dish dish, ParseException e) {
@@ -133,6 +134,7 @@ public class ParseClient {
     public void getDishesBySearchQuery(String query, final DishListListener listener) {
         ParseQuery<Dish> parseQuery = ParseQuery.getQuery(Dish.class);
         parseQuery.whereMatches("title", query, "i");
+        parseQuery.include("chef");
         parseQuery.findInBackground(new FindCallback<Dish>() {
             @Override
             public void done(List<Dish> objects, ParseException e) {
