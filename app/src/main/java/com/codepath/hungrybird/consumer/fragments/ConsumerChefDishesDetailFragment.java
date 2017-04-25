@@ -171,6 +171,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         parseClient.getDishesByChefId(chefId, new ParseClient.DishListListener() {
             @Override
             public void onSuccess(List<Dish> dishes) {
+                dishesArrayList.clear();
                 dishesArrayList.addAll(dishes);
                 dishArrayAdapter.notifyDataSetChanged();
                 Log.d(TAG, "onSuccess: " + dishes);
