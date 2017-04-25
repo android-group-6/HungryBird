@@ -1,6 +1,7 @@
 package com.codepath.hungrybird.chef.fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -13,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,7 +48,7 @@ public class DishAddEditFragment extends Fragment {
     public String photoFileName = "photo.jpg";
     public static final String FRAGMENT_TAG = "FILTER_FRAGMENT_TAG";
     public static final String DISH_ID = "DISH_ID";
-
+    Context context;
     ChefDishAddEditFragmentBinding binding;
 
     private Dish currentDish = new Dish();
@@ -160,6 +162,12 @@ public class DishAddEditFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
@@ -204,7 +212,7 @@ public class DishAddEditFragment extends Fragment {
         binding.editTextDishDescription.setText(dish.getDescription());
         binding.editTextPrice.setText(String.valueOf(dish.getPrice()));
         if (dish.getPrimaryImage() != null && dish.getPrimaryImage().getUrl() != null) {
-            Glide.with(getContext()).load(dish.getPrimaryImage().getUrl()).into(binding.imageViewPrimaryImage);
+            Glide.with(this.context).load(dish.getPrimaryImage().getUrl()).into(binding.imageViewPrimaryImage);
         }
     }
 
