@@ -35,6 +35,8 @@ import com.codepath.hungrybird.consumer.fragments.OrderHistoryFramgent;
 import com.codepath.hungrybird.databinding.ActivityChefLandingBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.User;
+import com.parse.DeleteCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
@@ -190,20 +192,18 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
                 fragmentClass = MyRegisterFragment.class;
                 break;
             case R.id.chef_logout_mi:
-
-                ParseUser.logOutInBackground(e -> {
-                    if (e == null) {
-                        Toast.makeText(ChefLandingActivity.this, "Logout Successful ... ", Toast.LENGTH_LONG).show();
-                        this.finish();
-                        Intent i = new Intent(ChefLandingActivity.this, LoginActivity.class);
-
-                        startActivity(i);
-                    } else {
-                        Toast.makeText(ChefLandingActivity.this, "Logout failed ... " + e.getMessage(), Toast.LENGTH_LONG).show();
-                        e.printStackTrace();
+                ParseInstallation.getCurrentInstallation().deleteInBackground(new DeleteCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Log.d(this.getClass().getSimpleName(), "installation deleted successfully ... ");
+                            logout();
+                        } else {
+                            Log.d(this.getClass().getSimpleName(), "failed while deleting installation ...");
+                            logout();
+                        }
                     }
                 });
-                ParseInstallation.getCurrentInstallation().deleteInBackground();
                 return;
             default:
                 fragmentClass = ChefOrdersViewFragment.class;
@@ -248,6 +248,20 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
 
         mDrawer.setOnClickListener(v -> {
             Toast.makeText(this, "ToastText", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void logout() {
+        ParseUser.logOutInBackground(e -> {
+            if (e == null) {
+                Toast.makeText(ChefLandingActivity.this, "Logout Successful ... ", Toast.LENGTH_LONG).show();
+                finish();
+                Intent i = new Intent(ChefLandingActivity.this, LoginActivity.class);
+                startActivity(i);
+            } else {
+                Toast.makeText(ChefLandingActivity.this, "Logout failed ... " + e.getMessage(), Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
         });
     }
 

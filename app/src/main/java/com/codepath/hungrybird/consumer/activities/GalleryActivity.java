@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,6 +46,8 @@ import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
+import com.parse.DeleteCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
@@ -241,20 +244,17 @@ public class GalleryActivity extends AppCompatActivity implements
                 fragmentClass = ContactUsFragment.class;
                 break;
             case R.id.chef_logout_mi:
-                ParseUser.logOutInBackground(e -> {
-                    if (e == null) {
-                        Toast.makeText(GalleryActivity.this, "Logout Successful", Toast.LENGTH_LONG).show();
-                        // remove from shared preference
-                        if (getFragmentManager().getBackStackEntryCount() == 0) {
-                            this.finish();
+                ParseInstallation.getCurrentInstallation().deleteInBackground(new DeleteCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Log.d(this.getClass().getSimpleName(), "installation deleted successfully ... ");
                         } else {
-                            getFragmentManager().popBackStack();
+                            Log.d(this.getClass().getSimpleName(), "failed while deleting installation ...");
                         }
-                    } else {
-                        e.printStackTrace();
+                        logout();
                     }
                 });
-                ParseInstallation.getCurrentInstallation().deleteInBackground();
                 // break;
             default:
                 fragmentClass = GalleryViewFragment.class;
@@ -276,6 +276,22 @@ public class GalleryActivity extends AppCompatActivity implements
         setTitle(menuItem.getTitle());
         // Close the navigation drawer
         mDrawer.closeDrawers();
+    }
+
+    private void logout() {
+        ParseUser.logOutInBackground(e -> {
+            if (e == null) {
+                Toast.makeText(GalleryActivity.this, "Logout Successful", Toast.LENGTH_LONG).show();
+                // remove from shared preference
+                if (getFragmentManager().getBackStackEntryCount() == 0) {
+                    this.finish();
+                } else {
+                    getFragmentManager().popBackStack();
+                }
+            } else {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
