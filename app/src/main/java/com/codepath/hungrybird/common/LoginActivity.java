@@ -107,7 +107,16 @@ public class LoginActivity extends AppCompatActivity {
         if (currentInstallation != null && currentUser != null) {
             currentInstallation.put("user", currentUser);
         }
-        currentInstallation.saveInBackground();
+        currentInstallation.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.d(this.getClass().getSimpleName(), "installation saved successfully ... ");
+                } else {
+                    Log.d(this.getClass().getSimpleName(), "failed while saving installation ... ");
+                }
+            }
+        });
     }
 
     private void getUserDetailsFromFB() {
