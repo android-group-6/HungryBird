@@ -11,23 +11,34 @@
         tools:context=".consumer.activities.GalleryActivity">
 
         <!-- This LinearLayout represents the contents of the screen  -->
-        <LinearLayout
+        <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/main_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:fitsSystemWindows="true">
 
-
-            <include
-                android:id="@+id/activity_gallery_toolbar"
-                layout="@layout/toolbar"
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="200dp"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    android:layout_height="?attr/actionBarSize"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+            </android.support.design.widget.AppBarLayout>
             <!-- The main content view where fragments are loaded -->
             <FrameLayout
                 android:id="@+id/flContent"
                 android:layout_width="match_parent"
+                android:layout_marginTop="?attr/actionBarSize"
                 android:layout_height="match_parent" />
-        </LinearLayout>
+        </android.support.design.widget.CoordinatorLayout>
 
         <!-- The navigation drawer that comes from the left -->
         <!-- Note that `android:layout_gravity` needs to be set to 'start' -->
