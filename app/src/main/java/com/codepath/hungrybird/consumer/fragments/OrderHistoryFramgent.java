@@ -123,7 +123,7 @@ public class OrderHistoryFramgent extends Fragment {
             ConsumerOrderHistoryViewItemBinding binding = (ConsumerOrderHistoryViewItemBinding) (holder.binding);
             binding.consumerOrderDateTv.setText(order.getShortDate());
             binding.consumerOrderStatus.setText(order.getStatus());
-            binding.consumerOrderCode.setText(order.getObjectId());
+            binding.consumerOrderCode.setText("HB-" + order.getObjectId());
             binding.consumerOrderDeliveryStatus.setText(order.getStatus());
             Object o = order.get("chef");
             ParseUser po = (ParseUser) o;
