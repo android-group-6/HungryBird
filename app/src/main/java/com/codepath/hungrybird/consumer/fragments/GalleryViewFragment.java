@@ -37,6 +37,9 @@ public class GalleryViewFragment extends Fragment {
     Map<String, List<Dish>> cuisine2Dishes = new HashMap<>();
     List<Dish.Cuisine> allCuisines;
 
+    private static final String TRENDING = "trending";
+    private static final String NEARBY = "nearby";
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
@@ -62,12 +65,18 @@ public class GalleryViewFragment extends Fragment {
 
     private void setupAdapter(Map<String, List<Dish>> map) {
         GallerySnapListContainerAdapter gallerySnapListContainerAdapter = new GallerySnapListContainerAdapter(getActivity());
-        for (String key : map.keySet()) {
-            List<Dish> dishes = map.get(key);
+        List<String> orderedSnaps = Arrays.asList(
+                TRENDING,
+                NEARBY,
+                Dish.Cuisine.INDIAN.getCuisineValue(),
+                Dish.Cuisine.ITALIAN.getCuisineValue(),
+                Dish.Cuisine.MEXICAN.getCuisineValue(),
+                Dish.Cuisine.CHINESE.getCuisineValue());
+        for (String snap : orderedSnaps) {
+            List<Dish> dishes = map.get(snap);
             if (dishes != null && !dishes.isEmpty()) {
-                gallerySnapListContainerAdapter.addSnap(new DishList(Gravity.CENTER_HORIZONTAL, key, dishes));
+                gallerySnapListContainerAdapter.addSnap(new DishList(Gravity.CENTER_HORIZONTAL, snap, dishes));
             }
-
         }
         binding.recyclerView.setAdapter(gallerySnapListContainerAdapter);
     }
@@ -93,6 +102,8 @@ public class GalleryViewFragment extends Fragment {
             @Override
             public Observable<Map<String, List<Dish>>> call(List<Dish> dishes) {
                 Map<String, List<Dish>> map = new HashMap<String, List<Dish>>();
+                map.put(TRENDING, new ArrayList<>());
+                map.put(NEARBY, new ArrayList<>());
                 for (Dish d : dishes) {
                     List<Dish> list = map.get(d.getCuisine());
                     if (list == null) {
@@ -100,6 +111,12 @@ public class GalleryViewFragment extends Fragment {
                         map.put(d.getCuisine(), list);
                     }
                     list.add(d);
+                    if (isTrending(d)) {
+                        map.get(TRENDING).add(d);
+                    }
+                    if (isNearBy(d)) {
+                        map.get(NEARBY).add(d);
+                    }
                 }
                 return Observable.just(map);
 
@@ -124,4 +141,17 @@ public class GalleryViewFragment extends Fragment {
                 });
     }
 
+    private boolean isTrending(Dish d) {
+        if (d == null || d.getTitle() == null) {
+            return false;
+        }
+        return (d.getTitle().length() % 2 != 0);
+    }
+
+    private boolean isNearBy(Dish d) {
+        if (d == null || d.getTitle() == null) {
+            return false;
+        }
+        return (d.getTitle().length() % 2 == 0);
+    }
 }

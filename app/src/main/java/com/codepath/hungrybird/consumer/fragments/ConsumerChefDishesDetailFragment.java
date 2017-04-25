@@ -1,6 +1,7 @@
 package com.codepath.hungrybird.consumer.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -51,6 +52,8 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
 
     DishArrayAdapter dishArrayAdapter;
     List<Dish> dishesArrayList = new ArrayList<>();
+
+    private Context context;
 
     @Override
     public void onDishSelected(Dish dish, boolean fromChefPage) {
@@ -184,11 +187,17 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         });
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
     private void updateCurrentDishView() {
         ParseFile dishPic = currentDish.getPrimaryImage();
         if (dishPic != null && dishPic.getUrl() != null) {
             String imgUrl = dishPic.getUrl();
-            Glide.with(getContext())
+            Glide.with(this.context)
                     .load(imgUrl)
                     .placeholder(R.drawable.placeholder)
                     .into(binding.selectedDishPicIv);
