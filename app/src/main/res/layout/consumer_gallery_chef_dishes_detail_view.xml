@@ -7,7 +7,6 @@
         android:layout_height="wrap_content">
 
 
-
         <ImageView
             android:id="@+id/selectedDishPic_iv"
             android:layout_width="match_parent"
@@ -19,21 +18,22 @@
             android:background="@android:color/darker_gray"
             android:maxHeight="100dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_no_image_available" />
+            android:src="@drawable/placeholder" />
+
         <RelativeLayout
             android:id="@+id/chef_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:background="#50000000"
             android:orientation="horizontal"
-            android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:background="#50000000"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:paddingTop="5dp">
 
             <ImageView
                 android:id="@+id/chefProfilePic_iv"
@@ -41,52 +41,53 @@
                 android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
                 android:layout_marginRight="10dp"
-                app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
+                android:src="@drawable/com_facebook_profile_picture_blank_square" />
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
+                android:layout_gravity="end"
                 android:layout_toRightOf="@+id/chefProfilePic_iv"
                 android:fontFamily="cursive"
                 android:text="From the kitchen of..."
+                android:textAlignment="viewEnd"
                 android:textColor="@color/white"
                 android:textSize="16dp"
-                android:textAlignment="viewEnd"
-                android:layout_gravity="end"
-                android:textStyle="italic"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/chefName_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAlignment="viewEnd"
-                android:layout_gravity="end"
-                android:textColor="@color/white"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_below="@+id/textView4"
                 android:layout_centerVertical="true"
+                android:layout_gravity="end"
                 android:layout_toRightOf="@+id/chefProfilePic_iv"
                 android:fontFamily="cursive"
                 android:text="Betty Crocker"
+                android:textAlignment="viewEnd"
+                android:textColor="@color/white"
                 android:textSize="22dp"
-                android:textStyle="bold"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:textStyle="bold" />
         </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/dishDetailHeading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_alignBottom="@+id/selectedDishPic_iv"
-            android:background="#70000000"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:background="#70000000"
+            android:orientation="horizontal"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp">
 
             <TextView
                 android:id="@+id/dishTitle"
@@ -95,14 +96,14 @@
                 android:layout_alignBottom="@+id/selectedDishPic_iv"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_gravity="start"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif"
+                android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="@color/white"
                 android:transitionName="dishTitleTransition"
-                android:textAlignment="viewStart"
-                android:layout_gravity="start"
                 tools:text="Paneer Tikka Masala" />
 
             <TextView
@@ -112,13 +113,13 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/dishTitle"
+                android:layout_gravity="end"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
+                android:textAlignment="viewEnd"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:textAlignment="viewEnd"
-                android:layout_gravity="end"
                 android:transitionName="dishPriceTransition"
                 tools:text="$7.99" />
         </LinearLayout>
@@ -127,14 +128,14 @@
             android:id="@+id/dishDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_below="@+id/dishDetailHeading"
-            android:text="This is an indian cheese filled with gravy. Mmmm mmm good! It's a classic."
+            android:layout_alignEnd="@+id/add_to_card_panel"
             android:layout_alignLeft="@+id/servesLabel"
-            android:layout_alignStart="@+id/servesLabel"
             android:layout_alignRight="@+id/add_to_card_panel"
-            android:layout_alignEnd="@+id/add_to_card_panel" />
+            android:layout_alignStart="@+id/servesLabel"
+            android:layout_below="@+id/dishDetailHeading"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="This is an indian cheese filled with gravy. Mmmm mmm good! It's a classic." />
 
         <TextView
             android:id="@+id/servesLabel"
@@ -162,11 +163,11 @@
             android:id="@+id/add_to_card_panel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="5"
-            android:layout_alignTop="@+id/dishServingSize"
+            android:layout_alignEnd="@+id/moreDishesFromCurrentChef_fl"
             android:layout_alignRight="@+id/moreDishesFromCurrentChef_fl"
-            android:layout_alignEnd="@+id/moreDishesFromCurrentChef_fl">
+            android:layout_alignTop="@+id/dishServingSize"
+            android:orientation="horizontal"
+            android:weightSum="5">
 
             <TextView
                 android:id="@+id/tvMinus"
@@ -184,8 +185,8 @@
                 android:layout_alignBaseline="@+id/tvMinus"
                 android:layout_toRightOf="@id/tvMinus"
                 android:gravity="center_vertical"
-                android:textColor="@color/colorPrimary"
                 android:text="0"
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 tools:text="12" />
 
