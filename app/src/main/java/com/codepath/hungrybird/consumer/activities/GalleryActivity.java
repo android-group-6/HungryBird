@@ -301,6 +301,7 @@ public class GalleryActivity extends AppCompatActivity implements
         bundle.putString(ConsumerChefDishesDetailFragment.DISH_ID, dish.getObjectId());
         bundle.putString(ConsumerChefDishesDetailFragment.CHEF_ID, dish.getChef().getObjectId());
         dishDetailsFragment.setArguments(bundle);
+        bundle.putString("CHEF_NAME", dish.getChef().getUsername());
         fragmentManager.beginTransaction()
                 .addSharedElement(dishImage, "dishImageTransition")
                 .addSharedElement(dishTitle, "dishTitleTransition")

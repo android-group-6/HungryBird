@@ -3,6 +3,7 @@ package com.codepath.hungrybird.chef.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,20 +29,24 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;
     DishSelected dishSelected;
+    private int selectedPosition = 0;
 
     public interface DishSelected {
         void onDishSelected(Dish dish, boolean fromChefPage);
     }
 
     public DishArrayAdapter(Activity activity, List<Dish> dishArrayList) {
+        this(activity, dishArrayList, (DishSelected) activity);
+    }
+
+    public DishArrayAdapter(Activity activity, List<Dish> dishArrayList, DishSelected dishSelected) {
         this.dishArrayList = dishArrayList;
         this.context = activity;
-        dishSelected = (DishSelected)activity;
+        this.dishSelected = dishSelected;
         if (dishArrayList == null) {
             throw new NullPointerException("Article ArrayList Can't Be Null or Empty");
         }
     }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
@@ -75,6 +80,11 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             if (dish.getPrimaryImage() != null && dish.getPrimaryImage().getUrl() != null) {
                 Glide.with(holder.binding.getRoot().getContext()).load(dish.getPrimaryImage().getUrl()).into(holder.binding.chefOfferingListItemDishIv);
             }
+            if(selectedPosition == position){
+                holder.itemView.setBackgroundResource(R.color.colorSelected);
+            } else{
+                holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+            }
         } else {
             ((ProgressViewHolder) viewHolder).progressBar.setIndeterminate(true);
         }
@@ -89,6 +99,7 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public int getItemCount() {
         return dishArrayList.size();
     }
+
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
@@ -112,6 +123,9 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     if (dishSelected != null) {
                         dishSelected.onDishSelected(dish, true);
                     }
+                    notifyItemChanged(selectedPosition); // old position
+                    selectedPosition = getLayoutPosition();
+                    notifyItemChanged(selectedPosition); // new position
                     // We can access the data within the views
 
                     /* No longer needed this code As we are Using Chrome Tab now

@@ -17,7 +17,6 @@ import com.codepath.hungrybird.databinding.ConsumerGalleryViewBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.DishList;
 import com.codepath.hungrybird.network.ParseClient;
-import com.parse.ParseException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,20 +24,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
+
 public class GalleryViewFragment extends Fragment {
     public static final String TAG = GalleryViewFragment.class.getSimpleName();
 
     ConsumerGalleryViewBinding binding;
-    Map<Dish.Cuisine, List<Dish>> cuisine2Dishes = new HashMap<>();
+    Map<String, List<Dish>> cuisine2Dishes = new HashMap<>();
     List<Dish.Cuisine> allCuisines;
+
+    private static final String TRENDING = "trending";
+    private static final String NEARBY = "nearby";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         allCuisines = Arrays.asList(Dish.Cuisine.values());
-        for (Dish.Cuisine cuisine : allCuisines) {
-            cuisine2Dishes.put(cuisine, new ArrayList<>());
-        }
     }
 
     @Override
@@ -58,42 +63,95 @@ public class GalleryViewFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Hungry's Nest");
     }
 
-    private void setupAdapter() {
+    private void setupAdapter(Map<String, List<Dish>> map) {
         GallerySnapListContainerAdapter gallerySnapListContainerAdapter = new GallerySnapListContainerAdapter(getActivity());
-        for (Dish.Cuisine cuisine : allCuisines) {
-            List<Dish> dishes = cuisine2Dishes.get(cuisine);
+        List<String> orderedSnaps = Arrays.asList(
+                TRENDING,
+                NEARBY,
+                Dish.Cuisine.INDIAN.getCuisineValue(),
+                Dish.Cuisine.ITALIAN.getCuisineValue(),
+                Dish.Cuisine.MEXICAN.getCuisineValue(),
+                Dish.Cuisine.CHINESE.getCuisineValue());
+        for (String snap : orderedSnaps) {
+            List<Dish> dishes = map.get(snap);
             if (dishes != null && !dishes.isEmpty()) {
-                gallerySnapListContainerAdapter.addSnap(new DishList(Gravity.CENTER_HORIZONTAL, cuisine.getCuisineValue(), dishes));
+                gallerySnapListContainerAdapter.addSnap(new DishList(Gravity.CENTER_HORIZONTAL, snap, dishes));
             }
         }
         binding.recyclerView.setAdapter(gallerySnapListContainerAdapter);
     }
 
     private void loadAllTopCuisineDishes() {
-        for (Dish.Cuisine cuisine : allCuisines) {
-            loadIndianTopCuisineDishes(cuisine);
-        }
+        Observable.create(new Observable.OnSubscribe<List<Dish>>() {
+            @Override
+            public void call(Subscriber<? super List<Dish>> subscriber) {
+                ParseClient.getInstance().getDishesByCuisines(allCuisines, new ParseClient.DishListListener() {
+                    @Override
+                    public void onSuccess(List<Dish> dishes) {
+                        subscriber.onNext(dishes);
+                        subscriber.onCompleted();
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        subscriber.onError(e);
+                    }
+                });
+            }
+        }).flatMap(new Func1<List<Dish>, Observable<Map<String, List<Dish>>>>() {
+            @Override
+            public Observable<Map<String, List<Dish>>> call(List<Dish> dishes) {
+                Map<String, List<Dish>> map = new HashMap<String, List<Dish>>();
+                map.put(TRENDING, new ArrayList<>());
+                map.put(NEARBY, new ArrayList<>());
+                for (Dish d : dishes) {
+                    List<Dish> list = map.get(d.getCuisine());
+                    if (list == null) {
+                        list = new ArrayList<>();
+                        map.put(d.getCuisine(), list);
+                    }
+                    list.add(d);
+                    if (isTrending(d)) {
+                        map.get(TRENDING).add(d);
+                    }
+                    if (isNearBy(d)) {
+                        map.get(NEARBY).add(d);
+                    }
+                }
+                return Observable.just(map);
+
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Map<String, List<Dish>>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Map<String, List<Dish>> map) {
+                        setupAdapter(map);
+                    }
+                });
     }
 
-    private void loadIndianTopCuisineDishes(Dish.Cuisine cuisine) {
-        try {
-            ParseClient.getInstance().getDishesByCuisine(cuisine, new ParseClient.DishListListener() {
-                @Override
-                public void onSuccess(List<Dish> dishes) {
-                    List<Dish> topDishes = cuisine2Dishes.get(cuisine);
-                    topDishes.clear();
-                    topDishes.addAll(dishes);
-                    setupAdapter();
-                }
-
-                @Override
-                public void onFailure(Exception e) {
-
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+    private boolean isTrending(Dish d) {
+        if (d == null || d.getTitle() == null) {
+            return false;
         }
+        return (d.getTitle().length() % 2 != 0);
+    }
 
+    private boolean isNearBy(Dish d) {
+        if (d == null || d.getTitle() == null) {
+            return false;
+        }
+        return (d.getTitle().length() % 2 == 0);
     }
 }
