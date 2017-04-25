@@ -94,4 +94,5 @@ dependencies {
     compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
     compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.google.maps.android:android-maps-utils:0.3.4'
+    compile 'com.airbnb.android:lottie:2.0.0-beta4'
 }

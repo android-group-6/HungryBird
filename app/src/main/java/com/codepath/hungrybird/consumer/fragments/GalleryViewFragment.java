@@ -3,6 +3,7 @@ package com.codepath.hungrybird.consumer.fragments;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.airbnb.lottie.LottieComposition;
+import com.airbnb.lottie.OnCompositionLoadedListener;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.consumer.adapters.GallerySnapListContainerAdapter;
 import com.codepath.hungrybird.databinding.ConsumerGalleryViewBinding;
@@ -53,8 +56,23 @@ public class GalleryViewFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.consumer_gallery_view, container, false);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerView.setHasFixedSize(true);
+        binding.animationView.setVisibility(View.VISIBLE);
+        String assetName = "lottie_loading.json";
+        LottieComposition.Factory.fromAssetFileName(this.getContext(), assetName,
+                new OnCompositionLoadedListener() {
+                    @Override public void onCompositionLoaded(LottieComposition composition) {
+                        setComposition(composition, assetName);
+                    }
+                });
         loadAllTopCuisineDishes();
+
         return binding.getRoot();
+    }
+
+    void setComposition(LottieComposition composition, String name) {
+        binding.animationView.setComposition(composition);
+        binding.animationView.playAnimation();
+        binding.animationView.loop(true);
     }
 
     @Override
@@ -126,12 +144,16 @@ public class GalleryViewFragment extends Fragment {
                 .subscribe(new Subscriber<Map<String, List<Dish>>>() {
                     @Override
                     public void onCompleted() {
-
+                        binding.animationView.loop(false);
+                        binding.animationView.setVisibility(View.GONE);
+                        binding.nestedScroll.setVisibility(View.VISIBLE);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        binding.animationView.loop(false);
+                        binding.animationView.setVisibility(View.GONE);
+                        binding.nestedScroll.setVisibility(View.VISIBLE);
                     }
 
                     @Override
