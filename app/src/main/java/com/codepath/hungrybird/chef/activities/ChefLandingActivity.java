@@ -36,6 +36,7 @@ import com.codepath.hungrybird.databinding.ActivityChefLandingBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.User;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -202,6 +203,7 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
                         e.printStackTrace();
                     }
                 });
+                ParseInstallation.getCurrentInstallation().deleteInBackground();
                 return;
             default:
                 fragmentClass = ChefOrdersViewFragment.class;

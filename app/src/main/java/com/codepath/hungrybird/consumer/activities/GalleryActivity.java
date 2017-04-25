@@ -46,6 +46,7 @@ import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -253,6 +254,7 @@ public class GalleryActivity extends AppCompatActivity implements
                         e.printStackTrace();
                     }
                 });
+                ParseInstallation.getCurrentInstallation().deleteInBackground();
                 // break;
             default:
                 fragmentClass = GalleryViewFragment.class;
