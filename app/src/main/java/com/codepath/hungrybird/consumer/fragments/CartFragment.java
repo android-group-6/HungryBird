@@ -3,6 +3,7 @@ package com.codepath.hungrybird.consumer.fragments;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.app.assist.AssistStructure;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieComposition;
+import com.airbnb.lottie.OnCompositionLoadedListener;
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
@@ -272,6 +275,16 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                 filter);
         binding.autocompletePlaces.setAdapter(mAdapter);
 
+        binding.animationView.setVisibility(View.VISIBLE);
+        String assetName = "lottie_loading.json";
+        LottieComposition.Factory.fromAssetFileName(this.getContext(), assetName,
+                new OnCompositionLoadedListener() {
+                    @Override
+                    public void onCompositionLoaded(LottieComposition composition) {
+                        setComposition(composition, assetName);
+                    }
+                });
+
 
         final BaseItemHolderAdapter<OrderDishRelation> adapter =
                 new BaseItemHolderAdapter(getContext(), R.layout.consumer_order_cart_dish_item, orderDishRelations);
@@ -327,11 +340,19 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                 .subscribe(new Subscriber<OrderRelationResponse>() {
                     @Override
                     public void onCompleted() {
+                        binding.animationView.loop(false);
+                        binding.itemsContainer.setVisibility(View.VISIBLE);
+                        binding.finalCostContainer.setVisibility(View.VISIBLE);
+                        binding.animationView.setVisibility(View.GONE);
+                        binding.consumerCartItemsRv.setVisibility(View.VISIBLE);
 
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        binding.animationView.loop(false);
+                        binding.animationView.setVisibility(View.GONE);
+                        binding.consumerCartItemsRv.setVisibility(View.VISIBLE);
 
                     }
 
@@ -341,6 +362,7 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                         CartFragment.this.orderDishRelations.clear();
                         CartFragment.this.orderDishRelations.addAll(response.orderDishRelation);
                         adapter.notifyDataSetChanged();
+
                         User chef = response.order.getChef();
                         User consumer = response.order.getConsumer();
                         Context context = getActivity();
@@ -498,6 +520,12 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
 
         });
         return binding.getRoot();
+    }
+
+    void setComposition(LottieComposition composition, String name) {
+        binding.animationView.setComposition(composition);
+        binding.animationView.playAnimation();
+        binding.animationView.loop(true);
     }
 
     private void togglePanel(View addToPanel) {

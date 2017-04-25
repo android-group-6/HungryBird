@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieComposition;
+import com.airbnb.lottie.OnCompositionLoadedListener;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
 import com.codepath.hungrybird.common.DateUtils;
@@ -68,6 +70,17 @@ public class OrderHistoryFramgent extends Fragment {
                 onOrderSelected.onOrderSelected(parseObject.getObjectId());
             }
         });
+        binding.animationView.setVisibility(View.VISIBLE);
+        String assetName = "lottie_loading.json";
+        LottieComposition.Factory.fromAssetFileName(this.getContext(), assetName,
+                new OnCompositionLoadedListener() {
+                    @Override
+                    public void onCompositionLoaded(LottieComposition composition) {
+                        setComposition(composition, assetName);
+                    }
+                });
+
+
         binding.consumerOrderListRv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         binding.consumerOrderListRv.setAdapter(adapter);
         try {
@@ -103,6 +116,13 @@ public class OrderHistoryFramgent extends Fragment {
                             .observeOn(AndroidSchedulers.mainThread()).subscribe(orders1 -> {
                         orders.clear();
                         orders.addAll(orders1);
+                        binding.animationView.loop(false);
+                        binding.animationView.setVisibility(View.GONE);
+                        if (orders1.isEmpty()) {
+                            binding.noContentnoContent.setVisibility(View.VISIBLE);
+                        } else {
+                            binding.consumerOrderListRv.setVisibility(View.VISIBLE);
+                        }
                         adapter.notifyDataSetChanged();
 
                     });
@@ -110,6 +130,10 @@ public class OrderHistoryFramgent extends Fragment {
 
                 @Override
                 public void onFailure(Exception e) {
+                    binding.animationView.loop(false);
+                    binding.animationView.setVisibility(View.GONE);
+                    binding.noContentnoContent.setVisibility(View.VISIBLE);
+                    binding.consumerOrderListRv.setVisibility(View.GONE);
 
                 }
             });
@@ -124,7 +148,7 @@ public class OrderHistoryFramgent extends Fragment {
             binding.consumerOrderDateTv.setText(order.getShortDate());
             binding.consumerOrderStatus.setText(order.getStatus());
             binding.consumerOrderCode.setText("HB-" + order.getObjectId());
-            binding.consumerOrderDeliveryStatus.setText(order.isDelivery()? "Delivered" : "Picked Up");
+            binding.consumerOrderDeliveryStatus.setText(order.isDelivery() ? "Delivered" : "Picked Up");
             Object o = order.get("chef");
             ParseUser po = (ParseUser) o;
             binding.consumerOrderChefName.setText(po.getUsername());
@@ -133,4 +157,12 @@ public class OrderHistoryFramgent extends Fragment {
         return binding.getRoot();
 
     }
+
+    void setComposition(LottieComposition composition, String name) {
+        binding.animationView.setComposition(composition);
+        binding.animationView.playAnimation();
+        binding.animationView.loop(true);
+    }
+
+
 }

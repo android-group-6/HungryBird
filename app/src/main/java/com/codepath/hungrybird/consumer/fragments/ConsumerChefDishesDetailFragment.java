@@ -28,6 +28,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieComposition;
+import com.airbnb.lottie.OnCompositionLoadedListener;
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
@@ -447,11 +449,16 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                 subscribe(new Subscriber<OrderRelationResponse>() {
                     @Override
                     public void onCompleted() {
-
+                        binding.animationView.loop(false);
+                        binding.animationView.setVisibility(View.GONE);
+                        binding.chefMyoffersingsLv.setVisibility(View.VISIBLE);
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        binding.animationView.loop(false);
+                        binding.animationView.setVisibility(View.GONE);
+                        binding.chefMyoffersingsLv.setVisibility(View.VISIBLE);
 
                     }
 
@@ -467,7 +474,22 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
 
                     }
                 });
+        binding.animationView.setVisibility(View.VISIBLE);
+        String assetName = "lottie_loading.json";
+        LottieComposition.Factory.fromAssetFileName(this.getContext(), assetName,
+                new OnCompositionLoadedListener() {
+                    @Override public void onCompositionLoaded(LottieComposition composition) {
+                        setComposition(composition, assetName);
+                    }
+                });
+
         return binding.getRoot();
+    }
+
+    void setComposition(LottieComposition composition, String name) {
+        binding.animationView.setComposition(composition);
+        binding.animationView.playAnimation();
+        binding.animationView.loop(true);
     }
 
     @Override

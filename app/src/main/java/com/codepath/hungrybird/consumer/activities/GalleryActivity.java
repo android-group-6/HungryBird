@@ -368,7 +368,7 @@ public class GalleryActivity extends AppCompatActivity implements
         Bundle bundle = new Bundle();
         bundle.putString(CartFragment.OBJECT_ID, order.getObjectId());
         cartFragment.setArguments(bundle);
-        fragmentManager.beginTransaction().replace(R.id.flContent, cartFragment)
+        fragmentManager.beginTransaction().add(R.id.flContent, cartFragment)
                 .addToBackStack(null).commit();
     }
 

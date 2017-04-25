@@ -1,17 +1,63 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <RelativeLayout
         android:id="@+id/chef_my_offerings_content"
         android:layout_width="match_parent"
-        android:background="@color/colorPageBackground"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorPageBackground">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/consumer_order_list_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:visibility="gone" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/no_contentno_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_history" />
+
+            <TextView
+                android:id="@+id/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:textColor="#747474"
+                android:textSize="20sp"
+                android:textStyle="normal"
+                android:text="Your history is one order away" />
+
+            <TextView
+                android:id="@+id/detail_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="Create a history by placing your orders"
+                android:textColor="#747474"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+        </LinearLayout>
     </RelativeLayout>
 </layout>

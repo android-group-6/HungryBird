@@ -96,4 +96,5 @@ dependencies {
     compile 'com.google.maps.android:android-maps-utils:0.3.4'
     // Custom fonts
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+    compile 'com.airbnb.android:lottie:2.0.0-beta4'
 }

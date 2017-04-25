@@ -138,6 +138,7 @@
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/colorPageBackground"
             android:layout_below="@+id/autocomplete_places"
             android:layout_marginBottom="50dp">
 
@@ -155,17 +156,27 @@
                     android:elevation="1dp"
                     app:cardCornerRadius="2dp">
 
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/animation_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone" />
+
                     <RelativeLayout
                         android:id="@+id/items_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/autocomplete_places"
-                        android:background="@android:color/white">
+                        android:background="@android:color/white"
+                        android:visibility="gone">
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/consumer_cart_items_rv"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPageBackground"
+                            android:visibility="gone" />
 
                         <TextView
 
@@ -243,7 +254,8 @@
                     android:id="@+id/final_cost_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp">
+                    android:layout_marginLeft="10dp"
+                    android:visibility="gone">
 
                     <TextView
 
