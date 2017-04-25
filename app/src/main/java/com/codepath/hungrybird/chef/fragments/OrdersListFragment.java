@@ -36,10 +36,12 @@ public class OrdersListFragment extends Fragment {
     BaseItemHolderAdapter<Order> orderArrayAdapter;
     OrderHistoryFramgent.OnOrderSelected orderSelected;
     private DateUtils dateUtils = new DateUtils();
-
+    boolean contentLoaded = false;
+    ChefContactDetailsFragmentBinding binding;
     public void update(ArrayList<Order> orderList) {
         orderArrayList.clear();
         orderArrayList.addAll(orderList);
+        contentLoaded = true;
         if (orderArrayAdapter != null) {
             orderArrayAdapter.notifyDataSetChanged();
         }
@@ -54,15 +56,17 @@ public class OrdersListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ChefContactDetailsFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.chef_contact_details_fragment, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.chef_contact_details_fragment, container, false);
         ordersRv = binding.chefOrderStatusLv;
+
+        binding.titleText.setText(getArguments().getString("TITLE"));
+        binding.detailText.setText(getArguments().getString("DETAIL"));
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false);
@@ -99,12 +103,23 @@ public class OrdersListFragment extends Fragment {
         ordersRv.addItemDecoration(dividerItemDecoration);
         return binding.getRoot();
     }
+    private void onContentLoaded() {
+        if (contentLoaded && orderArrayList.isEmpty()) {
+            binding.noContent.setVisibility(View.VISIBLE);
+            binding.chefOrderStatusLv.setVisibility(View.GONE);
+        } else {
+            binding.noContent.setVisibility(View.GONE);
+            binding.chefOrderStatusLv.setVisibility(View.VISIBLE);
+        }
+
+    }
 
     @Override
     public void onResume() {
         super.onResume();
         ordersRv.setAdapter(orderArrayAdapter);
         orderArrayAdapter.notifyDataSetChanged();
+        onContentLoaded();
     }
 
     @Override

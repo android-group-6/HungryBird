@@ -1,11 +1,13 @@
 package com.codepath.hungrybird.chef.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.widget.RecyclerView;
 
+import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.fragments.OrdersListFragment;
 import com.codepath.hungrybird.model.Order;
 
@@ -21,7 +23,6 @@ public class ChefOrdersFragmentPagerAdapter extends FragmentPagerAdapter {
     private String tabTitles[] = new String[]{"NEW", "IN PROGRESS", "COMPLETE"};
     private OrdersListFragment ordersListFragments[] = new OrdersListFragment[]{null, null, null};
     private ArrayList<Order>[] lists = new ArrayList[]{new ArrayList<>(), new ArrayList<>(), new ArrayList<>()};
-
     private Context context;
     RecyclerView.OnScrollListener onScrollListener;
 
@@ -66,17 +67,26 @@ public class ChefOrdersFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (ordersListFragments[position] == null) {
+            Bundle bundle = new Bundle();
             ordersListFragments[position] = new OrdersListFragment();
+            ordersListFragments[position].setArguments(bundle);
         }
         switch (position) {
             case 0:
                 ordersListFragments[position].update(lists[0]);
+                ordersListFragments[position].getArguments().putString("TITLE", context.getString(R.string.order_new_title_text));
+                ordersListFragments[position].getArguments().putString("DETAIL", context.getString(R.string.order_new_details_text));
                 break;
             case 1:
                 ordersListFragments[position].update(lists[1]);
+                ordersListFragments[position].getArguments().putString("TITLE", context.getString(R.string.order_in_progress_title_text));
+                ordersListFragments[position].getArguments().putString("DETAIL", context.getString(R.string.order_in_progress_details_text));
                 break;
             case 2:
                 ordersListFragments[position].update(lists[2]);
+                ordersListFragments[position].getArguments().putString("TITLE", context.getString(R.string.order_done_title_text));
+                ordersListFragments[position].getArguments().putString("DETAIL", context.getString(R.string.order_done_details_text));
+
                 break;
         }
         return ordersListFragments[position];
