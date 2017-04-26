@@ -174,8 +174,8 @@ public class OrderDetailsFragment extends Fragment {
                 Double pricePerItem = order.gePricePerItem();
                 double totalPrice = count * pricePerItem;
                 binding.consumerOrderDetailQuantityDetailsTv.setText("" + count + " at $" + pricePerItem + " each");
-                binding.itemTotalPrice.setText("$" + totalPrice);
-                binding.consumerOrderDetailDishNameTv.setText(dish.getDishName());
+                binding.itemTotalPrice.setText(getRoundedTwoPlaces(totalPrice));
+                binding.consumerOrderDetailDishNameTv.setText(dish.getTitle());
             } else {
                 Toast.makeText(getActivity(), "Missing Dish", Toast.LENGTH_SHORT).show();
             }

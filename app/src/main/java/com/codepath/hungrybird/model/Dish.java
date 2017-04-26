@@ -11,7 +11,7 @@ import com.parse.ParseObject;
 public class Dish extends ParseObject {
 
     public String getDishName() {
-        return getString("dishName");
+        return getTitle();
     }
 
     public void setDishName(String dishName) {
