@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/image_nav_drawer_account_background"
+                android:src="@drawable/drawer_layout_bg"
                 tools:ignore="ContentDescription" />
 
         </FrameLayout>

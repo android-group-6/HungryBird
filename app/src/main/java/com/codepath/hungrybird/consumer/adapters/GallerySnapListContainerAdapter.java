@@ -2,7 +2,6 @@ package com.codepath.hungrybird.consumer.adapters;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
@@ -66,7 +65,7 @@ public class GallerySnapListContainerAdapter extends RecyclerView.Adapter<Galler
         DishList dishList = mDishes.get(position);
         String color = colorChooser.getColor(dishList.getText());
         if (color != null) {
-            holder.snapTextView.setBackgroundColor(Color.parseColor(color));
+            holder.snapTextView.setTextColor(Color.parseColor(color));
         }
         StringBuilder sb = new StringBuilder();
         sb.append(dishList.getText());

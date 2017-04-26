@@ -46,7 +46,7 @@
         android:gravity="right"
         android:text="$19.99"
         android:textColor="@color/black_alpha_60"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>
-

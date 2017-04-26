@@ -25,14 +25,18 @@ import com.codepath.hungrybird.databinding.ConsumerGalleryChefDishesDetailViewBi
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.OrderDishRelation;
+import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by DhwaniShah on 4/13/17.
@@ -52,6 +56,12 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
 
     DishArrayAdapter dishArrayAdapter;
     List<Dish> dishesArrayList = new ArrayList<>();
+    private static DecimalFormat df = new DecimalFormat();
+
+    static {
+        df.setMinimumFractionDigits(2);
+        df.setMaximumFractionDigits(2);
+    }
 
     private Context context;
 
@@ -75,8 +85,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
     @Override
     public void onResume() {
         super.onResume();
-        String title = getArguments().getString("CHEF_NAME");
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title + "\'s Kitchen");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Chef's Menu");
     }
 
     @Override
@@ -124,6 +133,10 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         return super.onOptionsItemSelected(item);
     }
 
+    private String getRoundedTwoPlaces(double val) {
+        return "$" + df.format(Math.round(100 * val) / 100.0);
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -156,6 +169,27 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                 int quantity = Integer.parseInt(binding.tvDishQuantity.getText().toString());
                 addOrUpdateOrderDishRelation(currentOrder, currentDish, quantity);
                 Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
+            }
+        });
+        parseClient.getUserById(chefId, new ParseClient.UserListener() {
+            @Override
+            public void onSuccess(User user) {
+                ParseFile chefProfilePic = user.getProfileImage();
+                if (chefProfilePic != null && chefProfilePic.getUrl() != null) {
+                    String imgUrl = chefProfilePic.getUrl();
+                    Glide.with(getContext())
+                            .load(imgUrl)
+                            .placeholder(R.drawable.com_facebook_profile_picture_blank_square)
+                            .fallback(R.drawable.com_facebook_profile_picture_blank_square)
+                            .bitmapTransform(new CropCircleTransformation(getContext()))
+                            .into(binding.chefProfilePicIv);
+                }
+                binding.chefNameTv.setText(user.getUsername());
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+
             }
         });
         parseClient.getDishById(dishId, new ParseClient.DishListener() {
@@ -204,7 +238,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         }
 
         binding.dishTitle.setText(currentDish.getTitle());
-        binding.dishPrice.setText("$" + String.valueOf(currentDish.getPrice()));
+        binding.dishPrice.setText(getRoundedTwoPlaces(currentDish.getPrice()));
         binding.dishServingSize.setText(String.valueOf(currentDish.getServingSize()));
         String description = currentDish.getDescription();
         if (description == null || description.isEmpty()) {

@@ -34,6 +34,7 @@ import com.stripe.android.model.Token;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
@@ -46,6 +47,12 @@ public class ConsumerCheckoutFragment extends Fragment {
     ConsumerCheckoutFragmentBinding binding;
 
     CheckoutFragmentListener checkoutFragmentListener;
+    private static DecimalFormat df = new DecimalFormat();
+
+    static {
+        df.setMinimumFractionDigits(2);
+        df.setMaximumFractionDigits(2);
+    }
 
     Order order;
 
@@ -77,6 +84,10 @@ public class ConsumerCheckoutFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Checkout");
     }
 
+    private String getRoundedTwoPlaces(double val) {
+        return "$" + df.format(Math.round(100 * val) / 100.0);
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -99,7 +110,7 @@ public class ConsumerCheckoutFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.cartCheckoutPaynowBt.setText("PAY $" + getArguments().getString(TOTAL_PRICE) + " NOW");
+        binding.cartCheckoutPaynowBt.setText("PAY " + getRoundedTwoPlaces(Double.parseDouble(getArguments().getString(TOTAL_PRICE))) + " NOW");
 
         binding.cartCheckoutPaynowBt.setOnClickListener(new View.OnClickListener() {
             @Override
