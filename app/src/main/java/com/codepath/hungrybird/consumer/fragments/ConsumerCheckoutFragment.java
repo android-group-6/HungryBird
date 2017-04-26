@@ -147,8 +147,6 @@ public class ConsumerCheckoutFragment extends Fragment {
         if (!card.validateCard()) {
             Toast.makeText(getActivity().getApplicationContext(), "No ", Toast.LENGTH_LONG).show();
         } else {
-
-            Toast.makeText(getActivity().getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
             Stripe stripe = new Stripe(getActivity().getApplicationContext(), "pk_test_u4lZ9tWVhEoZVKVa6FFN5oei");
             stripe.createToken(
                     card,

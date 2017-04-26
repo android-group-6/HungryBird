@@ -58,7 +58,7 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         User currentUser = new User(ParseUser.getCurrentUser());
-        Toast.makeText(ChefLandingActivity.this, "Current User ... " + currentUser.getUsername(), Toast.LENGTH_LONG).show();
+        Toast.makeText(ChefLandingActivity.this, "Welcome " + currentUser.getUsername(), Toast.LENGTH_LONG).show();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chef_landing);
 
         // Find the toolbar view inside the activity layout
@@ -106,7 +106,6 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
             }
         });
         binding.activityChefLandingAddDishFab.setOnClickListener(v -> {
-            Toast.makeText(this, "Add Clicked", Toast.LENGTH_SHORT).show();
             // Insert the fragment by replacing any existing fragment
             fragmentManager.beginTransaction().replace(R.id.flContent, new DishAddEditFragment()).addToBackStack(null).commit();
         });
@@ -193,13 +192,12 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
 
                 ParseUser.logOutInBackground(e -> {
                     if (e == null) {
-                        Toast.makeText(ChefLandingActivity.this, "Logout Successful ... ", Toast.LENGTH_LONG).show();
                         this.finish();
                         Intent i = new Intent(ChefLandingActivity.this, LoginActivity.class);
 
                         startActivity(i);
                     } else {
-                        Toast.makeText(ChefLandingActivity.this, "Logout failed ... " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ChefLandingActivity.this, "Logout failed... " + e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
                     }
                 });

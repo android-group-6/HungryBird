@@ -16,7 +16,7 @@
                 android:layout_height="200dp"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="2dp"
-                android:src="@drawable/ic_no_image_available"
+                android:src="@drawable/placeholder"
                 android:scaleType="centerCrop" />
 
             <Button

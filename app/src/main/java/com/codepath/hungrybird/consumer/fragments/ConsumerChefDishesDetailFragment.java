@@ -168,7 +168,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
             public void onClick(View v) {
                 int quantity = Integer.parseInt(binding.tvDishQuantity.getText().toString());
                 addOrUpdateOrderDishRelation(currentOrder, currentDish, quantity);
-                Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
             }
         });
         parseClient.getUserById(chefId, new ParseClient.UserListener() {
@@ -179,8 +179,6 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                     String imgUrl = chefProfilePic.getUrl();
                     Glide.with(getContext())
                             .load(imgUrl)
-                            .placeholder(R.drawable.com_facebook_profile_picture_blank_square)
-                            .fallback(R.drawable.com_facebook_profile_picture_blank_square)
                             .bitmapTransform(new CropCircleTransformation(getContext()))
                             .into(binding.chefProfilePicIv);
                 }

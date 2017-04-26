@@ -48,6 +48,10 @@ public class ChefOrdersFragmentPagerAdapter extends FragmentPagerAdapter {
                 lists[2].add(o);
             }
         }
+
+        ordersListFragments[0] = (OrdersListFragment)getItem(0);
+        ordersListFragments[1] = (OrdersListFragment)getItem(1);
+        ordersListFragments[2] = (OrdersListFragment)getItem(2);
         updateOrder(ordersListFragments[0], lists[0]);
         updateOrder(ordersListFragments[1], lists[1]);
         updateOrder(ordersListFragments[2], lists[2]);
@@ -70,6 +74,8 @@ public class ChefOrdersFragmentPagerAdapter extends FragmentPagerAdapter {
             Bundle bundle = new Bundle();
             ordersListFragments[position] = new OrdersListFragment();
             ordersListFragments[position].setArguments(bundle);
+        } else {
+            return ordersListFragments[position];
         }
         switch (position) {
             case 0:

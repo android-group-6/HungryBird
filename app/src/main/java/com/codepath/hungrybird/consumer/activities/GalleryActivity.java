@@ -243,7 +243,6 @@ public class GalleryActivity extends AppCompatActivity implements
             case R.id.chef_logout_mi:
                 ParseUser.logOutInBackground(e -> {
                     if (e == null) {
-                        Toast.makeText(GalleryActivity.this, "Logout Successful", Toast.LENGTH_LONG).show();
                         // remove from shared preference
                         if (getFragmentManager().getBackStackEntryCount() == 0) {
                             this.finish();
@@ -353,7 +352,6 @@ public class GalleryActivity extends AppCompatActivity implements
 
     @Override
     public void onCheckoutListener(String orderId, String price) {
-        Toast.makeText(getApplicationContext(), orderId + " | " + price, Toast.LENGTH_SHORT).show();
         // Send to cart fragment for the given order
         FragmentManager fragmentManager = getSupportFragmentManager();
         ConsumerCheckoutFragment consumerCheckoutFragment = new ConsumerCheckoutFragment();

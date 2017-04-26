@@ -244,6 +244,7 @@ public class ParseClient {
         innerQuery.getInBackground(chefId);
         ParseQuery<Order> parseQuery = ParseQuery.getQuery(Order.class);
         parseQuery.whereMatchesQuery("chef", innerQuery);
+        parseQuery.include("consumer");
         parseQuery.orderByDescending("updatedAt");
         parseQuery.findInBackground(new FindCallback<Order>() {
             @Override

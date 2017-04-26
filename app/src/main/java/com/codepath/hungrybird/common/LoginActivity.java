@@ -85,7 +85,6 @@ public class LoginActivity extends AppCompatActivity {
                         getUserDetailsFromFB();
                         associateUserWithInstallation();
                     } else {
-                        Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_LONG).show();
                         Log.d("MyApp", "User logged in through Facebook!");
                         getUserDetailsFromParse();
                         associateUserWithInstallation();

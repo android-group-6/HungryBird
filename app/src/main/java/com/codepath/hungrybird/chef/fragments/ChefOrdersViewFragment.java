@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,22 +43,6 @@ public class ChefOrdersViewFragment extends Fragment {
         ChefOrdersViewFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.chef_orders_view_fragment, container, false);
         sampleFragmentPagerAdapter = new ChefOrdersFragmentPagerAdapter(getActivity().getSupportFragmentManager(),
                 getActivity(), null);
-        User currentUser = new User(ParseUser.getCurrentUser());
-        parseClient.getOrdersByChefId(currentUser.getObjectId(), new ParseClient.OrderListListener() {
-            @Override
-            public void onSuccess(List<Order> orders) {
-                allOrders.clear();
-                allOrders.addAll(orders);
-                sampleFragmentPagerAdapter.updateOrders(allOrders);
-                sampleFragmentPagerAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-
-            }
-        });
-
         binding.viewpager.setAdapter(sampleFragmentPagerAdapter);
         binding.slidingTabs.setupWithViewPager(binding.viewpager);
         return binding.getRoot();
@@ -79,6 +64,23 @@ public class ChefOrdersViewFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Orders");
+        User currentUser = new User(ParseUser.getCurrentUser());
+        parseClient.getOrdersByChefId(currentUser.getObjectId(), new ParseClient.OrderListListener() {
+            @Override
+            public void onSuccess(List<Order> orders) {
+                allOrders.clear();
+                allOrders.addAll(orders);
+                sampleFragmentPagerAdapter.updateOrders(allOrders);
+                sampleFragmentPagerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+
+            }
+        });
+
         refresh(null);
     }
 

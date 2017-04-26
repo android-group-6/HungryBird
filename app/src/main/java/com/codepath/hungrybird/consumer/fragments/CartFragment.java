@@ -314,9 +314,7 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                                 @Override
                                 public void onSuccess(Order order) {
                                     String price = "" + finalCheckoutPrice;
-                                    //Double sentPrice = Double.parseDouble(price);
                                     Log.e("SFDSD", binding.consumerCartPriceBeforeTax.getText().toString() + " | " + price + " " + order.getTotalPayment());
-                                    Toast.makeText(getContext(), " order Id " + response.order.getObjectId(), Toast.LENGTH_SHORT).show();
                                     cartFragmentListener.onCheckoutListener(response.order.getObjectId(), price);
                                 }
 
@@ -515,7 +513,7 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
             if (TextUtils.isEmpty(dropOffAddress) == false) {
                 putDeliveryAddress(dropOffAddress);
                 binding.deliveryCostProgress.setVisibility(View.VISIBLE);
-                Toast.makeText(getContext(), "" + binding.autocompletePlaces.getText(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "" + binding.autocompletePlaces.getText(), Toast.LENGTH_SHORT).show();
                 // Get Quote
                 String pickUpAddress = "800 California St #100, Mountain View, CA 94041"; // TODO integrate with real values
                 DeliveryQuoteRequest deliveryQuoteRequest = new DeliveryQuoteRequest(pickUpAddress, dropOffAddress);
@@ -555,10 +553,10 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
         Log.e(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
                 + connectionResult.getErrorCode());
 
-        // TODO(Developer): Check error code and notify the user of error state and resolution.
-        Toast.makeText(getActivity(),
-                "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
-                Toast.LENGTH_SHORT).show();
+//        // TODO(Developer): Check error code and notify the user of error state and resolution.
+//        Toast.makeText(getActivity(),
+//                "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
+//                Toast.LENGTH_SHORT).show();
     }
 
     @Override
