@@ -16,6 +16,7 @@ import com.codepath.hungrybird.databinding.ChefOfferingsDishesListItemBinding;
 import com.codepath.hungrybird.databinding.ProgressItemBinding;
 import com.codepath.hungrybird.model.Dish;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -30,6 +31,11 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int VIEW_PROG = 0;
     DishSelected dishSelected;
     private int selectedPosition = 0;
+    private static DecimalFormat df = new DecimalFormat();
+    static {
+        df.setMinimumFractionDigits(2);
+        df.setMaximumFractionDigits(2);
+    }
 
     public interface DishSelected {
         void onDishSelected(Dish dish, boolean fromChefPage);
@@ -76,7 +82,7 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final Dish dish = dishArrayList.get(position);
             holder.binding.chefOfferingListItemDishNameTv.setText(dish.getTitle());
             holder.binding.chefOfferingDishListItemServingSizeValueTv.setText("" + dish.getServingSize());
-            holder.binding.chefOfferingDishListItemPriceTv.setText("$" + dish.getPrice());
+            holder.binding.chefOfferingDishListItemPriceTv.setText(getRoundedTwoPlaces(dish.getPrice()));
             if (dish.getPrimaryImage() != null && dish.getPrimaryImage().getUrl() != null) {
                 Glide.with(holder.binding.getRoot().getContext()).load(dish.getPrimaryImage().getUrl()).into(holder.binding.chefOfferingListItemDishIv);
             }
@@ -93,6 +99,10 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getItemViewType(int position) {
         return dishArrayList.get(position) != null ? VIEW_ITEM : VIEW_PROG;
+    }
+
+    private String getRoundedTwoPlaces(double val) {
+        return "$" + df.format(Math.round(100 * val) / 100.0);
     }
 
     @Override

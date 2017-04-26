@@ -32,6 +32,7 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +56,12 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
 
     DishArrayAdapter dishArrayAdapter;
     List<Dish> dishesArrayList = new ArrayList<>();
+    private static DecimalFormat df = new DecimalFormat();
+
+    static {
+        df.setMinimumFractionDigits(2);
+        df.setMaximumFractionDigits(2);
+    }
 
     private Context context;
 
@@ -126,6 +133,10 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                 }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private String getRoundedTwoPlaces(double val) {
+        return "$" + df.format(Math.round(100 * val) / 100.0);
     }
 
     @Override
@@ -229,7 +240,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         }
 
         binding.dishTitle.setText(currentDish.getTitle());
-        binding.dishPrice.setText("$" + String.valueOf(currentDish.getPrice()));
+        binding.dishPrice.setText(getRoundedTwoPlaces(currentDish.getPrice()));
         binding.dishServingSize.setText(String.valueOf(currentDish.getServingSize()));
         String description = currentDish.getDescription();
         if (description == null || description.isEmpty()) {

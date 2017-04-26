@@ -11,10 +11,10 @@ public class ColorChooser {
     static {
         colors.put(0, "#FE5F55");
         colors.put(1, "#E63462");
-        colors.put(2, "#66cdaa");
-        colors.put(3, "#48a3e6");
-        colors.put(4, "#87edec");
-        colors.put(5, "#44e3e1");
+        colors.put(2, "#7f35ce");
+        colors.put(3, "#208cdb");
+        colors.put(4, "#148943");
+        colors.put(5, "#e36e44");
     }
     public ColorChooser() {
 

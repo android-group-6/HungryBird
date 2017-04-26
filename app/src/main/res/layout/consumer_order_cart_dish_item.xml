@@ -4,16 +4,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/item_image"
-            android:layout_width="50dp"
+            android:layout_width="106dp"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp" />
+            android:layout_centerVertical="true" />
 
 
         <!--consumer_order_history_view_item-->
@@ -21,6 +19,7 @@
             android:id="@+id/dish_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/item_image"
             android:ellipsize="end"
@@ -37,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/dish_item_name"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/item_image"
             android:ellipsize="end"
@@ -92,7 +91,6 @@
                 android:id="@+id/reduce_cart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
