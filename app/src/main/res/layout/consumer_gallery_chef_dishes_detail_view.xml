@@ -1,103 +1,178 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardview"
-            app:cardCornerRadius="0dp"
+
+
+        <ImageView
+            android:id="@+id/selectedDishPic_iv"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:background="@android:color/darker_gray"
+            android:maxHeight="100dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_no_image_available" />
+        <RelativeLayout
+            android:id="@+id/chef_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:elevation="10dp">
+            android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:background="#50000000"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
             <ImageView
-                android:id="@+id/selectedDishPic_iv"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@android:color/darker_gray"
-                android:scaleType="centerCrop" />
-        </android.support.v7.widget.CardView>
+                android:id="@+id/chefProfilePic_iv"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="10dp"
+                app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
-        <TextView
-            android:id="@+id/dishTitle"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/chefProfilePic_iv"
+                android:fontFamily="cursive"
+                android:text="From the kitchen of..."
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:textAlignment="viewEnd"
+                android:layout_gravity="end"
+                android:textStyle="italic"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:id="@+id/chefName_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewEnd"
+                android:layout_gravity="end"
+                android:textColor="@color/white"
+                android:layout_below="@+id/textView4"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/chefProfilePic_iv"
+                android:fontFamily="cursive"
+                android:text="Betty Crocker"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/dishDetailHeading"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignBottom="@+id/selectedDishPic_iv"
+            android:background="#70000000"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/cardview"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:transitionName="dishTitleTransition"
-            tools:text="Paneer Tikka Masala" />
+            <TextView
+                android:id="@+id/dishTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/selectedDishPic_iv"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/white"
+                android:transitionName="dishTitleTransition"
+                android:textAlignment="viewStart"
+                android:layout_gravity="start"
+                tools:text="Paneer Tikka Masala" />
 
-        <TextView
-            android:id="@+id/dishPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/dishTitle"
-            android:layout_marginRight="5dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:transitionName="dishPriceTransition"
-            tools:text="$7.99" />
-
-        <TextView
-            android:id="@+id/servesLabel"
-            android:layout_width="wrap_content"
-
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/dishPrice"
-            android:layout_marginLeft="5dp"
-            android:text="Serves:" />
-
-        <TextView
-            android:id="@+id/dishServingSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/dishPrice"
-            android:layout_toRightOf="@+id/servesLabel"
-            android:text="2"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/dishPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/dishTitle"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textAlignment="viewEnd"
+                android:layout_gravity="end"
+                android:transitionName="dishPriceTransition"
+                tools:text="$7.99" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/dishDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/dishServingSize"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/dishDetailHeading"
+            android:text="This is an indian cheese filled with gravy. Mmmm mmm good! It's a classic."
+            android:layout_alignLeft="@+id/servesLabel"
+            android:layout_alignStart="@+id/servesLabel"
+            android:layout_alignRight="@+id/add_to_card_panel"
+            android:layout_alignEnd="@+id/add_to_card_panel" />
+
+        <TextView
+            android:id="@+id/servesLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/dishDescription"
             android:layout_marginLeft="5dp"
-            tools:text="This is an indian cheese filled with gravy. Mmmm mmm good! It's a classic." />
+            android:text="Serving size:"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/dishServingSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dishDescription"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/servesLabel"
+            android:text="2"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/add_to_card_panel"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dishDescription"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:weightSum="5">
+            android:weightSum="5"
+            android:layout_alignTop="@+id/dishServingSize"
+            android:layout_alignRight="@+id/moreDishesFromCurrentChef_fl"
+            android:layout_alignEnd="@+id/moreDishesFromCurrentChef_fl">
 
             <TextView
                 android:id="@+id/tvMinus"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-
+                android:layout_marginRight="15dp"
                 android:drawableLeft="@drawable/ic_remove_circle_outline_black_24px"
                 android:gravity="center_vertical" />
 
@@ -108,46 +183,48 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/tvMinus"
                 android:layout_toRightOf="@id/tvMinus"
-                android:layout_weight="1"
                 android:gravity="center_vertical"
+                android:textColor="@color/colorPrimary"
                 android:text="0"
+                android:textStyle="bold"
                 tools:text="12" />
 
             <TextView
                 android:id="@+id/tvPlus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/tvMinus"
-                android:layout_below="@id/dishDescription"
-                android:layout_toRightOf="@id/tvDishQuantity"
-                android:layout_weight="1"
+                android:layout_marginLeft="15dp"
                 android:drawableLeft="@drawable/ic_add_cart_circle_outline_black_24x"
                 android:gravity="center_vertical" />
-
-
-            <TextView
-                android:id="@+id/tvAddToCart"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_alignBaseline="@+id/tvMinus"
-
-                android:layout_toRightOf="@id/tvPlus"
-                android:layout_weight="2"
-                android:background="@color/colorAccent"
-                android:gravity="center"
-                android:text="Add To Cart" />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/moreDishesFromCurrentChef_tv"
+            android:id="@+id/tvAddToCart"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignEnd="@+id/add_to_card_panel"
+            android:layout_alignLeft="@+id/servesLabel"
+            android:layout_alignRight="@+id/add_to_card_panel"
+            android:layout_alignStart="@+id/servesLabel"
+            android:layout_below="@+id/add_to_card_panel"
+            android:layout_marginTop="10dp"
+            android:layout_weight="2"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="Add To Cart"
+            android:textAllCaps="true"
+            android:textColor="@color/text_white_primary"
+            android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/moreDishesFromCurrentChef_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/add_to_card_panel"
+            android:layout_below="@+id/tvAddToCart"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:text="More from this chef"
@@ -155,13 +232,24 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <include
-            android:id="@+id/content"
-            layout="@layout/myofferings_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <FrameLayout
+            android:id="@+id/moreDishesFromCurrentChef_fl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/moreDishesFromCurrentChef_tv"
-            android:layout_centerHorizontal="true" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
+            <include
+                android:id="@+id/content"
+                layout="@layout/myofferings_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/moreDishesFromCurrentChef_tv"
+                android:layout_centerHorizontal="true" />
+
+        </FrameLayout>
     </RelativeLayout>
 </layout>
