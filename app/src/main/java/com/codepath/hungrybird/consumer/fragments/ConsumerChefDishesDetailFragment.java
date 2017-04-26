@@ -85,9 +85,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
     @Override
     public void onResume() {
         super.onResume();
-        String title = getArguments().getString("CHEF_NAME");
-        //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title + "\'s Kitchen");
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Dish Details");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Chef's Menu");
     }
 
     @Override
