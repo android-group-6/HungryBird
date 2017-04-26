@@ -25,6 +25,7 @@ import com.codepath.hungrybird.databinding.ConsumerGalleryChefDishesDetailViewBi
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.OrderDishRelation;
+import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -33,6 +34,8 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by DhwaniShah on 4/13/17.
@@ -76,7 +79,8 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
     public void onResume() {
         super.onResume();
         String title = getArguments().getString("CHEF_NAME");
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title + "\'s Kitchen");
+        //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title + "\'s Kitchen");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Dish Details");
     }
 
     @Override
@@ -156,6 +160,27 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                 int quantity = Integer.parseInt(binding.tvDishQuantity.getText().toString());
                 addOrUpdateOrderDishRelation(currentOrder, currentDish, quantity);
                 Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
+            }
+        });
+        parseClient.getUserById(chefId, new ParseClient.UserListener() {
+            @Override
+            public void onSuccess(User user) {
+                ParseFile chefProfilePic = user.getProfileImage();
+                if (chefProfilePic != null && chefProfilePic.getUrl() != null) {
+                    String imgUrl = chefProfilePic.getUrl();
+                    Glide.with(getContext())
+                            .load(imgUrl)
+                            .placeholder(R.drawable.com_facebook_profile_picture_blank_square)
+                            .fallback(R.drawable.com_facebook_profile_picture_blank_square)
+                            .bitmapTransform(new CropCircleTransformation(getContext()))
+                            .into(binding.chefProfilePicIv);
+                }
+                binding.chefNameTv.setText(user.getUsername());
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+
             }
         });
         parseClient.getDishById(dishId, new ParseClient.DishListener() {
