@@ -8,10 +8,11 @@
 
         <ImageView
             android:id="@+id/item_image"
-            android:layout_width="106dp"
+            android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp" />
 
 
         <!--consumer_order_history_view_item-->
@@ -19,15 +20,14 @@
             android:id="@+id/dish_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/item_image"
             android:ellipsize="end"
             android:maxLength="140"
-            android:maxLines="4"
+            android:maxLines="2"
             android:maxWidth="200sp"
             android:textColor="#ff000000"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="normal"
             tools:text="Palak Paneer" />
 
@@ -91,6 +91,7 @@
                 android:id="@+id/reduce_cart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
@@ -104,7 +105,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="2"
+                tools:text="2"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />

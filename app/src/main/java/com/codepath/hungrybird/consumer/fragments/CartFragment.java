@@ -330,31 +330,38 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                     }
                 });
         adapter.setOnClickListener(v -> {
-            v.findViewById(R.id.add_to_card_panel).setVisibility(View.GONE);
-            ImageView iv = (ImageView) v.findViewById(R.id.reduce_cart);
+            View addToPanel = v.findViewById(R.id.add_to_card_panel);
+            int visible = addToPanel.getVisibility();
             if (view != null) {
                 view.setVisibility(View.GONE);
-                int quantity = ((OrderDishRelation) view.getTag()).getQuantity();
-                int index = (int) view.getTag(R.id.add_cart);
-                adapter.notifyItemChanged(index);
-
             }
-            view = null;
+            if (visible == View.VISIBLE) {
+                addToPanel.setVisibility(View.GONE);
+            } else {
+                addToPanel.setVisibility(View.VISIBLE);
+                view = addToPanel;
+            }
         });
         adapter.setViewBinder((holder, item, position) -> {
+
             OrderDishRelation order = orderDishRelations.get(position);
             ConsumerOrderCartDishItemBinding binding = (ConsumerOrderCartDishItemBinding) (holder.binding);
             Dish dish = order.getDish();
             if (dish.getPrimaryImage() != null && dish.getPrimaryImage().getUrl() != null) {
                 Glide.with(getActivity()).load(dish.getPrimaryImage().getUrl()).into(binding.itemImage);
             }
-            binding.dishItemName.setText(dish.getDishName());
+            binding.dishItemName.setText(dish.getTitle());
             binding.dishItemServiceSize.setText("Serves " + dish.getServingSize());
             binding.dishPrice.setText("" + dish.getPrice());
             binding.itemsCount.setText("" + order.getQuantity());
+            binding.updatedCount.setText("" + order.getQuantity());
             if (view != null) {
                 view.setVisibility(View.VISIBLE);
             }
+            if (order.getQuantity() == 1) {
+                binding.reduceCart.setImageResource(R.drawable.ic_delete_black_24px);
+            }
+            binding.addToCardPanel.setVisibility(View.GONE);
             binding.itemsCount.setOnClickListener(v -> {
                 if (binding.addToCardPanel.getVisibility() == View.GONE) {
                     binding.addToCardPanel.setVisibility(View.VISIBLE);
@@ -362,13 +369,6 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                     if (order.getQuantity() == 1) {
                         binding.reduceCart.setImageResource(R.drawable.ic_delete_black_24px);
                     }
-                    if (view != null) {
-                        view.setVisibility(View.GONE);
-                        binding.itemsCount.setText("" + order.getQuantity());
-                    }
-                    view = binding.addToCardPanel;
-                    view.setTag(order);
-                    view.setTag(R.id.add_cart, position);
                 } else {
                     binding.addToCardPanel.setVisibility(View.GONE);
                     view = null;
@@ -402,7 +402,7 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                         @Override
                         public void onSuccess(OrderDishRelation orderDishRelation) {
                             orderDishRelations.remove(position);
-                            adapter.notifyItemRemoved(position);
+                            adapter.notifyDataSetChanged();
                             updatePricing(orderDishRelations);
                         }
 
