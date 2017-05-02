@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Hungry Bird</string>
-    <string name="login_label_chef">Chef</string>
-    <string name="login_label_consumer">Consumer</string>
+    <string name="login_label_chef">CHEF</string>
+    <string name="login_label_consumer">CONSUMER</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="facebook_app_id">141479469724025</string>
@@ -79,6 +79,7 @@
     <string name="order_in_progress_details_text">Change status of the newly received order to\n\"In Progress\"\nto see them here</string>
     <string name="order_done_title_text">No Orders Completed Yet</string>
     <string name="order_done_details_text">Change status of the\n\"In Progress\" order to \"Completed\"\nto see them here</string>
+    <string name="login_description_label">Is cooking your passion and want to turn it into a job? Does your friend cook some of the best cuisines that you want to buy?</string>
 
 
 </resources>

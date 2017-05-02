@@ -12,16 +12,17 @@
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="34dp"
-            android:fontFamily="cursive"
+            fontPath = "fonts/Pacifico.ttf"
             android:text="@string/app_name"
             android:textAllCaps="false"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large.Inverse"
-            android:textSize="50dp"
+            android:textSize="60dp"
             android:textStyle="bold" />
 
         <TextView
@@ -34,6 +35,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="20dp"
             android:text="Sign in"
+            fontPath="fonts/Rubik-Medium.ttf"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:layout_above="@+id/linearLayout"
@@ -59,14 +61,16 @@
                 android:background="@drawable/round_buttons"
                 android:gravity="center_vertical"
                 android:text="@string/login_label_consumer"
+                fontPath="fonts/Rubik-Medium.ttf"
                 android:layout_weight="1"
                 android:layout_marginRight="5dp"
-                android:textColor="#ffffff" />
+                android:textColor="@color/colorPrimaryLight" />
 
             <TextView
                 android:id="@+id/activity_login_chef"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                fontPath="fonts/Rubik-Medium.ttf"
                 android:layout_weight="1"
                 android:textAlignment="center"
                 android:layout_alignParentBottom="true"
@@ -76,8 +80,20 @@
                 android:gravity="center_vertical"
                 android:text="@string/login_label_chef"
                 android:layout_marginLeft="5dp"
-                android:textColor="#ffffff" />
+                android:textColor="@color/colorPrimaryLight" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            fontPath="fonts/Rubik-Light.ttf"
+            android:layout_width="250dp"
+            android:gravity="center_horizontal"
+            android:textSize="18dp"
+            android:layout_height="wrap_content"
+            android:text="@string/login_description_label"
+            android:textColor="@color/text_white_primary"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
 
         <!--<FrameLayout-->
         <!--android:id="@+id/or_block"-->
