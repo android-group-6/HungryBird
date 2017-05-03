@@ -12,6 +12,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -140,8 +141,11 @@ public class BaseItemHolderAdapter<T> extends RecyclerView.Adapter<BaseItemHolde
             setAnimation(position);
         }
 
-        if (viewBinder != null)
+        if (viewBinder != null) {
+            Log.d("onBindViewHolder", "bind called: called");
+
             viewBinder.bind(holder, object, position);
+        }
 
         if (onClickListener != null)
             holder.getBaseView().setOnClickListener(new View.OnClickListener() {

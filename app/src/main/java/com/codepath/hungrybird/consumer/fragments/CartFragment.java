@@ -16,13 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
+import com.codepath.hungrybird.common.OrderRelationResponse;
 import com.codepath.hungrybird.common.PlaceAutocompleteAdapter;
 import com.codepath.hungrybird.databinding.ConsumerCartDetailsFragmentBinding;
 import com.codepath.hungrybird.databinding.ConsumerOrderCartDishItemBinding;
@@ -226,13 +226,13 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
         binding.consumerCartItemsRv.addItemDecoration(dividerItemDecoration);
         binding.consumerCartItemsRv.setAdapter(adapter);
 
-        Observable.create(new Observable.OnSubscribe<Response>() {
+        Observable.create(new Observable.OnSubscribe<OrderRelationResponse>() {
             @Override
-            public void call(Subscriber<? super Response> subscriber) {
+            public void call(Subscriber<? super OrderRelationResponse> subscriber) {
                 parseClient.getOrderById(orderObjectId, new ParseClient.OrderListener() {
                     @Override
                     public void onSuccess(Order order) {
-                        Response res = new Response();
+                        OrderRelationResponse res = new OrderRelationResponse();
                         res.order = order;
                         subscriber.onNext(res);
                         subscriber.onCompleted();
@@ -244,12 +244,12 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                     }
                 });
             }
-        }).flatMap(new Func1<Response, Observable<Response>>() {
+        }).flatMap(new Func1<OrderRelationResponse, Observable<OrderRelationResponse>>() {
             @Override
-            public Observable<Response> call(Response res) {
-                return Observable.create(new Observable.OnSubscribe<Response>() {
+            public Observable<OrderRelationResponse> call(OrderRelationResponse res) {
+                return Observable.create(new Observable.OnSubscribe<OrderRelationResponse>() {
                     @Override
-                    public void call(Subscriber<? super Response> subscriber) {
+                    public void call(Subscriber<? super OrderRelationResponse> subscriber) {
                         parseClient.getOrderDishRelationsByOrderId(orderObjectId, new ParseClient.OrderDishRelationListListener() {
                             @Override
                             public void onSuccess(List<OrderDishRelation> orderDishRelations) {
@@ -268,7 +268,7 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
             }
         }).observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response>() {
+                .subscribe(new Subscriber<OrderRelationResponse>() {
                     @Override
                     public void onCompleted() {
 
@@ -280,7 +280,7 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                     }
 
                     @Override
-                    public void onNext(Response response) {
+                    public void onNext(OrderRelationResponse response) {
                         updatePricing(response.orderDishRelation);
                         CartFragment.this.orderDishRelations.clear();
                         CartFragment.this.orderDishRelations.addAll(response.orderDishRelation);
@@ -446,12 +446,6 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
     }
 
     View view = null;
-
-    static class Response {
-        Order order;
-        List<OrderDishRelation> orderDishRelation;
-
-    }
 
     /**
      * Listener that handles selections from suggestions from the AutoCompleteTextView that

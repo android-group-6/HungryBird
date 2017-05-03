@@ -4,15 +4,14 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/article_adaptor_article_card_view"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:layout_width="match_parent"
+        android:elevation="1dp"
         android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:padding="10dp"
             android:paddingBottom="5dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp">
@@ -62,7 +61,6 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:maxWidth="150sp"
-                android:textColor="#ff000000"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 tools:text="2" />
@@ -71,13 +69,45 @@
                 android:id="@+id/chef_offering_dish_list_item_price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                android:layout_below="@+id/chef_offering_dish_list_item_serving_size_tv"
+                android:layout_toRightOf="@+id/chef_offering_list_item_dish_iv"
                 android:ellipsize="end"
                 android:maxLines="1"
+
+                android:textColor="@color/theme_green_color"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 tools:text="$7.99" />
+            <TextView
+                android:id="@+id/chef_offering_dish_list_item_count_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/chef_offering_dish_list_item_serving_size_tv"
+                android:layout_toRightOf="@+id/chef_offering_dish_list_item_price_tv"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginLeft="10dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="x 2" />
+
+            <include
+                android:id="@+id/increase_decrease_include"
+                layout="@layout/increase_decrease"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/row_cart_include"
+                layout="@layout/row_cart"
+                android:layout_width="44dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true" />
+
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

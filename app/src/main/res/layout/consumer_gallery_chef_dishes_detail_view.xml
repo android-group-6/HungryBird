@@ -127,23 +127,17 @@
             android:id="@+id/dishDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/add_to_card_panel"
-            android:layout_alignLeft="@+id/servesLabel"
-            android:layout_alignRight="@+id/add_to_card_panel"
-            android:layout_alignStart="@+id/servesLabel"
             android:layout_below="@+id/dishDetailHeading"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+
+            android:layout_margin="10dp"
             android:text="This is an indian cheese filled with gravy. Mmmm mmm good! It's a classic." />
 
         <TextView
             android:id="@+id/servesLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/dishDescription"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:text="Serving size:"
             android:textColor="@android:color/black"
             android:textStyle="bold" />
@@ -162,9 +156,9 @@
             android:id="@+id/add_to_card_panel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/moreDishesFromCurrentChef_fl"
-            android:layout_alignRight="@+id/moreDishesFromCurrentChef_fl"
-            android:layout_alignTop="@+id/dishServingSize"
+
+            android:layout_alignBaseline="@+id/dishServingSize"
+            android:layout_toRightOf="@+id/dishServingSize"
             android:orientation="horizontal"
             android:weightSum="5">
 
@@ -200,13 +194,11 @@
 
         <TextView
             android:id="@+id/tvAddToCart"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_alignEnd="@+id/add_to_card_panel"
-            android:layout_alignLeft="@+id/servesLabel"
-            android:layout_alignRight="@+id/add_to_card_panel"
-            android:layout_alignStart="@+id/servesLabel"
             android:layout_below="@+id/add_to_card_panel"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="2"
             android:background="@color/colorPrimary"
@@ -220,36 +212,20 @@
             android:id="@+id/moreDishesFromCurrentChef_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/tvAddToCart"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:text="More from this chef"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <FrameLayout
-            android:id="@+id/moreDishesFromCurrentChef_fl"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/chef_myoffersings_lv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/moreDishesFromCurrentChef_tv"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <include
-                android:id="@+id/content"
-                layout="@layout/myofferings_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/moreDishesFromCurrentChef_tv"
-                android:layout_centerHorizontal="true" />
-
-        </FrameLayout>
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp" />
     </RelativeLayout>
 </layout>

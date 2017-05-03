@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,6 +22,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
+import com.codepath.hungrybird.common.BaseItemHolderAdapter;
+import com.codepath.hungrybird.common.HelperObservables;
+import com.codepath.hungrybird.common.OrderRelationResponse;
+import com.codepath.hungrybird.databinding.ChefOfferingsDishesListItemBinding;
 import com.codepath.hungrybird.databinding.ConsumerGalleryChefDishesDetailViewBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
@@ -37,6 +42,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by DhwaniShah on 4/13/17.
@@ -53,10 +63,11 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
 
     Dish currentDish;
     Order currentOrder;
-
-    DishArrayAdapter dishArrayAdapter;
+    BaseItemHolderAdapter adapter;
     List<Dish> dishesArrayList = new ArrayList<>();
     private static DecimalFormat df = new DecimalFormat();
+    OrderRelationResponse orderDishRelationResponse;
+    int selectedPosition = 0;
 
     static {
         df.setMinimumFractionDigits(2);
@@ -80,6 +91,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -92,17 +104,163 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        String chefId = getArguments().getString(CHEF_ID);
+        String consumerId = ParseUser.getCurrentUser().getObjectId();
         binding = DataBindingUtil.inflate(inflater, R.layout.consumer_gallery_chef_dishes_detail_view, container, false);
         binding.tvDishQuantity.setText(String.valueOf(1));
 
-        dishArrayAdapter = new DishArrayAdapter(getActivity(), dishesArrayList, this);
-        binding.content.chefMyoffersingsLv.setAdapter(dishArrayAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        binding.content.chefMyoffersingsLv.setLayoutManager(linearLayoutManager);
-        //Added divider between line items
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.content.chefMyoffersingsLv.getContext(), linearLayoutManager.getOrientation());
-        binding.content.chefMyoffersingsLv.addItemDecoration(dividerItemDecoration);
+        adapter = new BaseItemHolderAdapter<>(getContext(), R.layout.chef_offerings_dishes_list_item, dishesArrayList);
 
+        binding.chefMyoffersingsLv.setAdapter(adapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        binding.chefMyoffersingsLv.setLayoutManager(linearLayoutManager);
+        //Added divider between line items
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.chefMyoffersingsLv.getContext(), linearLayoutManager.getOrientation());
+        binding.chefMyoffersingsLv.addItemDecoration(dividerItemDecoration);
+
+        adapter.setViewBinder((holder, item, position) -> {
+            Log.d(TAG, "onCreateView: setViewBinder " +orderDishRelationResponse);
+            ChefOfferingsDishesListItemBinding binding = (ChefOfferingsDishesListItemBinding) (holder.binding);
+            final Dish dish = dishesArrayList.get(position);
+            binding.chefOfferingListItemDishNameTv.setText(dish.getTitle());
+            binding.chefOfferingDishListItemServingSizeValueTv.setText("" + dish.getServingSize());
+            binding.chefOfferingDishListItemPriceTv.setText(getRoundedTwoPlaces(dish.getPrice()));
+            if (dish.getPrimaryImage() != null && dish.getPrimaryImage().getUrl() != null) {
+                Glide.with(holder.binding.getRoot().getContext()).load(dish.getPrimaryImage().getUrl())
+                        .placeholder(R.drawable.placeholder).fallback(R.drawable.ic_no_image_available).into(binding.chefOfferingListItemDishIv);
+            }
+//            if (selectedPosition == position) {
+//                holder.itemView.setBackgroundResource(R.color.colorSelected);
+//            } else {
+//                holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+//            }
+
+            if (orderDishRelationResponse != null) {
+
+                if (orderDishRelationResponse.map.containsKey(dish.getObjectId())) {
+
+                    OrderDishRelation r = orderDishRelationResponse.map.get(dish.getObjectId());
+                    Log.d(TAG, "onBindViewHolder: contains");
+                    binding.increaseDecreaseInclude.increaseDecrease.setVisibility(View.VISIBLE);
+                    binding.rowCartInclude.cart.setVisibility(View.GONE);
+                    if (r != null && r.getQuantity() > 1) {
+                        binding.chefOfferingDishListItemCountTv.setVisibility(View.VISIBLE);
+                        binding.chefOfferingDishListItemCountTv.setText("x " + r.getQuantity());
+                    }
+                } else {
+                    Log.d(TAG, "onBindViewHolder: contains NOT");
+                    binding.increaseDecreaseInclude.increaseDecrease.setVisibility(View.GONE);
+                    binding.rowCartInclude.cart.setVisibility(View.VISIBLE);
+                    binding.chefOfferingDishListItemCountTv.setVisibility(View.GONE);
+                }
+            }
+            binding.rowCartInclude.add.setOnClickListener(v -> {
+                OrderDishRelation odr = new OrderDishRelation();
+                odr.setOrder(currentOrder);
+                odr.setDish(dish);
+                odr.setQuantity(1);
+                odr.setPricePerItem(currentDish.getPrice());
+                Log.d(TAG, "onCreateView: add to cart " + position);
+                parseClient.addOrderDishRelation(odr, new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Log.d(TAG, "onCreateView: added Successfully " + position);
+                            orderDishRelationResponse.map.put(dish.getObjectId(), odr);
+                            adapter.notifyItemChanged(position);
+                        }
+                    }
+                });
+
+            });
+            binding.increaseDecreaseInclude.increase.setOnClickListener(v -> {
+                OrderDishRelation odr = orderDishRelationResponse.map.get(dish.getObjectId());
+                if (odr != null) {
+                    odr.setQuantity(odr.getQuantity() + 1);
+                    parseClient.addOrderDishRelation(odr, new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                adapter.notifyItemChanged(position);
+                            }
+                        }
+                    });
+                }
+            });
+            binding.increaseDecreaseInclude.decrease.setOnClickListener(v -> {
+                OrderDishRelation odr = orderDishRelationResponse.map.get(dish.getObjectId());
+                if (odr != null) {
+                    if (odr.getQuantity() > 1) {
+                        odr.setQuantity(odr.getQuantity() - 1);
+                        parseClient.addOrderDishRelation(odr, new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    adapter.notifyItemChanged(position);
+                                }
+                            }
+                        });
+                    } else {
+                        odr.setQuantity(odr.getQuantity() - 1);
+                        parseClient.delete(odr, new ParseClient.OrderDishRelationListener() {
+                            @Override
+                            public void onSuccess(OrderDishRelation orderDishRelation) {
+                                orderDishRelationResponse.map.remove(dish.getObjectId());
+                                adapter.notifyItemChanged(position);
+                            }
+
+                            @Override
+                            public void onFailure(Exception e) {
+
+                            }
+                        });
+                    }
+                }
+            });
+            holder.getBaseView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
+                        Log.d(TAG, "onCreateView: dishSelected " + dish + " " + position);
+                        currentDish = dish;
+                        updateCurrentDishView();
+                        int pre = selectedPosition;
+                        selectedPosition = position;
+                        adapter.notifyItemChanged(selectedPosition); // old position
+                        adapter.notifyItemChanged(pre); // old position
+                    }
+                }
+            });
+        });
+
+        getCurrentOrders(chefId, consumerId).
+
+                subscribeOn(Schedulers.io()).
+
+                observeOn(AndroidSchedulers.mainThread()).
+
+                subscribe(new Subscriber<OrderRelationResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(OrderRelationResponse relationResponse) {
+                        Log.d(TAG, "onNext: Downloaded " + relationResponse.order);
+                        orderDishRelationResponse = relationResponse;
+                        currentOrder = relationResponse.order;
+                        dishesArrayList.clear();
+                        dishesArrayList.addAll(orderDishRelationResponse.dishes);
+                        adapter.notifyDataSetChanged();
+
+                    }
+                });
         return binding.getRoot();
     }
 
@@ -144,7 +302,6 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         String dishId = getArguments().getString(DISH_ID);
         String chefId = getArguments().getString(CHEF_ID);
         String consumerId = ParseUser.getCurrentUser().getObjectId();
-        setOrder(chefId, consumerId); // find order or create new order.
         binding.tvMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -201,20 +358,6 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
             @Override
             public void onFailure(Exception e) {
                 Toast.makeText(getContext(), "There was an error getting data.", Toast.LENGTH_LONG).show();
-            }
-        });
-        parseClient.getDishesByChefId(chefId, new ParseClient.DishListListener() {
-            @Override
-            public void onSuccess(List<Dish> dishes) {
-                dishesArrayList.clear();
-                dishesArrayList.addAll(dishes);
-                dishArrayAdapter.notifyDataSetChanged();
-                Log.d(TAG, "onSuccess: " + dishes);
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-
             }
         });
     }
@@ -280,27 +423,81 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         });
     }
 
-    private void setOrder(final String chefId, final String consumerId) {
-        parseClient.getOrderByConsumerIdAndChefId(consumerId, chefId, new ParseClient.OrderListener() {
+    Observable<OrderRelationResponse> getCurrentOrders(final String chefId, final String consumerId) {
+        final OrderRelationResponse odr = new OrderRelationResponse();
+        return getOrder(chefId, consumerId).flatMap(new Func1<Order, Observable<OrderRelationResponse>>() {
             @Override
-            public void onSuccess(Order order) {
-                currentOrder = order;
+            public Observable<OrderRelationResponse> call(Order order) {
+                odr.order = order;
+                return HelperObservables.getOrderDishRelationsByOrderId(order.getObjectId(), odr);
             }
-
+        }).flatMap(new Func1<OrderRelationResponse, Observable<OrderRelationResponse>>() {
             @Override
-            public void onFailure(Exception e) {
-                parseClient.addOrder(consumerId, chefId, Order.Status.NOT_ORDERED, new ParseClient.OrderListener() {
+            public Observable<OrderRelationResponse> call(final OrderRelationResponse orderRelationResponse) {
+                return Observable.create(new Observable.OnSubscribe<OrderRelationResponse>() {
                     @Override
-                    public void onSuccess(Order order) {
-                        currentOrder = order;
-                    }
+                    public void call(Subscriber<? super OrderRelationResponse> subscriber) {
+                        HelperObservables.getDishesByChefId(chefId, odr).subscribeOn(Schedulers.io())
+                                .subscribe(new Subscriber<OrderRelationResponse>() {
+                                    @Override
+                                    public void onCompleted() {
+                                        subscriber.onCompleted();
+                                    }
 
-                    @Override
-                    public void onFailure(Exception e) {
-                        e.printStackTrace();
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        subscriber.onError(e);
+                                    }
+
+                                    @Override
+                                    public void onNext(OrderRelationResponse dishes) {
+                                        for (OrderDishRelation r : orderRelationResponse.orderDishRelation) {
+                                            Log.d(TAG, "onNext: " + r);
+                                            Dish dish = r.getDish();
+                                            orderRelationResponse.map.put(dish.getObjectId(), r);
+                                        }
+                                        subscriber.onNext(orderRelationResponse);
+
+                                    }
+                                });
                     }
                 });
             }
         });
     }
+
+    Observable<Order> getOrder(final String chefId, final String consumerId) {
+        return Observable.create(new Observable.OnSubscribe<Order>() {
+            @Override
+            public void call(Subscriber<? super Order> subscriber) {
+                parseClient.getOrderByConsumerIdAndChefId(consumerId, chefId, new ParseClient.OrderListener() {
+                    @Override
+                    public void onSuccess(Order order) {
+                        Log.d(TAG, "onSuccess: " + order);
+                        subscriber.onNext(order);
+                        subscriber.onCompleted();
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        Log.d(TAG, "onSuccess: ");
+                        parseClient.addOrder(consumerId, chefId, Order.Status.NOT_ORDERED, new ParseClient.OrderListener() {
+                            @Override
+                            public void onSuccess(Order order) {
+                                subscriber.onNext(order);
+                                subscriber.onCompleted();
+                            }
+
+                            @Override
+                            public void onFailure(Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+
 }
