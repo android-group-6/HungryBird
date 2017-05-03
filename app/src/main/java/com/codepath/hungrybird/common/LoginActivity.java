@@ -1,5 +1,6 @@
 package com.codepath.hungrybird.common;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -8,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.codepath.hungrybird.HungryBirdApplication;
 import com.codepath.hungrybird.R;
@@ -31,8 +31,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

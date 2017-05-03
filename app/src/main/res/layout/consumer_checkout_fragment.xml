@@ -49,6 +49,7 @@
                 android:ems="10"
                 android:inputType="number"
                 android:hint="Credit Card Number"
+                fontPath="fonts/Credit-Card.ttf"
                 android:text=""
                 android:maxLength="16" />
 
@@ -98,6 +99,12 @@
                 android:inputType="number"
                 android:hint="Zipcode"
                 android:maxLength="5" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/credit_card_bg" />
 
         </LinearLayout>
 

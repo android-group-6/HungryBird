@@ -1,5 +1,6 @@
 package com.codepath.hungrybird.consumer.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
@@ -26,7 +27,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
@@ -50,6 +50,7 @@ import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class GalleryActivity extends AppCompatActivity implements
         GallerySnapListAdapter.GalleryDishSelectedListener,
@@ -68,6 +69,11 @@ public class GalleryActivity extends AppCompatActivity implements
     private TextView userNameTv;
     private TextView userEmailTv;
     private ImageView imageView;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
