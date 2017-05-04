@@ -69,6 +69,7 @@ public class GalleryActivity extends AppCompatActivity implements
     private TextView userNameTv;
     private TextView userEmailTv;
     private ImageView imageView;
+    private TextView toolbarTitle;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -86,6 +87,8 @@ public class GalleryActivity extends AppCompatActivity implements
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbarTitle = binding.activityGalleryToolbar.toolbarTitle;
         // Find our drawer view
         mDrawer = binding.drawerLayout;
         drawerToggle = setupDrawerToggle();
@@ -116,6 +119,12 @@ public class GalleryActivity extends AppCompatActivity implements
         nvDrawer.getMenu().getItem(0).setChecked(true);
         // Set action bar title
         setTitle(nvDrawer.getMenu().getItem(0).getTitle());
+    }
+
+    public void setToolbarTitle(String titleText) {
+        if (toolbarTitle != null) {
+            toolbarTitle.setText(titleText);
+        }
     }
 
     private void addBackButtonToToolbar() {

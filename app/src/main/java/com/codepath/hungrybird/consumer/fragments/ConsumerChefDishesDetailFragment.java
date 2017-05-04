@@ -6,7 +6,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +24,7 @@ import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
 import com.codepath.hungrybird.common.HelperObservables;
 import com.codepath.hungrybird.common.OrderRelationResponse;
+import com.codepath.hungrybird.consumer.activities.GalleryActivity;
 import com.codepath.hungrybird.databinding.ChefOfferingsDishesListItemBinding;
 import com.codepath.hungrybird.databinding.ConsumerGalleryChefDishesDetailViewBinding;
 import com.codepath.hungrybird.model.Dish;
@@ -97,7 +97,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Chef's Menu");
+        ((GalleryActivity) getActivity()).setToolbarTitle("Chef's Menu");
     }
 
     @Override

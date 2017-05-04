@@ -6,7 +6,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.codepath.hungrybird.R;
+import com.codepath.hungrybird.consumer.activities.GalleryActivity;
 import com.codepath.hungrybird.databinding.ConsumerCheckoutFragmentBinding;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.postmates.DeliveryRequest;
@@ -81,7 +81,7 @@ public class ConsumerCheckoutFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Checkout");
+        ((GalleryActivity) getActivity()).setToolbarTitle("Checkout");
     }
 
     private String getRoundedTwoPlaces(double val) {

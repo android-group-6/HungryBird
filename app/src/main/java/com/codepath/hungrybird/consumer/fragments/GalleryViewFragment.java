@@ -4,7 +4,6 @@ package com.codepath.hungrybird.consumer.fragments;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.hungrybird.R;
+import com.codepath.hungrybird.consumer.activities.GalleryActivity;
 import com.codepath.hungrybird.consumer.adapters.GallerySnapListContainerAdapter;
 import com.codepath.hungrybird.databinding.ConsumerGalleryViewBinding;
 import com.codepath.hungrybird.model.Dish;
@@ -60,7 +60,7 @@ public class GalleryViewFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Hungry's Nest");
+        ((GalleryActivity) getActivity()).setToolbarTitle("Hungry's Nest");
     }
 
     private void setupAdapter(Map<String, List<Dish>> map) {
