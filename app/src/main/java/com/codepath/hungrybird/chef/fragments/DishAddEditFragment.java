@@ -10,24 +10,19 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
-import com.codepath.hungrybird.consumer.fragments.FilterFragment;
+import com.codepath.hungrybird.chef.activities.ChefLandingActivity;
 import com.codepath.hungrybird.databinding.ChefDishAddEditFragmentBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.User;
@@ -92,16 +87,28 @@ public class DishAddEditFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Dish Details");
+        ((ChefLandingActivity) getActivity()).setToolbarTitle("Dish Details");
     }
 
     private void setSaveButtonOnClickListener() {
         binding.buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "save button clicked", Toast.LENGTH_LONG).show();
                 viewToModel();
-                ParseClient.getInstance().addDish(currentDish);
+                currentDish.saveInBackground(e -> {
+                    if (e == null) {
+                        Toast.makeText(context, "Dish Added!", Toast.LENGTH_SHORT).show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (DishAddEditFragment.this.isDetached() == false) {
+                                    getFragmentManager().popBackStack();
+                                }
+                            }
+                        }, 500);
+                    }
+                });
+
             }
         });
     }
@@ -110,7 +117,6 @@ public class DishAddEditFragment extends Fragment {
         binding.buttonUploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "image button clicked", Toast.LENGTH_LONG).show();
                 fireCameraIntent();
             }
         });
@@ -140,7 +146,7 @@ public class DishAddEditFragment extends Fragment {
                     getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
 
             // Create the storage directory if it does not exist
-            if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+            if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
                 Log.d(APP_TAG, "failed to create directory");
             }
 
@@ -176,14 +182,7 @@ public class DishAddEditFragment extends Fragment {
                 Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
                 // RESIZE BITMAP, see section below
                 // Load the taken image into a preview
-//                ImageView ivPreview = (ImageView) findViewById(R.id.dishPrimaryImageView);
                 binding.imageViewPrimaryImage.setImageBitmap(takenImage);
-
-//                ParseFile dishImageFile = bitmapToParseFile(takenImage);
-//                currentDish.setPrimaryImage(dishImageFile);
-//                User chef = (User) User.getCurrentUser();
-//                Dish dish = mockDish();
-//                ParseClient.getInstance().addDish(dish);
             } else { // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
@@ -212,7 +211,9 @@ public class DishAddEditFragment extends Fragment {
         binding.editTextDishDescription.setText(dish.getDescription());
         binding.editTextPrice.setText(String.valueOf(dish.getPrice()));
         if (dish.getPrimaryImage() != null && dish.getPrimaryImage().getUrl() != null) {
-            Glide.with(this.context).load(dish.getPrimaryImage().getUrl()).into(binding.imageViewPrimaryImage);
+            Glide.with(this.context).load(dish.getPrimaryImage()
+                    .getUrl()).placeholder(R.drawable.placeholder).fallback(R.drawable.ic_no_image_available)
+                    .into(binding.imageViewPrimaryImage);
         }
     }
 
@@ -221,13 +222,13 @@ public class DishAddEditFragment extends Fragment {
             currentDish.setTitle(binding.editTextDishTitle.getText().toString());
             currentDish.setDescription(binding.editTextDishDescription.getText().toString());
             currentDish.setPrice(Double.parseDouble(binding.editTextPrice.getText().toString()));
-            currentDish.setPrimaryImage(bitmapToParseFile(((BitmapDrawable)binding.imageViewPrimaryImage.getDrawable()).getBitmap()));
+            currentDish.setPrimaryImage(bitmapToParseFile(((BitmapDrawable) binding.imageViewPrimaryImage.getDrawable()).getBitmap()));
             currentDish.setChef(new User(ParseUser.getCurrentUser()));
-            currentDish.setServingSize(Integer.valueOf((String)binding.spinnerServingSize.getSelectedItem()));
-            currentDish.setVeg(checkVeg((String)binding.spinnerDishType.getSelectedItem()));
+            currentDish.setServingSize(Integer.valueOf((String) binding.spinnerServingSize.getSelectedItem()));
+            currentDish.setVeg(checkVeg((String) binding.spinnerDishType.getSelectedItem()));
             currentDish.setCuisine((String) binding.spinnerCuisine.getSelectedItem());
         } catch (Exception e) {
-            Toast.makeText(getContext(), "error adapting view to model " , Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "error adapting view to model ", Toast.LENGTH_LONG).show();
         }
     }
 

@@ -12,21 +12,21 @@
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="34dp"
-            android:fontFamily="cursive"
+            fontPath = "fonts/Pacifico.ttf"
             android:text="@string/app_name"
             android:textAllCaps="false"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large.Inverse"
-            android:textSize="50dp"
+            android:textSize="60dp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_marginBottom="10dp"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:drawableLeft="@drawable/fb_f_logo_white"
@@ -34,9 +34,11 @@
             android:gravity="center_vertical"
             android:paddingLeft="20dp"
             android:text="Sign in"
+            fontPath="fonts/Rubik-Medium.ttf"
             android:textAllCaps="true"
+            android:visibility="gone"
             android:textColor="@color/white"
-            android:layout_above="@+id/linearLayout"
+            android:layout_above="@+id/activity_login_consumer"
             android:layout_centerHorizontal="true" />
 
         <LinearLayout
@@ -46,38 +48,55 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
             android:id="@+id/linearLayout">
-
-            <TextView
-                android:id="@+id/activity_login_consumer"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:textAlignment="center"
-                android:background="@drawable/round_buttons"
-                android:gravity="center_vertical"
-                android:text="@string/login_label_consumer"
-                android:layout_weight="1"
-                android:layout_marginRight="5dp"
-                android:textColor="#ffffff" />
 
             <TextView
                 android:id="@+id/activity_login_chef"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                fontPath="fonts/Rubik-Light.ttf"
                 android:layout_weight="1"
                 android:textAlignment="center"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/round_buttons"
                 android:gravity="center_vertical"
                 android:text="@string/login_label_chef"
-                android:layout_marginLeft="5dp"
-                android:textColor="#ffffff" />
+                android:shadowColor="@color/colorPrimaryDark"
+                android:shadowRadius="2"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:textSize="16dp"
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            fontPath="fonts/Rubik-Light.ttf"
+            android:layout_width="250dp"
+            android:gravity="center_horizontal"
+            android:textSize="18dp"
+            android:layout_height="wrap_content"
+            android:text="@string/login_description_label"
+            android:textColor="@color/text_white_primary"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/activity_login_consumer"
+            fontPath="fonts/Rubik-Medium.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_above="@+id/linearLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:background="@drawable/round_buttons"
+            android:gravity="center_vertical"
+            android:text="@string/login_label_consumer"
+            android:textAlignment="center"
+            android:textSize="16dp"
+            android:textColor="@color/colorPrimaryLight" />
 
         <!--<FrameLayout-->
         <!--android:id="@+id/or_block"-->

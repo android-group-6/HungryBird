@@ -5,7 +5,6 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,7 @@ import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
 import com.codepath.hungrybird.common.DateUtils;
 import com.codepath.hungrybird.common.StringsUtils;
+import com.codepath.hungrybird.consumer.activities.GalleryActivity;
 import com.codepath.hungrybird.databinding.ConsumerOrderHistoryViewItemBinding;
 import com.codepath.hungrybird.databinding.OrderHistoryBinding;
 import com.codepath.hungrybird.model.Order;
@@ -50,7 +50,7 @@ public class OrderHistoryFramgent extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("History");
+        ((GalleryActivity) getActivity()).setToolbarTitle("History");
     }
 
     @Override

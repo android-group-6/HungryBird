@@ -23,7 +23,7 @@ public class FilterFragment extends android.support.v4.app.DialogFragment {
         GalleryViewFilterFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.gallery_view_filter_fragment, container, false);
         getDialog().setTitle("Filter");
         binding.filterDialogTvSave.setOnClickListener(v -> {
-            Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
             FilterFragment.this.dismiss();
         });
         return binding.getRoot();

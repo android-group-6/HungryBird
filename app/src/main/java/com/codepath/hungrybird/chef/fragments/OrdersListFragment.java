@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
 import com.codepath.hungrybird.common.DateUtils;
@@ -22,10 +24,13 @@ import com.codepath.hungrybird.consumer.fragments.OrderHistoryFramgent;
 import com.codepath.hungrybird.databinding.ChefContactDetailsFragmentBinding;
 import com.codepath.hungrybird.databinding.ChefOrderListItemBinding;
 import com.codepath.hungrybird.model.Order;
+import com.codepath.hungrybird.model.User;
 import com.parse.ParseObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class OrdersListFragment extends Fragment {
     public static final String TAG = OrdersListFragment.class.getSimpleName();
@@ -37,7 +42,9 @@ public class OrdersListFragment extends Fragment {
     OrderHistoryFramgent.OnOrderSelected orderSelected;
     private DateUtils dateUtils = new DateUtils();
     boolean contentLoaded = false;
+    Context context;
     ChefContactDetailsFragmentBinding binding;
+
     public void update(ArrayList<Order> orderList) {
         orderArrayList.clear();
         orderArrayList.addAll(orderList);
@@ -45,12 +52,16 @@ public class OrdersListFragment extends Fragment {
         if (orderArrayAdapter != null) {
             orderArrayAdapter.notifyDataSetChanged();
         }
+        if (orderArrayList.isEmpty() == false) {
+            onContentLoaded();
+        }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         orderSelected = (OrderHistoryFramgent.OnOrderSelected) getActivity();
+        this.context = context;
     }
 
     public void onCreate(Bundle savedInstanceState) {
@@ -85,6 +96,17 @@ public class OrdersListFragment extends Fragment {
         orderArrayAdapter.setViewBinder((holder, item, position) -> {
             Order order = orderArrayList.get(position);
             ChefOrderListItemBinding orderBinding = (ChefOrderListItemBinding) (holder.binding);
+            User consumer = order.getConsumer();
+            if (consumer != null) {
+                String url = consumer.getProfileImageUrl();
+                if (TextUtils.isEmpty(url) == false) {
+                    Glide.with(context).load(url)
+                            .bitmapTransform(new CropCircleTransformation(getContext())).
+                    into(orderBinding.chefOfferingListItemDishIv);
+                }
+            }
+
+            orderBinding.consumerNameTv.setText(order.getConsumer().getUsername());
             orderBinding.chefOrderListItemOrderNameTv.setText(order.getDisplayId());
             String displayDate = null;
             try {
@@ -103,7 +125,9 @@ public class OrdersListFragment extends Fragment {
         ordersRv.addItemDecoration(dividerItemDecoration);
         return binding.getRoot();
     }
+
     private void onContentLoaded() {
+        if (binding == null) return;
         if (contentLoaded && orderArrayList.isEmpty()) {
             binding.noContent.setVisibility(View.VISIBLE);
             binding.chefOrderStatusLv.setVisibility(View.GONE);

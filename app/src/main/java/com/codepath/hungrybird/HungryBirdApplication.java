@@ -14,6 +14,7 @@ import com.parse.ParseFacebookUtils;
 import com.parse.interceptors.ParseLogInterceptor;
 
 import io.fabric.sdk.android.Fabric;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 import static com.parse.ParseObject.registerSubclass;
 
@@ -40,6 +41,13 @@ public class HungryBirdApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/Rubik-Regular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
+
         _instance = this;
         Fabric.with(this, new Crashlytics());
         // Use for troubleshooting -- remove this line for production

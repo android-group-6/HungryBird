@@ -54,13 +54,14 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
     private TextView userNameTv;
     private TextView userEmailTv;
     private ImageView imageView;
+    private TextView toolbarTitle;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         User currentUser = new User(ParseUser.getCurrentUser());
-        Toast.makeText(ChefLandingActivity.this, "Current User ... " + currentUser.getUsername(), Toast.LENGTH_LONG).show();
+        Toast.makeText(ChefLandingActivity.this, "Welcome " + currentUser.getUsername(), Toast.LENGTH_LONG).show();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chef_landing);
 
         // Find the toolbar view inside the activity layout
@@ -68,6 +69,8 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbarTitle = binding.activityChefLandingToolbar.toolbarTitle;
         // Find our drawer view
         mDrawer = binding.drawerLayout;
         drawerToggle = setupDrawerToggle();
@@ -108,11 +111,16 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
             }
         });
         binding.activityChefLandingAddDishFab.setOnClickListener(v -> {
-            Toast.makeText(this, "Add Clicked", Toast.LENGTH_SHORT).show();
             // Insert the fragment by replacing any existing fragment
             fragmentManager.beginTransaction().replace(R.id.flContent, new DishAddEditFragment()).addToBackStack(null).commit();
         });
         mDrawer.closeDrawers();
+    }
+
+    public void setToolbarTitle(String titleText) {
+        if (toolbarTitle != null) {
+            toolbarTitle.setText(titleText);
+        }
     }
 
     private void addBackButtonToToolbar() {
@@ -192,16 +200,14 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
                 fragmentClass = MyRegisterFragment.class;
                 break;
             case R.id.chef_logout_mi:
-                ParseInstallation.getCurrentInstallation().deleteInBackground(new DeleteCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            Log.d(this.getClass().getSimpleName(), "installation deleted successfully ... ");
-                            logout();
-                        } else {
-                            Log.d(this.getClass().getSimpleName(), "failed while deleting installation ...");
-                            logout();
-                        }
+                ParseUser.logOutInBackground(e -> {
+                    if (e == null) {
+                        this.finish();
+                        Intent i = new Intent(ChefLandingActivity.this, LoginActivity.class);
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(ChefLandingActivity.this, "Logout failed... " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
                     }
                 });
                 return;

@@ -28,7 +28,7 @@
             android:maxWidth="200sp"
             android:textColor="#ff000000"
             android:textSize="16sp"
-            android:textStyle="normal"
+            android:textStyle="bold"
             tools:text="Palak Paneer" />
 
         <TextView

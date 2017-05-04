@@ -4,7 +4,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -22,6 +21,7 @@ import com.codepath.hungrybird.chef.fragments.ChefOrdersViewFragment;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
 import com.codepath.hungrybird.common.DateUtils;
 import com.codepath.hungrybird.common.StringsUtils;
+import com.codepath.hungrybird.consumer.activities.GalleryActivity;
 import com.codepath.hungrybird.databinding.ConsumerOrderDetailsDishItemBinding;
 import com.codepath.hungrybird.databinding.ConsumerOrderDetailsFragmentBinding;
 import com.codepath.hungrybird.model.Dish;
@@ -194,7 +194,7 @@ public class OrderDetailsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Order Details");
+        ((GalleryActivity) getActivity()).setToolbarTitle("Order Details");
     }
 
     public void setSpinnerToValue(Spinner spinner, Order order) {

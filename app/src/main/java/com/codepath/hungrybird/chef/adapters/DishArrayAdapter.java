@@ -32,6 +32,7 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     DishSelected dishSelected;
     private int selectedPosition = 0;
     private static DecimalFormat df = new DecimalFormat();
+
     static {
         df.setMinimumFractionDigits(2);
         df.setMaximumFractionDigits(2);
@@ -53,6 +54,7 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             throw new NullPointerException("Article ArrayList Can't Be Null or Empty");
         }
     }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
@@ -84,11 +86,12 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.binding.chefOfferingDishListItemServingSizeValueTv.setText("" + dish.getServingSize());
             holder.binding.chefOfferingDishListItemPriceTv.setText(getRoundedTwoPlaces(dish.getPrice()));
             if (dish.getPrimaryImage() != null && dish.getPrimaryImage().getUrl() != null) {
-                Glide.with(holder.binding.getRoot().getContext()).load(dish.getPrimaryImage().getUrl()).into(holder.binding.chefOfferingListItemDishIv);
+                Glide.with(holder.binding.getRoot().getContext()).load(dish.getPrimaryImage().getUrl())
+                        .placeholder(R.drawable.placeholder).fallback(R.drawable.ic_no_image_available).into(holder.binding.chefOfferingListItemDishIv);
             }
-            if(selectedPosition == position){
+            if (selectedPosition == position) {
                 holder.itemView.setBackgroundResource(R.color.colorSelected);
-            } else{
+            } else {
                 holder.itemView.setBackgroundColor(Color.TRANSPARENT);
             }
         } else {

@@ -1,5 +1,6 @@
 package com.codepath.hungrybird.consumer.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
@@ -32,6 +33,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
+import com.codepath.hungrybird.common.LoginActivity;
 import com.codepath.hungrybird.common.Transitions.DetailsTransition;
 import com.codepath.hungrybird.consumer.adapters.GallerySnapListAdapter;
 import com.codepath.hungrybird.consumer.fragments.CartFragment;
@@ -46,13 +48,11 @@ import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
-import com.parse.DeleteCallback;
-import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class GalleryActivity extends AppCompatActivity implements
         GallerySnapListAdapter.GalleryDishSelectedListener,
@@ -71,6 +71,12 @@ public class GalleryActivity extends AppCompatActivity implements
     private TextView userNameTv;
     private TextView userEmailTv;
     private ImageView imageView;
+    private TextView toolbarTitle;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +89,8 @@ public class GalleryActivity extends AppCompatActivity implements
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbarTitle = binding.activityGalleryToolbar.toolbarTitle;
         // Find our drawer view
         mDrawer = binding.drawerLayout;
         drawerToggle = setupDrawerToggle();
@@ -113,6 +121,12 @@ public class GalleryActivity extends AppCompatActivity implements
         nvDrawer.getMenu().getItem(0).setChecked(true);
         // Set action bar title
         setTitle(nvDrawer.getMenu().getItem(0).getTitle());
+    }
+
+    public void setToolbarTitle(String titleText) {
+        if (toolbarTitle != null) {
+            toolbarTitle.setText(titleText);
+        }
     }
 
     private void addBackButtonToToolbar() {
@@ -244,11 +258,13 @@ public class GalleryActivity extends AppCompatActivity implements
                 fragmentClass = ContactUsFragment.class;
                 break;
             case R.id.chef_logout_mi:
-                ParseInstallation.getCurrentInstallation().deleteInBackground(new DeleteCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            Log.d(this.getClass().getSimpleName(), "installation deleted successfully ... ");
+                ParseUser.logOutInBackground(e -> {
+                    if (e == null) {
+                        // remove from shared preference
+                        if (getFragmentManager().getBackStackEntryCount() == 0) {
+                            this.finish();
+                            Intent i = new Intent(GalleryActivity.this, LoginActivity.class);
+                            startActivity(i);
                         } else {
                             Log.d(this.getClass().getSimpleName(), "failed while deleting installation ...");
                         }
@@ -369,7 +385,6 @@ public class GalleryActivity extends AppCompatActivity implements
 
     @Override
     public void onCheckoutListener(String orderId, String price) {
-        Toast.makeText(getApplicationContext(), orderId + " | " + price, Toast.LENGTH_SHORT).show();
         // Send to cart fragment for the given order
         FragmentManager fragmentManager = getSupportFragmentManager();
         ConsumerCheckoutFragment consumerCheckoutFragment = new ConsumerCheckoutFragment();
