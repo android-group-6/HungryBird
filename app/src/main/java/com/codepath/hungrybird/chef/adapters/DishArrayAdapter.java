@@ -5,7 +5,6 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +12,9 @@ import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
-import com.codepath.hungrybird.common.OrderRelationResponse;
 import com.codepath.hungrybird.databinding.ChefOfferingsDishesListItemBinding;
 import com.codepath.hungrybird.databinding.ProgressItemBinding;
 import com.codepath.hungrybird.model.Dish;
-import com.codepath.hungrybird.model.OrderDishRelation;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -36,15 +33,6 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private int selectedPosition = 0;
     private static DecimalFormat df = new DecimalFormat();
 
-    public void setOrderRelationResponse(OrderRelationResponse orderRelationResponse) {
-        this.orderRelationResponse = orderRelationResponse;
-        dishArrayList.clear();
-        dishArrayList.addAll(this.orderRelationResponse.dishes);
-        notifyDataSetChanged();
-    }
-
-    private OrderRelationResponse orderRelationResponse = new OrderRelationResponse();
-
     static {
         df.setMinimumFractionDigits(2);
         df.setMaximumFractionDigits(2);
@@ -57,8 +45,6 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public DishArrayAdapter(Activity activity, List<Dish> dishArrayList) {
         this(activity, dishArrayList, (DishSelected) activity);
     }
-
-
 
     public DishArrayAdapter(Activity activity, List<Dish> dishArrayList, DishSelected dishSelected) {
         this.dishArrayList = dishArrayList;
@@ -107,24 +93,6 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 holder.itemView.setBackgroundResource(R.color.colorSelected);
             } else {
                 holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-            }
-            if (orderRelationResponse != null) {
-
-                if (orderRelationResponse.map.containsKey(dish.getObjectId())) {
-                    OrderDishRelation r = orderRelationResponse.map.get(dish.getObjectId());
-                    Log.d(TAG, "onBindViewHolder: contains" );
-                    holder.binding.increaseDecreaseInclude.increaseDecrease.setVisibility(View.VISIBLE);
-                    holder.binding.rowCartInclude.cart.setVisibility(View.GONE);
-                    if (r != null && r.getQuantity() > 1) {
-                        holder.binding.chefOfferingDishListItemCountTv.setVisibility(View.VISIBLE);
-                        holder.binding.chefOfferingDishListItemCountTv.setText("x " + r.getQuantity());
-                    }
-                } else {
-                    Log.d(TAG, "onBindViewHolder: contains NOT" );
-                    holder.binding.increaseDecreaseInclude.increaseDecrease.setVisibility(View.GONE);
-                    holder.binding.rowCartInclude.cart.setVisibility(View.VISIBLE);
-                    holder.binding.chefOfferingDishListItemCountTv.setVisibility(View.GONE);
-                }
             }
         } else {
             ((ProgressViewHolder) viewHolder).progressBar.setIndeterminate(true);
