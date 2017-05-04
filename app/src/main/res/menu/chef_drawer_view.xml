@@ -3,11 +3,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/chef_drawer_orders_view_mi"
-            android:icon="@drawable/ic_history_black_48dp"
+            android:icon="@drawable/ic_history"
             android:title="@string/chef_drawer_title_orders_view" />
         <item
             android:id="@+id/chef_drawer_my_offerings_mi"
-            android:icon="@drawable/ic_shopping_basket_black_48dp"
+            android:icon="@drawable/ic_shopping_basket"
             android:title="@string/chef_drawer_title_my_offering" />
         <item
             android:id="@+id/chef_drawer_my_register_mi"
@@ -21,7 +21,7 @@
             android:visible="false" />
         <item
             android:id="@+id/chef_logout_mi"
-            android:icon="@drawable/ic_exit_to_app_black_48dp"
+            android:icon="@drawable/ic_exit_to_app"
             android:title="@string/chef_logout" />
     </group>
 </menu>

@@ -50,7 +50,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="@android:color/white"
+            app:itemTextColor="@color/white"
+            android:background="#AA000000"
+            app:itemIconTint="@android:color/white"
+            android:layout_marginTop="24dp"
             app:headerLayout="@layout/navigation_drawer_header"
             app:menu="@menu/chef_drawer_view">
 
