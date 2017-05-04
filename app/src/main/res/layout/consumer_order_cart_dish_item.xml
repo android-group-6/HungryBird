@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="#D3D3D3"
+            android:background="@color/colorRed"
             android:orientation="horizontal"
             android:visibility="gone"
             android:weightSum="3">
@@ -106,7 +106,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 tools:text="2"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

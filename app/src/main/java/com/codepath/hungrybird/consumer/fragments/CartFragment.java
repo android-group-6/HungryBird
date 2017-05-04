@@ -1,5 +1,7 @@
 package com.codepath.hungrybird.consumer.fragments;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -13,6 +15,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -329,16 +334,7 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                 });
         adapter.setOnClickListener(v -> {
             View addToPanel = v.findViewById(R.id.add_to_card_panel);
-            int visible = addToPanel.getVisibility();
-            if (view != null) {
-                view.setVisibility(View.GONE);
-            }
-            if (visible == View.VISIBLE) {
-                addToPanel.setVisibility(View.GONE);
-            } else {
-                addToPanel.setVisibility(View.VISIBLE);
-                view = addToPanel;
-            }
+            togglePanel(addToPanel);
         });
         adapter.setViewBinder((holder, item, position) -> {
 
@@ -361,14 +357,14 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
             }
             binding.addToCardPanel.setVisibility(View.GONE);
             binding.itemsCount.setOnClickListener(v -> {
-                if (binding.addToCardPanel.getVisibility() == View.GONE) {
-                    binding.addToCardPanel.setVisibility(View.VISIBLE);
+                int visibility = binding.addToCardPanel.getVisibility();
+                togglePanel(binding.addToCardPanel);
+                if (visibility == View.GONE) {
                     binding.updatedCount.setText("" + order.getQuantity());
                     if (order.getQuantity() == 1) {
                         binding.reduceCart.setImageResource(R.drawable.ic_delete_black_24px);
                     }
                 } else {
-                    binding.addToCardPanel.setVisibility(View.GONE);
                     view = null;
                 }
 
@@ -379,6 +375,10 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                     binding.reduceCart.setImageResource(R.drawable.ic_remove_circle_outline_black_24px);
                 }
                 order.setQuantity(val + 1);
+                ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.updatedCount, "alpha", 0f, 1f);
+                fadeAnim.setInterpolator(new DecelerateInterpolator());
+                fadeAnim.setDuration(250);
+                fadeAnim.start();
                 binding.updatedCount.setText("" + order.getQuantity());
                 parseClient.addOrderDishRelation(order, new SaveCallback() {
                     @Override
@@ -414,6 +414,10 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                         binding.reduceCart.setImageResource(R.drawable.ic_delete_black_24px);
                     }
                     order.setQuantity(val - 1);
+                    ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.updatedCount, "alpha", 0f, 1f);
+                    fadeAnim.setInterpolator(new DecelerateInterpolator());
+                    fadeAnim.setDuration(250);
+                    fadeAnim.start();
                     binding.updatedCount.setText("" + order.getQuantity());
                     parseClient.addOrderDishRelation(order, new SaveCallback() {
                         @Override
@@ -431,6 +435,67 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
         return binding.getRoot();
     }
 
+    private void togglePanel(View addToPanel) {
+
+        int visible = addToPanel.getVisibility();
+        Log.d(TAG, "onCreateView: " + (visible == View.VISIBLE));
+        if (view != null && view.getVisibility() == View.VISIBLE) {
+            slideDown(view);
+        }
+        if (visible == View.VISIBLE) {
+            slideDown(addToPanel);
+        } else {
+            addToPanel.setVisibility(View.VISIBLE);
+            slideUp(addToPanel);
+            view = addToPanel;
+        }
+    }
+
+    private void slideDown(View view) {
+        view.setVisibility(View.GONE);
+        Animation slideUp = AnimationUtils.loadAnimation(getActivity(),
+                R.anim.slide_down);
+        slideUp.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        view.startAnimation(slideUp);
+    }
+
+    private void slideUp(View view) {
+        view.setVisibility(View.VISIBLE);
+        Animation slideUp = AnimationUtils.loadAnimation(getActivity(),
+                R.anim.slide_up);
+        slideUp.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        view.startAnimation(slideUp);
+    }
 
     private void updatePricing(List<OrderDishRelation> orderDishRelations) {
         double temp = 0.0;

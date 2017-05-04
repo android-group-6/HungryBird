@@ -468,6 +468,11 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                 int oldQuantity = Integer.parseInt(binding.tvDishQuantity.getText().toString());
                 int newQuantity = oldQuantity - 1;
                 if (newQuantity > 0) {
+                    ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.tvDishQuantity, "alpha", 0f, 1f);
+                    fadeAnim.setInterpolator(new DecelerateInterpolator());
+                    fadeAnim.setDuration(250);
+                    fadeAnim.start();
+
                     binding.tvDishQuantity.setText(String.valueOf(newQuantity));
                 }
             }
@@ -477,6 +482,10 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
             public void onClick(View v) {
                 int oldQuantity = Integer.parseInt(binding.tvDishQuantity.getText().toString());
                 int newQuantity = oldQuantity + 1;
+                ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.tvDishQuantity, "alpha", 0f, 1f);
+                fadeAnim.setInterpolator(new DecelerateInterpolator());
+                fadeAnim.setDuration(250);
+                fadeAnim.start();
                 binding.tvDishQuantity.setText(String.valueOf(newQuantity));
             }
         });
