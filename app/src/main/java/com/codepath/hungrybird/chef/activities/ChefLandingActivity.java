@@ -52,6 +52,7 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
     private TextView userNameTv;
     private TextView userEmailTv;
     private ImageView imageView;
+    private TextView toolbarTitle;
 
 
     @Override
@@ -66,6 +67,8 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbarTitle = binding.activityChefLandingToolbar.toolbarTitle;
         // Find our drawer view
         mDrawer = binding.drawerLayout;
         drawerToggle = setupDrawerToggle();
@@ -110,6 +113,12 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
             fragmentManager.beginTransaction().replace(R.id.flContent, new DishAddEditFragment()).addToBackStack(null).commit();
         });
         mDrawer.closeDrawers();
+    }
+
+    public void setToolbarTitle(String titleText) {
+        if (toolbarTitle != null) {
+            toolbarTitle.setText(titleText);
+        }
     }
 
     private void addBackButtonToToolbar() {

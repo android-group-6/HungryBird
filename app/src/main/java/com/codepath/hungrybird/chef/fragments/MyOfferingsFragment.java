@@ -4,7 +4,6 @@ package com.codepath.hungrybird.chef.fragments;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.codepath.hungrybird.HungryBirdApplication;
 import com.codepath.hungrybird.R;
+import com.codepath.hungrybird.chef.activities.ChefLandingActivity;
 import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
 import com.codepath.hungrybird.databinding.ChefMyOfferingsFragmentBinding;
 import com.codepath.hungrybird.model.Dish;
@@ -84,7 +84,7 @@ public class MyOfferingsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("My Offerings");
+        ((ChefLandingActivity) getActivity()).setToolbarTitle("My Offerings");
     }
 
 

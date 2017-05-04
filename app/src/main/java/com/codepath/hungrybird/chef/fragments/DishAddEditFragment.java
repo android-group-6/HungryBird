@@ -14,7 +14,6 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +22,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
+import com.codepath.hungrybird.chef.activities.ChefLandingActivity;
 import com.codepath.hungrybird.databinding.ChefDishAddEditFragmentBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.User;
@@ -87,7 +87,7 @@ public class DishAddEditFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Dish Details");
+        ((ChefLandingActivity) getActivity()).setToolbarTitle("Dish Details");
     }
 
     private void setSaveButtonOnClickListener() {

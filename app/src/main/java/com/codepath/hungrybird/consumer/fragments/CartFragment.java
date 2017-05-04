@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
@@ -24,6 +23,7 @@ import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
 import com.codepath.hungrybird.common.OrderRelationResponse;
 import com.codepath.hungrybird.common.PlaceAutocompleteAdapter;
+import com.codepath.hungrybird.consumer.activities.GalleryActivity;
 import com.codepath.hungrybird.databinding.ConsumerCartDetailsFragmentBinding;
 import com.codepath.hungrybird.databinding.ConsumerOrderCartDishItemBinding;
 import com.codepath.hungrybird.model.Dish;
@@ -147,7 +147,7 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Your Cart");
+        ((GalleryActivity) getActivity()).setToolbarTitle("Your Cart");
     }
 
     @Override
