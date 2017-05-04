@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
+import com.codepath.hungrybird.common.LoginActivity;
 import com.codepath.hungrybird.common.Transitions.DetailsTransition;
 import com.codepath.hungrybird.consumer.adapters.GallerySnapListAdapter;
 import com.codepath.hungrybird.consumer.fragments.CartFragment;
@@ -261,6 +262,8 @@ public class GalleryActivity extends AppCompatActivity implements
                         // remove from shared preference
                         if (getFragmentManager().getBackStackEntryCount() == 0) {
                             this.finish();
+                            Intent i = new Intent(GalleryActivity.this, LoginActivity.class);
+                            startActivity(i);
                         } else {
                             getFragmentManager().popBackStack();
                         }

@@ -203,7 +203,6 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
                     if (e == null) {
                         this.finish();
                         Intent i = new Intent(ChefLandingActivity.this, LoginActivity.class);
-
                         startActivity(i);
                     } else {
                         Toast.makeText(ChefLandingActivity.this, "Logout failed... " + e.getMessage(), Toast.LENGTH_LONG).show();
