@@ -325,7 +325,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
             public void onClick(View v) {
                 int quantity = Integer.parseInt(binding.tvDishQuantity.getText().toString());
                 addOrUpdateOrderDishRelation(currentOrder, currentDish, quantity);
-//                Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
             }
         });
         parseClient.getUserById(chefId, new ParseClient.UserListener() {
@@ -378,7 +378,8 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                     .into(binding.selectedDishPicIv);
         }
 
-        binding.dishTitle.setText(currentDish.getTitle());
+        ((GalleryActivity) getActivity()).setToolbarTitle(currentDish.getTitle());
+//        binding.dishTitle.setText(currentDish.getDescription());
         binding.dishPrice.setText(getRoundedTwoPlaces(currentDish.getPrice()));
         binding.dishServingSize.setText(String.valueOf(currentDish.getServingSize()));
         String description = currentDish.getDescription();
