@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Hungry Bird</string>
-    <string name="login_label_chef">CHEF</string>
-    <string name="login_label_consumer">CONSUMER</string>
+    <string name="login_label_chef"><u>Sign in as Chef</u></string>
+    <string name="login_label_consumer">Sign in as Consumer</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="facebook_app_id">1861839154089275</string>
