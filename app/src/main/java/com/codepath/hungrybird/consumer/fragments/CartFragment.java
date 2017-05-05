@@ -200,7 +200,6 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                     fadeAnim.setDuration(500);
                     fadeAnim.start();
                     binding.consumerCartPriceBeforeTax.setText(getDisplayPrice(totalPrice));
-                    binding.tvDeliveryCost.setVisibility(View.VISIBLE);
                     binding.tvDeliveryCost.setText(getDisplayPrice(getShippingCost()));
                 }
             }
@@ -564,8 +563,6 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                     .getPlaceById(mGoogleApiClient, placeId);
             placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
 
-            Toast.makeText(getActivity().getApplicationContext(), "Clicked: " + primaryText,
-                    Toast.LENGTH_SHORT).show();
             Log.i(TAG, "Called getPlaceById to get Place details for " + placeId);
         }
     };
@@ -591,6 +588,7 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
             String dropOffAddress = binding.autocompletePlaces.getText().toString();
             if (TextUtils.isEmpty(dropOffAddress) == false) {
                 putDeliveryAddress(dropOffAddress);
+
                 binding.deliveryCostProgress.setVisibility(View.VISIBLE);
 //                Toast.makeText(getContext(), "" + binding.autocompletePlaces.getText(), Toast.LENGTH_SHORT).show();
                 // Get Quote
