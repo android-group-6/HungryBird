@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
@@ -232,8 +233,8 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                             if (e == null) {
                                 Log.d(TAG, "done: show items count");
                                 ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.chefOfferingDishListItemCountTv, "alpha", 0f, 1f);
-                                fadeAnim.setInterpolator(new DecelerateInterpolator());
-                                fadeAnim.setDuration(250);
+                                fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+                                fadeAnim.setDuration(500);
                                 fadeAnim.start();
                                 binding.chefOfferingDishListItemCountTv.setVisibility(View.VISIBLE);
                                 binding.chefOfferingDishListItemCountTv.setText("x " + odr.getQuantity());
@@ -253,13 +254,14 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                                 if (e == null) {
                                     if (odr.getQuantity() > 1) {
                                         ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.chefOfferingDishListItemCountTv, "alpha", 0f, 1f);
-                                        fadeAnim.setInterpolator(new DecelerateInterpolator());
-                                        fadeAnim.setDuration(250);
+                                        fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+                                        fadeAnim.setDuration(500);
                                         fadeAnim.start();
                                         binding.chefOfferingDishListItemCountTv.setText("x " + odr.getQuantity());
                                     } else if (odr.getQuantity() == 1) {
                                         ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.chefOfferingDishListItemCountTv, "alpha", 1f, 0f);
-                                        fadeAnim.setInterpolator(new DecelerateInterpolator());
+                                        fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+                                        fadeAnim.setDuration(500);
                                         fadeAnim.addListener(new Animator.AnimatorListener() {
                                             @Override
                                             public void onAnimationStart(Animator animation) {
@@ -281,7 +283,6 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
 
                                             }
                                         });
-                                        fadeAnim.setDuration(250);
                                         fadeAnim.start();
                                     }
                                 }
@@ -294,8 +295,8 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                             public void onSuccess(OrderDishRelation orderDishRelation) {
                                 orderDishRelationResponse.map.remove(dish.getObjectId());
                                 ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.chefOfferingDishListItemCountTv, "alpha", 1f, 0f);
-                                fadeAnim.setInterpolator(new DecelerateInterpolator());
-                                fadeAnim.setDuration(200);
+                                fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+                                fadeAnim.setDuration(500);
                                 fadeAnim.addListener(new Animator.AnimatorListener() {
                                     @Override
                                     public void onAnimationStart(Animator animation) {
@@ -470,8 +471,8 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                 int newQuantity = oldQuantity - 1;
                 if (newQuantity > 0) {
                     ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.tvDishQuantity, "alpha", 0f, 1f);
-                    fadeAnim.setInterpolator(new DecelerateInterpolator());
-                    fadeAnim.setDuration(250);
+                    fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+                    fadeAnim.setDuration(500);
                     fadeAnim.start();
 
                     binding.tvDishQuantity.setText(String.valueOf(newQuantity));
@@ -484,8 +485,8 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                 int oldQuantity = Integer.parseInt(binding.tvDishQuantity.getText().toString());
                 int newQuantity = oldQuantity + 1;
                 ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.tvDishQuantity, "alpha", 0f, 1f);
-                fadeAnim.setInterpolator(new DecelerateInterpolator());
-                fadeAnim.setDuration(250);
+                fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+                fadeAnim.setDuration(500);
                 fadeAnim.start();
                 binding.tvDishQuantity.setText(String.valueOf(newQuantity));
             }

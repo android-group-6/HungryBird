@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
@@ -194,6 +195,10 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                     binding.autocompletePlaces.setVisibility(View.VISIBLE);
                     binding.autocompletePlaces.setSelection(0);
                     double totalPrice = getDishesPrice() + getShippingCost();
+                    ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.consumerCartPriceBeforeTax, "alpha", 0f, 1f);
+                    fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+                    fadeAnim.setDuration(500);
+                    fadeAnim.start();
                     binding.consumerCartPriceBeforeTax.setText(getDisplayPrice(totalPrice));
                     binding.tvDeliveryCost.setVisibility(View.VISIBLE);
                     binding.tvDeliveryCost.setText(getDisplayPrice(getShippingCost()));
@@ -386,8 +391,8 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                 }
                 order.setQuantity(val + 1);
                 ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.updatedCount, "alpha", 0f, 1f);
-                fadeAnim.setInterpolator(new DecelerateInterpolator());
-                fadeAnim.setDuration(250);
+                fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+                fadeAnim.setDuration(500);
                 fadeAnim.start();
                 binding.updatedCount.setText("" + order.getQuantity());
                 parseClient.addOrderDishRelation(order, new SaveCallback() {
@@ -426,8 +431,8 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                     }
                     order.setQuantity(val - 1);
                     ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.updatedCount, "alpha", 0f, 1f);
-                    fadeAnim.setInterpolator(new DecelerateInterpolator());
-                    fadeAnim.setDuration(250);
+                    fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+                    fadeAnim.setDuration(500);
                     fadeAnim.start();
                     binding.updatedCount.setText("" + order.getQuantity());
                     parseClient.addOrderDishRelation(order, new SaveCallback() {
@@ -518,6 +523,10 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
         if (binding.radioButtonDelivery.isChecked()) {
             price = getDishesPrice() + getShippingCost();
         }
+        ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.consumerCartPriceBeforeTax, "alpha", 0f, 1f);
+        fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+        fadeAnim.setDuration(500);
+        fadeAnim.start();
         binding.consumerCartPriceBeforeTax.setText(getDisplayPrice(price));
     }
 
