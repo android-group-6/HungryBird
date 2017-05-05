@@ -60,7 +60,7 @@ public class GalleryViewFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((GalleryActivity) getActivity()).setToolbarTitle("Hungry's Nest");
+        ((GalleryActivity) getActivity()).setToolbarTitle("What's your favorite cuisine?");
     }
 
     private void setupAdapter(Map<String, List<Dish>> map) {
