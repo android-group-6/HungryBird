@@ -332,11 +332,11 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
 
                     }
                 });
-        adapter.setOnClickListener(v -> {
-            View addToPanel = v.findViewById(R.id.add_to_card_panel);
-            togglePanel(addToPanel);
-        });
         adapter.setViewBinder((holder, item, position) -> {
+            holder.getBaseView().setOnClickListener(v -> {
+                View addToPanel = v.findViewById(R.id.add_to_card_panel);
+                togglePanel(addToPanel);
+            });
 
             OrderDishRelation order = orderDishRelations.get(position);
             ConsumerOrderCartDishItemBinding binding = (ConsumerOrderCartDishItemBinding) (holder.binding);
@@ -399,8 +399,9 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                     parseClient.delete(order, new ParseClient.OrderDishRelationListener() {
                         @Override
                         public void onSuccess(OrderDishRelation orderDishRelation) {
+                            int position = holder.getAdapterPosition();
                             orderDishRelations.remove(position);
-                            adapter.notifyDataSetChanged();
+                            adapter.notifyItemRemoved(position);
                             updatePricing(orderDishRelations);
                         }
 
