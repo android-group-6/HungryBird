@@ -17,6 +17,7 @@
             android:textAlignment="center"
             android:textColor="@color/text_white_primary"
             android:textSize="26dp"
+            android:visibility="gone"
             android:textStyle="bold" />
 
         <android.support.v4.widget.NestedScrollView
