@@ -1,34 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPageBackground"
         tools:context="com.codepath.hungrybird.consumer.activities.SearchActivity">
 
         <include
             android:id="@+id/activity_gallery_toolbar"
             layout="@layout/toolbar"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:id="@+id/rvSearch"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_below="@+id/activity_gallery_toolbar" />-->
+        <!--android:id="@+id/rvSearch"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_below="@+id/activity_gallery_toolbar" />-->
 
-        <include
-            android:id="@+id/content"
-            layout="@layout/myofferings_content"
+
+        <RelativeLayout
+            android:id="@+id/chef_my_offerings_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_gallery_toolbar"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/activity_gallery_toolbar" />
+            android:padding="10dp">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/chef_myoffersings_lv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@android:color/white" />
+
+        </RelativeLayout>
     </RelativeLayout>
 </layout>

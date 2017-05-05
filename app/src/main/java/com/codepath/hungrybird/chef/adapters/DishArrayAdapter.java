@@ -83,17 +83,19 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ViewHolder holder = (ViewHolder) viewHolder;
             final Dish dish = dishArrayList.get(position);
             holder.binding.chefOfferingListItemDishNameTv.setText(dish.getTitle());
+            holder.binding.rowCartInclude.cart.setVisibility(View.GONE);
+            holder.binding.increaseDecreaseInclude.increaseDecrease.setVisibility(View.GONE);
             holder.binding.chefOfferingDishListItemServingSizeValueTv.setText("" + dish.getServingSize());
             holder.binding.chefOfferingDishListItemPriceTv.setText(getRoundedTwoPlaces(dish.getPrice()));
             if (dish.getPrimaryImage() != null && dish.getPrimaryImage().getUrl() != null) {
                 Glide.with(holder.binding.getRoot().getContext()).load(dish.getPrimaryImage().getUrl())
                         .placeholder(R.drawable.placeholder).fallback(R.drawable.ic_no_image_available).into(holder.binding.chefOfferingListItemDishIv);
             }
-            if (selectedPosition == position) {
-                holder.itemView.setBackgroundResource(R.color.colorSelected);
-            } else {
-                holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-            }
+//            if (selectedPosition == position) {
+//                holder.itemView.setBackgroundResource(R.color.colorSelected);
+//            } else {
+//                holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+//            }
         } else {
             ((ProgressViewHolder) viewHolder).progressBar.setIndeterminate(true);
         }

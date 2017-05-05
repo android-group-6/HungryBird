@@ -48,15 +48,16 @@ public class SearchActivity extends AppCompatActivity implements DishArrayAdapte
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dishArrayAdapter = new DishArrayAdapter(SearchActivity.this, dishesArrayList);
-        binding.content.chefMyoffersingsLv.setAdapter(dishArrayAdapter);
+        binding.chefMyoffersingsLv.setAdapter(dishArrayAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        binding.content.chefMyoffersingsLv.setLayoutManager(linearLayoutManager);
+        binding.chefMyoffersingsLv.setLayoutManager(linearLayoutManager);
         //Added divider between line items
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.content.chefMyoffersingsLv.getContext(), linearLayoutManager.getOrientation());
-        binding.content.chefMyoffersingsLv.addItemDecoration(dividerItemDecoration);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.chefMyoffersingsLv.getContext(), linearLayoutManager.getOrientation());
+        binding.chefMyoffersingsLv.addItemDecoration(dividerItemDecoration);
 
         query = getIntent().getStringExtra("query");
         fetchDishes(query);
+
     }
 
     @Override

@@ -54,12 +54,20 @@ public class Dish extends ParseObject {
         put("primaryImage", imageFile);
     }
 
+    public String getProfileImageUrl() {
+        ParseFile parseFile = getPrimaryImage();
+        if (parseFile != null) {
+            return parseFile.getUrl();
+        }
+        return null;
+    }
+
     public ParseFile getPrimaryImage() {
         return getParseFile("primaryImage");
     }
 
     public User getChef() {
-        return  new User(getParseUser("chef"));
+        return new User(getParseUser("chef"));
     }
 
     public void setChef(User user) {

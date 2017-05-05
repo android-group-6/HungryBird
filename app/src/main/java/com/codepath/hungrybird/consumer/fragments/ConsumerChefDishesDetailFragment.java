@@ -9,7 +9,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,6 +28,7 @@ import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
 import com.codepath.hungrybird.common.HelperObservables;
 import com.codepath.hungrybird.common.OrderRelationResponse;
+import com.codepath.hungrybird.common.SimpleDividerItemDecoration;
 import com.codepath.hungrybird.consumer.activities.GalleryActivity;
 import com.codepath.hungrybird.databinding.ChefOfferingsDishesListItemBinding;
 import com.codepath.hungrybird.databinding.ConsumerGalleryChefDishesDetailViewBinding;
@@ -120,8 +120,9 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         binding.chefMyoffersingsLv.setLayoutManager(linearLayoutManager);
         //Added divider between line items
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.chefMyoffersingsLv.getContext(), linearLayoutManager.getOrientation());
-        binding.chefMyoffersingsLv.addItemDecoration(dividerItemDecoration);
+        SimpleDividerItemDecoration simpleDividerItemDecoration = new SimpleDividerItemDecoration(binding.chefMyoffersingsLv.getContext(),
+                R.drawable.divider_vert, (int) getResources().getDimension(R.dimen.divider_height));
+        binding.chefMyoffersingsLv.addItemDecoration(simpleDividerItemDecoration);
 
         adapter.setViewBinder((holder, item, position) -> {
             Log.d(TAG, "onCreateView: setViewBinder " + orderDishRelationResponse);
@@ -549,8 +550,9 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                     .placeholder(R.drawable.placeholder)
                     .into(binding.selectedDishPicIv);
         }
-
-        ((GalleryActivity) getActivity()).setToolbarTitle(currentDish.getTitle());
+        Activity activity = getActivity();
+        if (activity == null) return;
+        ((GalleryActivity) activity).setToolbarTitle(currentDish.getTitle());
 //        binding.dishTitle.setText(currentDish.getDescription());
         binding.dishPrice.setText(getRoundedTwoPlaces(currentDish.getPrice()));
         binding.dishServingSize.setText(String.valueOf(currentDish.getServingSize()));

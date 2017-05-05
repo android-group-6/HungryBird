@@ -5,13 +5,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPageBackground"
         android:clickable="true"
-        android:background="#dcdcdc">
+        android:padding="10dp">
         <!--consumer_order_history_view_item-->
         <android.support.v7.widget.CardView
             android:id="@+id/card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             app:cardCornerRadius="0dp">
 
             <RelativeLayout
@@ -48,10 +50,10 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:maxWidth="150sp"
-                    tools:text="Completed"
                     android:textColor="#ff000000"
                     android:textSize="16sp"
-                    android:textStyle="normal" />
+                    android:textStyle="normal"
+                    tools:text="Completed" />
 
                 <Spinner
                     android:id="@+id/order_status_spinner"
@@ -84,22 +86,24 @@
                     android:id="@+id/location_bubble"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_below="@+id/consumer_order_code"
-                    android:layout_marginLeft="8dp"
-                    android:src="@drawable/location_bubble" />
+                    android:layout_marginLeft="6dp"
+                    android:src="@drawable/location_bubble"
+
+                    />
 
                 <TextView
                     android:id="@+id/delivery_address"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="24dp"
                     android:layout_below="@+id/consumer_order_code"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/location_bubble"
                     android:ellipsize="end"
-                    android:maxLines="1"
+                    android:gravity="center"
                     android:maxLength="35"
+                    android:maxLines="1"
                     tools:text="some address" />
 
                 <TextView
@@ -108,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/delivery_address"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginLeft="10dp"
                     android:text="VISA-8003"
                     android:visibility="visible" />
 
@@ -126,13 +130,15 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:layout_below="@+id/card_view">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/consumer_order_details_rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp" />
 
 
                 <TextView

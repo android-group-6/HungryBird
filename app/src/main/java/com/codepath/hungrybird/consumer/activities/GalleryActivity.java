@@ -325,7 +325,7 @@ public class GalleryActivity extends AppCompatActivity implements
                 .addSharedElement(dishImage, "dishImageTransition")
                 .addSharedElement(dishTitle, "dishTitleTransition")
                 .addSharedElement(dishPrice, "dishPriceTransition")
-                .replace(R.id.flContent, dishDetailsFragment).addToBackStack(null).commit();
+                .add(R.id.flContent, dishDetailsFragment).addToBackStack(null).commit();
     }
 
     @Override

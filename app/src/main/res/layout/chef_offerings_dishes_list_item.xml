@@ -5,110 +5,121 @@
     <android.support.v7.widget.CardView
         android:id="@+id/article_adaptor_article_card_view"
         android:layout_width="match_parent"
-        android:elevation="1dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:elevation="1dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:paddingBottom="5dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp">
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/chef_offering_list_item_dish_iv"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp" />
+                android:layout_width="@dimen/gallery_image_width"
+                android:layout_height="@dimen/gallery_image_height"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder" />
 
-            <TextView
-                android:id="@+id/chef_offering_list_item_dish_name_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/chef_offering_list_item_dish_iv"
-                android:layout_toRightOf="@+id/chef_offering_list_item_dish_iv"
-                android:ellipsize="end"
-                android:maxLength="140"
-                android:maxLines="4"
-                android:maxWidth="200sp"
-                android:textColor="#ff000000"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                tools:text="Dish Name" />
-
-            <TextView
-                android:id="@+id/chef_offering_dish_list_item_serving_size_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/chef_offering_list_item_dish_name_tv"
-                android:layout_toRightOf="@+id/chef_offering_list_item_dish_iv"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:maxWidth="150sp"
-                android:text="Serves: "
-                android:textColor="#aa000000"
-                android:textSize="14sp"
-                android:textStyle="normal" />
-
-            <TextView
-                android:id="@+id/chef_offering_dish_list_item_serving_size_value_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/chef_offering_list_item_dish_name_tv"
-                android:layout_toRightOf="@+id/chef_offering_dish_list_item_serving_size_tv"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:maxWidth="150sp"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                tools:text="2" />
-
-            <TextView
-                android:id="@+id/chef_offering_dish_list_item_price_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/chef_offering_dish_list_item_serving_size_tv"
-                android:layout_toRightOf="@+id/chef_offering_list_item_dish_iv"
-                android:ellipsize="end"
-                android:maxLines="1"
-
-                android:textColor="@color/theme_green_color"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                tools:text="$7.99" />
-            <TextView
-                android:id="@+id/chef_offering_dish_list_item_count_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/chef_offering_dish_list_item_serving_size_tv"
-                android:layout_toRightOf="@+id/chef_offering_dish_list_item_price_tv"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:layout_marginLeft="10dp"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                tools:text="x 2" />
-
-            <include
-                android:id="@+id/increase_decrease_include"
-                layout="@layout/increase_decrease"
-                android:layout_width="90dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:visibility="gone" />
-
-            <include
-                android:id="@+id/row_cart_include"
-                layout="@layout/row_cart"
-                android:layout_width="44dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:paddingLeft="20dp">
 
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/chef_offering_list_item_dish_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLength="140"
+                    android:maxLines="1"
+                    android:maxWidth="200sp"
+                    android:textColor="#ff000000"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:text="Dish Nam" />
+
+                <TextView
+                    android:id="@+id/chef_offering_dish_list_item_serving_size_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/chef_offering_list_item_dish_name_tv"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:maxWidth="150sp"
+                    android:text="Serves: "
+                    android:textColor="#aa000000"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/chef_offering_dish_list_item_serving_size_value_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/chef_offering_list_item_dish_name_tv"
+                    android:layout_toRightOf="@+id/chef_offering_dish_list_item_serving_size_tv"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:maxWidth="150sp"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:text="2" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_below="@+id/chef_offering_dish_list_item_serving_size_tv">
+
+
+                    <TextView
+                        android:id="@+id/chef_offering_dish_list_item_price_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="10dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/theme_green_color"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        tools:text="$7.99" />
+
+                    <TextView
+                        android:id="@+id/chef_offering_dish_list_item_count_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@+id/chef_offering_dish_list_item_price_tv"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        tools:text="x 2" />
+
+                    <include
+                        android:id="@+id/increase_decrease_include"
+                        layout="@layout/increase_decrease"
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:visibility="gone" />
+
+                    <include
+                        android:id="@+id/row_cart_include"
+                        layout="@layout/row_cart"
+                        android:layout_width="44dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 </layout>

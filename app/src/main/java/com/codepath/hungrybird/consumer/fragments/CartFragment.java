@@ -7,7 +7,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,6 +27,7 @@ import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
 import com.codepath.hungrybird.common.OrderRelationResponse;
 import com.codepath.hungrybird.common.PlaceAutocompleteAdapter;
+import com.codepath.hungrybird.common.SimpleDividerItemDecoration;
 import com.codepath.hungrybird.consumer.activities.GalleryActivity;
 import com.codepath.hungrybird.databinding.ConsumerCartDetailsFragmentBinding;
 import com.codepath.hungrybird.databinding.ConsumerOrderCartDishItemBinding;
@@ -57,6 +57,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -226,9 +227,10 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                 new BaseItemHolderAdapter(getContext(), R.layout.consumer_order_cart_dish_item, orderDishRelations);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         binding.consumerCartItemsRv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.consumerCartItemsRv.getContext(),
-                linearLayoutManager.getOrientation());
-        binding.consumerCartItemsRv.addItemDecoration(dividerItemDecoration);
+        SimpleDividerItemDecoration simpleDividerItemDecoration =
+                new SimpleDividerItemDecoration(binding.consumerCartItemsRv.getContext(), R.drawable.divider_vert,
+                        (int) getContext().getResources().getDimension(R.dimen.divider_height));
+        binding.consumerCartItemsRv.addItemDecoration(simpleDividerItemDecoration);
         binding.consumerCartItemsRv.setAdapter(adapter);
 
         Observable.create(new Observable.OnSubscribe<OrderRelationResponse>() {
@@ -292,8 +294,9 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                         adapter.notifyDataSetChanged();
                         User chef = response.order.getChef();
                         User consumer = response.order.getConsumer();
-                        if (chef.getProfileImageUrl() != null) {
-                            Glide.with(getContext()).load(chef.getProfileImageUrl()).into(binding.consumerCartChefIv);
+                        Context context = getActivity();
+                        if (context != null && chef.getProfileImageUrl() != null) {
+                            Glide.with(context).load(chef.getProfileImageUrl()).into(binding.consumerCartChefIv);
                         }
 
                         binding.consumerCartChefNameTv.setText(response.order.getChef().getUsername());
@@ -337,11 +340,18 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                 View addToPanel = v.findViewById(R.id.add_to_card_panel);
                 togglePanel(addToPanel);
             });
-
             OrderDishRelation order = orderDishRelations.get(position);
             ConsumerOrderCartDishItemBinding binding = (ConsumerOrderCartDishItemBinding) (holder.binding);
             Dish dish = order.getDish();
-            if (dish.getPrimaryImage() != null && dish.getPrimaryImage().getUrl() != null) {
+            Context context = getContext();
+            if (context != null && dish.getProfileImageUrl() != null) {
+                Glide.with(context)
+                        .load(dish.getProfileImageUrl())
+                        .placeholder(R.drawable.placeholder)
+                        .fallback(R.drawable.futurama)
+                        .bitmapTransform(
+                                new RoundedCornersTransformation(context, 5, 5))
+                        .into(binding.itemImage);
                 Glide.with(getActivity()).load(dish.getPrimaryImage().getUrl()).into(binding.itemImage);
             }
             binding.dishItemName.setText(dish.getTitle());
