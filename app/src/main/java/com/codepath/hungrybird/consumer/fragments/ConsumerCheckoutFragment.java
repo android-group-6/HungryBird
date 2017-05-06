@@ -82,7 +82,7 @@ public class ConsumerCheckoutFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((GalleryActivity) getActivity()).setToolbarTitle("Checkout");
+        ((GalleryActivity) getActivity()).setToolbarTitle("Enter Credit Card");
     }
 
     private String getRoundedTwoPlaces(double val) {
@@ -144,7 +144,6 @@ public class ConsumerCheckoutFragment extends Fragment {
                 Integer.parseInt(binding.cartCheckoutExpiryMonthEt.getText().toString()),
                 Integer.parseInt(binding.cartCheckoutExpiryYearEt.getText().toString()),
                 binding.cartCheckoutCvcEt.getText().toString());
-
         if (!card.validateCard()) {
             Toast.makeText(getActivity().getApplicationContext(), "No ", Toast.LENGTH_LONG).show();
         } else {
