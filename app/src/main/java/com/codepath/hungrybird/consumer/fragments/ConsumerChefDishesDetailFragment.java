@@ -446,8 +446,9 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                 Activity activity = getActivity();
                 if (activity instanceof CartListener) {
                     CartListener cartListener = (CartListener) activity;
-
-                    cartListener.onCartPressed(currentOrder);
+                    if (currentOrder != null) {
+                        cartListener.onCartPressed(currentOrder);
+                    }
                 }
         }
         return super.onOptionsItemSelected(item);

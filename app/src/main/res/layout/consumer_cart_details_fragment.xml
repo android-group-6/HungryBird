@@ -1,160 +1,294 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorPageBackground">
+        <!--consumer_order_history_view_item-->
 
         <RelativeLayout
+            android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPageBackground"
-            >
-            <!--consumer_order_history_view_item-->
+            android:layout_margin="5dp"
+            android:background="#10000000">
 
-            <RelativeLayout
-                android:id="@+id/header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="#10000000">
-
-                <ImageView
-                    android:id="@+id/consumer_cart_chef_iv"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_margin="10dp" />
-
-                <TextView
-                    android:id="@+id/consumer_cart_chef_name_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/consumer_cart_chef_iv"
-                    android:ellipsize="end"
-                    android:maxLength="140"
-                    android:maxLines="4"
-                    android:maxWidth="200sp"
-                    android:textColor="#ff000000"
-                    android:textSize="18sp"
-                    android:textStyle="normal"
-                    tools:text="Costco" />
-
-                <TextView
-                    android:id="@+id/consumer_cart_price_before_tax"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:maxWidth="150sp"
-                    android:text="$0.00"
-                    android:textColor="#ff000000"
-                    android:textSize="18sp"
-                    android:textStyle="normal" />
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/delivery"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/consumer_cart_chef_iv"
+                android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/header">
-
-                <RadioGroup
-                    android:id="@+id/rgDelivery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_alignParentTop="true"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/radioButtonPickup"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="55dp"
-                        android:layout_marginStart="55dp"
-                        android:checked="true"
-                        android:text="Pick Up" />
-
-                    <RadioButton
-                        android:id="@+id/radioButtonDelivery"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@+id/radioButtonPickup"
-                        android:layout_alignBottom="@+id/radioButtonPickup"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginEnd="67dp"
-                        android:layout_marginRight="67dp"
-                        android:text="Delivery" />
-
-
-                </RadioGroup>
-
-                <TextView
-                    android:id="@+id/tvDeliveryCost"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:visibility="gone"
-                    android:layout_marginRight="10dp"
-                    android:text="$0.00" />
-
-                <ProgressBar
-                    android:id="@+id/delivery_cost_progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true" />
-            </RelativeLayout>
-
-            <AutoCompleteTextView
-                android:id="@+id/autocomplete_places"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/delivery"
-                android:layout_gravity="center_horizontal"
-                android:hint="@string/autocomplete_hint"
-                android:maxLines="1"
-                android:visibility="gone" />
-
-            <RelativeLayout
-                android:id="@+id/items_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_below="@+id/autocomplete_places"
-                android:background="@android:color/white">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/consumer_cart_items_rv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </RelativeLayout>
+                android:layout_alignParentTop="true"
+                android:layout_margin="10dp" />
 
             <TextView
-                android:id="@+id/checkout_button"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:id="@+id/consumer_cart_chef_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/consumer_cart_chef_iv"
+                android:ellipsize="end"
+                android:maxLength="140"
+                android:maxLines="4"
+                android:maxWidth="200sp"
+                android:textColor="#ff000000"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                tools:text="Costco" />
 
-                android:layout_alignParentBottom="true"
-                android:background="@color/colorPrimary"
-                android:gravity="center"
-                android:text="CHECKOUT"
-                android:textColor="@android:color/white" />
+            <TextView
+                android:id="@+id/consumer_cart_price_before_tax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:maxWidth="150sp"
+                android:text="$0.00"
+                android:textColor="#ff000000"
+                android:textSize="18sp"
+                android:textStyle="normal" />
+
+
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+
+        <RelativeLayout
+            android:id="@+id/delivery"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/header">
+
+            <RadioGroup
+                android:id="@+id/rgDelivery"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButtonPickup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="55dp"
+                    android:layout_marginStart="55dp"
+                    android:checked="true"
+                    android:text="Pick Up" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonDelivery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/radioButtonPickup"
+                    android:layout_alignBottom="@+id/radioButtonPickup"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="67dp"
+                    android:layout_marginRight="67dp"
+                    android:text="Delivery" />
+
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tvDeliveryCost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:text="$0.00"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/delivery_cost_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <AutoCompleteTextView
+            android:id="@+id/autocomplete_places"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/delivery"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:hint="@string/autocomplete_hint"
+            android:lines="1"
+            android:maxLines="1"
+            android:scrollbars="horizontal"
+            android:visibility="gone"
+            tools:text="4567 abcdef ghi jklmn opqrst 95051 United States" />
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/checkout_button"
+            android:layout_below="@+id/autocomplete_places">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/items_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/autocomplete_places"
+                    android:layout_margin="10dp"
+                    android:background="@android:color/white">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/consumer_cart_items_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+
+                        android:id="@+id/items_total_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/consumer_cart_items_rv"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="70dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Items" />
+
+                    <TextView
+                        android:id="@+id/items_total_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/items_total_label"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textSize="14sp"
+                        tools:text="$9.99" />
+
+                    <TextView
+                        android:id="@+id/items_total_tax_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/items_total_label"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="70dp"
+                        android:text="Tax"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/items_total_tax_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/items_total_tax_label"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textSize="14sp"
+                        android:text="$0.00" />
+
+
+                    <TextView
+                        android:id="@+id/items_total_subtotal_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/items_total_tax_label"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="70dp"
+                        android:text="Subtotal"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/items_total_subtotal_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/items_total_subtotal_label"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+
+                        tools:text="$9.99" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="80dp">
+
+                    <TextView
+
+                        android:id="@+id/shipping_service_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="20dp"
+                        android:text="Shippping and Service" />
+
+                    <TextView
+                        android:id="@+id/shipping_service_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/shipping_service_label"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="20dp"
+                        android:text="$0.00" />
+
+                    <TextView
+                        android:id="@+id/final_total_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/shipping_service_label"
+                        android:layout_marginBottom="10dp"
+
+                        android:text="Order Total"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/final_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/final_total_label"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="20dp"
+                        android:textColor="@android:color/black"
+
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        tools:text="$10.99" />
+                </RelativeLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/checkout_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="CHECKOUT"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
 </layout>

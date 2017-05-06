@@ -1,5 +1,6 @@
 package com.codepath.hungrybird.consumer.fragments;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,18 +19,15 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
 import com.codepath.hungrybird.common.OrderRelationResponse;
 import com.codepath.hungrybird.common.PlaceAutocompleteAdapter;
-import com.codepath.hungrybird.common.SimpleDividerItemDecoration;
 import com.codepath.hungrybird.consumer.activities.GalleryActivity;
 import com.codepath.hungrybird.databinding.ConsumerCartDetailsFragmentBinding;
 import com.codepath.hungrybird.databinding.ConsumerOrderCartDishItemBinding;
@@ -181,9 +180,32 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    binding.autocompletePlaces.setVisibility(View.GONE);
+                    binding.autocompletePlaces.animate().setDuration(500).scaleX(0).scaleY(0)
+                            .setInterpolator(new AccelerateDecelerateInterpolator()).setListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            binding.autocompletePlaces.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    }).start();
                     binding.tvDeliveryCost.setVisibility(View.GONE);
+                    binding.shippingServiceValue.setText(getDisplayPrice(0.00));
                     binding.consumerCartPriceBeforeTax.setText(getDisplayPrice(getDishesPrice()));
+                    binding.finalTotal.setText(getDisplayPrice(getDishesPrice()));
                 }
             }
         });
@@ -192,15 +214,39 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    binding.autocompletePlaces.setVisibility(View.VISIBLE);
+                    binding.autocompletePlaces.setVisibility(View.INVISIBLE);
+                    binding.autocompletePlaces.animate().setDuration(1000).scaleX(1).scaleY(1)
+                            .setInterpolator(new AccelerateDecelerateInterpolator()).setListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            binding.autocompletePlaces.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    }).start();
+
+
                     binding.autocompletePlaces.setSelection(0);
                     double totalPrice = getDishesPrice() + getShippingCost();
-                    ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.consumerCartPriceBeforeTax, "alpha", 0f, 1f);
-                    fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
-                    fadeAnim.setDuration(500);
-                    fadeAnim.start();
+                    updateTextViewAnimation(binding.consumerCartPriceBeforeTax);
                     binding.consumerCartPriceBeforeTax.setText(getDisplayPrice(totalPrice));
+                    binding.finalTotal.setText(getDisplayPrice(totalPrice));
                     binding.tvDeliveryCost.setText(getDisplayPrice(getShippingCost()));
+                    binding.shippingServiceValue.setText(getDisplayPrice(getShippingCost()));
+
                 }
             }
         });
@@ -231,9 +277,8 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                 new BaseItemHolderAdapter(getContext(), R.layout.consumer_order_cart_dish_item, orderDishRelations);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         binding.consumerCartItemsRv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        SimpleDividerItemDecoration simpleDividerItemDecoration =
-                new SimpleDividerItemDecoration(binding.consumerCartItemsRv.getContext(), R.drawable.divider_vert,
-                        (int) getContext().getResources().getDimension(R.dimen.divider_height));
+        DividerItemDecoration simpleDividerItemDecoration =
+                new DividerItemDecoration(binding.consumerCartItemsRv.getContext(), DividerItemDecoration.VERTICAL);
         binding.consumerCartItemsRv.addItemDecoration(simpleDividerItemDecoration);
         binding.consumerCartItemsRv.setAdapter(adapter);
 
@@ -344,9 +389,9 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                 View addToPanel = v.findViewById(R.id.add_to_card_panel);
                 togglePanel(addToPanel);
             });
-            OrderDishRelation order = orderDishRelations.get(position);
+            OrderDishRelation orderDishRelation = orderDishRelations.get(position);
             ConsumerOrderCartDishItemBinding binding = (ConsumerOrderCartDishItemBinding) (holder.binding);
-            Dish dish = order.getDish();
+            Dish dish = orderDishRelation.getDish();
             Context context = getContext();
             if (context != null && dish.getProfileImageUrl() != null) {
                 Glide.with(context)
@@ -360,13 +405,14 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
             }
             binding.dishItemName.setText(dish.getTitle());
             binding.dishItemServiceSize.setText("Serves " + dish.getServingSize());
-            binding.dishPrice.setText("" + dish.getPrice());
-            binding.itemsCount.setText("" + order.getQuantity());
-            binding.updatedCount.setText("" + order.getQuantity());
+            binding.dishPrice.setText(getDisplayPrice(dish.getPrice()));
+            binding.itemsCount.setText(" x " + orderDishRelation.getQuantity());
+            binding.updatedCount.setText("" + orderDishRelation.getQuantity());
+            binding.price.setText(getDisplayPrice(dish.getPrice() * orderDishRelation.getQuantity()));
             if (view != null) {
                 view.setVisibility(View.VISIBLE);
             }
-            if (order.getQuantity() == 1) {
+            if (orderDishRelation.getQuantity() == 1) {
                 binding.reduceCart.setImageResource(R.drawable.ic_delete_black_24px);
             }
             binding.addToCardPanel.setVisibility(View.GONE);
@@ -374,8 +420,8 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                 int visibility = binding.addToCardPanel.getVisibility();
                 togglePanel(binding.addToCardPanel);
                 if (visibility == View.GONE) {
-                    binding.updatedCount.setText("" + order.getQuantity());
-                    if (order.getQuantity() == 1) {
+                    binding.updatedCount.setText("" + orderDishRelation.getQuantity());
+                    if (orderDishRelation.getQuantity() == 1) {
                         binding.reduceCart.setImageResource(R.drawable.ic_delete_black_24px);
                     }
                 } else {
@@ -384,22 +430,22 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
 
             });
             binding.addCart.setOnClickListener(v -> {
-                int val = order.getQuantity();
+                int val = orderDishRelation.getQuantity();
                 if (val == 1) {
                     binding.reduceCart.setImageResource(R.drawable.ic_remove_circle_outline_black_24px);
                 }
-                order.setQuantity(val + 1);
-                ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.updatedCount, "alpha", 0f, 1f);
-                fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
-                fadeAnim.setDuration(500);
-                fadeAnim.start();
-                binding.updatedCount.setText("" + order.getQuantity());
-                parseClient.addOrderDishRelation(order, new SaveCallback() {
+                orderDishRelation.setQuantity(val + 1);
+                updateTextViewAnimation(binding.updatedCount);
+                binding.updatedCount.setText("" + orderDishRelation.getQuantity());
+                parseClient.addOrderDishRelation(orderDishRelation, new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
                             updatePricing(orderDishRelations);
-                            binding.itemsCount.setText("" + order.getQuantity());
+                            binding.itemsCount.setText(" x " + orderDishRelation.getQuantity());
+                            updateTextViewAnimation(binding.itemsCount);
+                            binding.price.setText(getDisplayPrice(dish.getPrice() * orderDishRelation.getQuantity()));
+                            updateTextViewAnimation(binding.price);
                         } else {
                             binding.reduceCart.setImageResource(R.drawable.ic_delete_black_24px);
                         }
@@ -407,16 +453,18 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                 });
             });
             binding.reduceCart.setOnClickListener(v -> {
-                int val = order.getQuantity();
+                int val = orderDishRelation.getQuantity();
                 if (val == 1) {
                     //Quantity already more than 1 so delete
-                    parseClient.delete(order, new ParseClient.OrderDishRelationListener() {
+                    parseClient.delete(orderDishRelation, new ParseClient.OrderDishRelationListener() {
                         @Override
                         public void onSuccess(OrderDishRelation orderDishRelation) {
                             int position = holder.getAdapterPosition();
                             orderDishRelations.remove(position);
                             adapter.notifyItemRemoved(position);
                             updatePricing(orderDishRelations);
+                            binding.price.setText(getDisplayPrice(dish.getPrice() * orderDishRelation.getQuantity()));
+                            updateTextViewAnimation(binding.price);
                         }
 
                         @Override
@@ -428,18 +476,20 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                     if (val == 2) {
                         binding.reduceCart.setImageResource(R.drawable.ic_delete_black_24px);
                     }
-                    order.setQuantity(val - 1);
+                    orderDishRelation.setQuantity(val - 1);
                     ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.updatedCount, "alpha", 0f, 1f);
                     fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
                     fadeAnim.setDuration(500);
                     fadeAnim.start();
-                    binding.updatedCount.setText("" + order.getQuantity());
-                    parseClient.addOrderDishRelation(order, new SaveCallback() {
+                    binding.updatedCount.setText("" + orderDishRelation.getQuantity());
+                    parseClient.addOrderDishRelation(orderDishRelation, new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             if (e == null) {
                                 updatePricing(orderDishRelations);
-                                binding.itemsCount.setText("" + order.getQuantity());
+                                binding.itemsCount.setText(" x " + orderDishRelation.getQuantity());
+                                binding.price.setText(getDisplayPrice(dish.getPrice() * orderDishRelation.getQuantity()));
+                                updateTextViewAnimation(binding.price);
                             }
                         }
                     });
@@ -514,7 +564,9 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
 
     private void updatePricing(List<OrderDishRelation> orderDishRelations) {
         double temp = 0.0;
+        int itemsCount = 0;
         for (OrderDishRelation o : orderDishRelations) {
+            itemsCount += o.getQuantity();
             temp += o.getQuantity() * o.getDish().getPrice();
         }
         putDishesPrice(temp);
@@ -526,7 +578,10 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
         fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
         fadeAnim.setDuration(500);
         fadeAnim.start();
+        binding.itemsTotalValue.setText("" + itemsCount);
         binding.consumerCartPriceBeforeTax.setText(getDisplayPrice(price));
+        binding.finalTotal.setText(getDisplayPrice(price));
+        binding.itemsTotalSubtotalValue.setText(getDisplayPrice(price));
     }
 
     View view = null;
@@ -600,7 +655,9 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                         deliveryQuoteId = deliveryQuoteResponse.getQuoteId();
                         putShippingCost(deliveryQuoteResponse.getFee() / 100.00);
                         binding.consumerCartPriceBeforeTax.setText(getDisplayPrice(getDishesPrice() + getShippingCost()));
+                        binding.finalTotal.setText(getDisplayPrice(getDishesPrice() + getShippingCost()));
                         binding.tvDeliveryCost.setText(getDisplayPrice(getShippingCost()));
+                        binding.shippingServiceValue.setText(getDisplayPrice(getShippingCost()));
                         binding.deliveryCostProgress.setVisibility(View.GONE);
                         binding.tvDeliveryCost.setVisibility(View.VISIBLE);
                     }
@@ -608,6 +665,7 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                     @Override
                     public void onFailure(Exception e) {
                         binding.tvDeliveryCost.setText("$ 1.00");
+                        binding.shippingServiceValue.setText(getDisplayPrice(0.00));
                         binding.deliveryCostProgress.setVisibility(View.GONE);
                     }
                 });
@@ -643,5 +701,12 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
             mGoogleApiClient.disconnect();
             mGoogleApiClient.stopAutoManage(getActivity());
         }
+    }
+
+    private void updateTextViewAnimation(View view) {
+        ValueAnimator fadeAnim = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f);
+        fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+        fadeAnim.setDuration(500);
+        fadeAnim.start();
     }
 }

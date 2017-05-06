@@ -23,7 +23,7 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_toRightOf="@id/item_image"
                 android:padding="20dp">
                 <!--consumer_order_history_view_item-->
@@ -68,15 +68,27 @@
                     android:id="@+id/items_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/dish_price"
+                    android:layout_toRightOf="@+id/dish_price"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="x 1"
+                    android:textColor="#A0000000"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="1"
+                    android:text="$7.99"
                     android:textColor="#A0000000"
-                    android:textSize="18sp"
-                    android:textStyle="normal" />
-
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
