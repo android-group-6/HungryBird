@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,7 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -63,6 +68,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
     public static final String TAG = ConsumerChefDishesDetailFragment.class.getSimpleName();
     public static final String DISH_ID = "DISH_ID";
     public static final String CHEF_ID = "CHEF_ID";
+    public static final String ITEMS_COUNT = "ITEMS_COUNT";
 
     ParseClient parseClient = ParseClient.getInstance();
     ConsumerGalleryChefDishesDetailViewBinding binding;
@@ -75,9 +81,20 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
     OrderRelationResponse orderDishRelationResponse;
     int selectedPosition = 0;
 
+    ImageView cartIcon;
+    TextView cartTextView;
+
     static {
         df.setMinimumFractionDigits(2);
         df.setMaximumFractionDigits(2);
+    }
+
+    private int getItemsCount() {
+        return getArguments().getInt(ITEMS_COUNT);
+    }
+
+    private void putItemsCount(int count) {
+        getArguments().putInt(ITEMS_COUNT, count);
     }
 
     private Context context;
@@ -97,13 +114,29 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
-
+        ((GalleryActivity) getActivity()).setToolbarTitle("Chef's Menu");
+        Toolbar toolbar = ((GalleryActivity) getActivity()).getToolbar();
+        if (toolbar != null) {
+            cartIcon = (ImageView) toolbar.findViewById(R.id.cartIcon);
+            cartIcon.setOnClickListener(v -> {
+                Activity activity = getActivity();
+                if (activity instanceof CartListener) {
+                    CartListener cartListener = (CartListener) activity;
+                    if (currentOrder != null) {
+                        cartListener.onCartPressed(currentOrder);
+                    }
+                }
+            });
+            cartTextView = (TextView) toolbar.findViewById(R.id.cart_text);
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         ((GalleryActivity) getActivity()).setToolbarTitle("Chef's Menu");
+        cartIcon.setVisibility(View.VISIBLE);
+        updateItemCount();
     }
 
     @Override
@@ -172,6 +205,8 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
+                            putItemsCount(getItemsCount() + 1);
+                            updateItemCount();
                             Log.d(TAG, "onCreateView: added Successfully " + position);
                             orderDishRelationResponse.map.put(dish.getObjectId(), odr);
                             binding.rowCartInclude.cart.animate().alpha(0f).scaleX(0)
@@ -231,6 +266,8 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                         @Override
                         public void done(ParseException e) {
                             if (e == null) {
+                                putItemsCount(getItemsCount() + 1);
+                                updateItemCount();
                                 Log.d(TAG, "done: show items count");
                                 ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.chefOfferingDishListItemCountTv, "alpha", 0f, 1f);
                                 fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -252,6 +289,8 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                             @Override
                             public void done(ParseException e) {
                                 if (e == null) {
+                                    putItemsCount(getItemsCount() - 1);
+                                    updateItemCount();
                                     if (odr.getQuantity() > 1) {
                                         ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.chefOfferingDishListItemCountTv, "alpha", 0f, 1f);
                                         fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -293,6 +332,8 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                         parseClient.delete(odr, new ParseClient.OrderDishRelationListener() {
                             @Override
                             public void onSuccess(OrderDishRelation orderDishRelation) {
+                                putItemsCount(getItemsCount() - 1);
+                                updateItemCount();
                                 orderDishRelationResponse.map.remove(dish.getObjectId());
                                 ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.chefOfferingDishListItemCountTv, "alpha", 1f, 0f);
                                 fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -420,6 +461,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                         dishesArrayList.clear();
                         dishesArrayList.addAll(orderDishRelationResponse.dishes);
                         adapter.notifyDataSetChanged();
+                        updateItemCount();
 
                     }
                 });
@@ -430,6 +472,13 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.cart_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        cartTextView.setVisibility(View.GONE);
+        cartIcon.setVisibility(View.GONE);
     }
 
     @Override
@@ -569,6 +618,22 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         binding.tvDishQuantity.setText(String.valueOf(1));
     }
 
+    private void updateItemCount() {
+        Activity activity = getActivity();
+        if (activity == null || cartTextView == null) {
+            return;
+        }
+        int count = getItemsCount();
+        if (count == 0) {
+            cartTextView.setVisibility(View.GONE);
+        } else {
+            cartTextView.setVisibility(View.VISIBLE);
+            cartTextView.setText("" + count);
+            Animation expandIn = AnimationUtils.loadAnimation(activity, R.anim.expand_in);
+            cartTextView.startAnimation(expandIn);
+        }
+    }
+
     private void addOrUpdateOrderDishRelation(Order currentOrder, Dish currentDish, int quantity) {
         parseClient.getOrderDishRelationByOrderAndDishId(currentOrder.getObjectId(), currentDish.getObjectId(), new ParseClient.OrderDishRelationListener() {
             @Override
@@ -578,7 +643,8 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                 parseClient.addOrderDishRelation(orderDishRelation, new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-
+                        putItemsCount(quantity);
+                        updateItemCount();
                     }
                 });
             }
@@ -593,7 +659,8 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                 parseClient.addOrderDishRelation(orderDishRelation, new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-
+                        putItemsCount(quantity);
+                        updateItemCount();
                     }
                 });
             }
@@ -628,11 +695,15 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
 
                                     @Override
                                     public void onNext(OrderRelationResponse dishes) {
+                                        int dishCount = 0;
+
                                         for (OrderDishRelation r : orderRelationResponse.orderDishRelation) {
                                             Log.d(TAG, "onNext: " + r);
                                             Dish dish = r.getDish();
+                                            dishCount += r.getQuantity();
                                             orderRelationResponse.map.put(dish.getObjectId(), r);
                                         }
+                                        putItemsCount(dishCount);
                                         subscriber.onNext(orderRelationResponse);
 
                                     }

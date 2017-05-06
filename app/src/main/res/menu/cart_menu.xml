@@ -7,6 +7,7 @@
         android:id="@+id/mi_cart"
         android:icon="@drawable/cart"
         android:title="Filter"
+        android:visible="false"
         app:showAsAction="always" />
 
 </menu>

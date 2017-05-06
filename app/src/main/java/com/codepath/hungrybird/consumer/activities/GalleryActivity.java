@@ -77,6 +77,10 @@ public class GalleryActivity extends AppCompatActivity implements
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
