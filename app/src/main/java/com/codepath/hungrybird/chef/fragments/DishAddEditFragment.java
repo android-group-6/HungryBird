@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.activities.ChefLandingActivity;
+import com.codepath.hungrybird.common.NotificationUtil;
 import com.codepath.hungrybird.databinding.ChefDishAddEditFragmentBinding;
 import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.User;
@@ -96,11 +97,11 @@ public class DishAddEditFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(binding.editTextDishTitle.getText())) {
-                    Toast.makeText(getContext(), "Dish Title is required.", Toast.LENGTH_LONG).show();
+                    NotificationUtil.showSnackBar(v, "Dish Title is required.");
                 } else if (TextUtils.isEmpty(binding.editTextDishDescription.getText())) {
-                    Toast.makeText(getContext(), "Dish Description is required.", Toast.LENGTH_LONG).show();
+                    NotificationUtil.showSnackBar(v, "Dish Description is required.");
                 } else if (TextUtils.isEmpty(binding.editTextPrice.getText())) {
-                    Toast.makeText(getContext(), "Dish Price is required.", Toast.LENGTH_LONG).show();
+                    NotificationUtil.showSnackBar(v, "Dish Price is required.");
                 } else {
                     viewToModel();
                     currentDish.saveInBackground(e -> {
