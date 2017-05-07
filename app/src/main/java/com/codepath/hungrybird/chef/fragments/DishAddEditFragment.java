@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,21 +95,28 @@ public class DishAddEditFragment extends Fragment {
         binding.buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewToModel();
-                currentDish.saveInBackground(e -> {
-                    if (e == null) {
-                        Toast.makeText(context, "Dish Added!", Toast.LENGTH_SHORT).show();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (DishAddEditFragment.this.isDetached() == false) {
-                                    getFragmentManager().popBackStack();
+                if (TextUtils.isEmpty(binding.editTextDishTitle.getText())) {
+                    Toast.makeText(getContext(), "Dish Title is required.", Toast.LENGTH_LONG).show();
+                } else if (TextUtils.isEmpty(binding.editTextDishDescription.getText())) {
+                    Toast.makeText(getContext(), "Dish Description is required.", Toast.LENGTH_LONG).show();
+                } else if (TextUtils.isEmpty(binding.editTextPrice.getText())) {
+                    Toast.makeText(getContext(), "Dish Price is required.", Toast.LENGTH_LONG).show();
+                } else {
+                    viewToModel();
+                    currentDish.saveInBackground(e -> {
+                        if (e == null) {
+                            Toast.makeText(context, "Dish has been added.", Toast.LENGTH_SHORT).show();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (DishAddEditFragment.this.isDetached() == false) {
+                                        getFragmentManager().popBackStack();
+                                    }
                                 }
-                            }
-                        }, 500);
-                    }
-                });
-
+                            }, 500);
+                        }
+                    });
+                }
             }
         });
     }
