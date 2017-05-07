@@ -20,8 +20,9 @@
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
                 android:layout_gravity="center"
+                android:layout_toLeftOf="@+id/cartIcon"
                 android:text="Toolbar Title"
                 android:textColor="@android:color/white" />
 
@@ -42,8 +43,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="5dp"
                 android:layout_marginBottom="25dp"
+                android:layout_marginRight="5dp"
                 android:background="@drawable/cart_text_drawable"
                 android:gravity="center"
                 android:text="12"

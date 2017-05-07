@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
+import com.codepath.hungrybird.chef.activities.ChefLandingActivity;
 import com.codepath.hungrybird.chef.fragments.ChefOrdersViewFragment;
 import com.codepath.hungrybird.common.BaseItemHolderAdapter;
 import com.codepath.hungrybird.common.DateUtils;
@@ -194,7 +195,11 @@ public class OrderDetailsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((GalleryActivity) getActivity()).setToolbarTitle("Order Details");
+        if (getActivity() instanceof GalleryActivity) {
+            ((GalleryActivity) getActivity()).getToolbar().setTitle("Order Details");
+        } else if (getActivity() instanceof ChefLandingActivity){
+            ((ChefLandingActivity) getActivity()).setToolbarTitle("Order Details");
+        }
     }
 
     public void setSpinnerToValue(Spinner spinner, Order order) {

@@ -55,6 +55,9 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
     private TextView toolbarTitle;
 
 
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
