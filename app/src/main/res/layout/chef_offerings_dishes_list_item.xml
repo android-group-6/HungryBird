@@ -104,8 +104,8 @@
                     <include
                         android:id="@+id/increase_decrease_include"
                         layout="@layout/increase_decrease"
-                        android:layout_width="90dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="79dp"
+                        android:layout_height="34dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:visibility="gone" />
@@ -113,8 +113,8 @@
                     <include
                         android:id="@+id/row_cart_include"
                         layout="@layout/row_cart"
-                        android:layout_width="44dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true" />
                 </RelativeLayout>
