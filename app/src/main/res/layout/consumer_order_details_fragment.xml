@@ -64,7 +64,6 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:ellipsize="end"
-                    android:entries="@array/order_status_array"
                     android:textStyle="normal" />
 
                 <TextView

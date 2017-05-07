@@ -93,9 +93,10 @@ public class OrderDetailsFragment extends Fragment {
         binding.consumerOrderDetailsRv.setAdapter(adapter);
         // Create an ArrayAdapter using the string array and a default spinner
         if (isChef) {
-            ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
-                    .createFromResource(getContext(), R.array.order_status_array,
-                            android.R.layout.simple_spinner_item);
+//            ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
+//                    .createFromResource(getContext(), R.array.order_status_array,
+//                            R.layout.spinner_item);
+            ArrayAdapter staticAdapter = ArrayAdapter.createFromResource(getContext(), R.array.order_status_array, R.layout.spinner_item);
             binding.orderStatusSpinner.setVisibility(View.VISIBLE);
             binding.orderStatusSpinner.setAdapter(staticAdapter);
             binding.consumerOrderStatus.setVisibility(View.GONE);
