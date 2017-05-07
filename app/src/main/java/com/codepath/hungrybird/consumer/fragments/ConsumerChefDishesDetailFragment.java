@@ -429,8 +429,6 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                         updateCurrentDishView();
                         int pre = selectedPosition;
                         selectedPosition = position;
-                        adapter.notifyItemChanged(selectedPosition); // old position
-                        adapter.notifyItemChanged(pre); // old position
                     }
                 }
             });

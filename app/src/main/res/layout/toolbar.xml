@@ -21,7 +21,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_gravity="left"
+                android:gravity="left"
                 android:layout_toLeftOf="@+id/cartIcon"
                 android:text="Toolbar Title"
                 android:textColor="@android:color/white" />
