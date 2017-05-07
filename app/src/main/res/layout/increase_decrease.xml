@@ -4,7 +4,7 @@
     <LinearLayout
         android:id="@+id/increase_decrease"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="34dp"
         android:background="@drawable/rounded_bg"
         android:minHeight="44dp"
         android:orientation="horizontal"
@@ -13,9 +13,11 @@
         <ImageView
             android:id="@+id/decrease"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
+            android:foreground="?attr/selectableItemBackground"
+            android:scaleType="center"
             android:src="@drawable/ic_remove_white_24px" />
 
         <View
@@ -26,9 +28,12 @@
         <ImageView
             android:id="@+id/increase"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
+            android:foreground="?attr/selectableItemBackground"
+            android:scaleType="center"
+
             android:src="@drawable/ic_add_white_24px" />
 
     </LinearLayout>
