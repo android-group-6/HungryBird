@@ -27,6 +27,7 @@ import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.User;
 import com.parse.ParseObject;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -44,6 +45,7 @@ public class OrdersListFragment extends Fragment {
     boolean contentLoaded = false;
     Context context;
     ChefContactDetailsFragmentBinding binding;
+    private static DecimalFormat df = new DecimalFormat();
 
     public void update(ArrayList<Order> orderList) {
         orderArrayList.clear();
@@ -55,6 +57,15 @@ public class OrdersListFragment extends Fragment {
         if (orderArrayList.isEmpty() == false) {
             onContentLoaded();
         }
+    }
+
+    static {
+        df.setMinimumFractionDigits(2);
+        df.setMaximumFractionDigits(2);
+    }
+
+    private String getRoundedTwoPlaces(double val) {
+        return "$" + df.format(Math.round(100 * val) / 100.0);
     }
 
     @Override
@@ -107,7 +118,7 @@ public class OrdersListFragment extends Fragment {
             }
 
             orderBinding.consumerNameTv.setText(order.getConsumer().getUsername());
-            orderBinding.chefOrderListItemOrderNameTv.setText(order.getDisplayId());
+            orderBinding.chefOrderListItemOrderNameTv.setText(getRoundedTwoPlaces(order.getTotalPayment()));//order.getDisplayId());
             String displayDate = null;
             try {
                 displayDate = dateUtils.getDate(order.getUpdatedAt());
