@@ -119,6 +119,10 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         if (toolbar != null) {
             cartIcon = (ImageView) toolbar.findViewById(R.id.cartIcon);
             cartIcon.setOnClickListener(v -> {
+                if (getItemsCount() <= 0) {
+                    Toast.makeText(getActivity(), "Empty", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Activity activity = getActivity();
                 if (activity instanceof CartListener) {
                     CartListener cartListener = (CartListener) activity;
