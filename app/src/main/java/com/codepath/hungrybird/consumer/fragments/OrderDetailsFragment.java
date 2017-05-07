@@ -175,7 +175,7 @@ public class OrderDetailsFragment extends Fragment {
 
                 Double pricePerItem = order.gePricePerItem();
                 double totalPrice = count * pricePerItem;
-                binding.consumerOrderDetailQuantityDetailsTv.setText("" + count + " at $" + pricePerItem + " each");
+                binding.consumerOrderDetailQuantityDetailsTv.setText("$" + pricePerItem + " x " + count);
                 binding.itemTotalPrice.setText(getRoundedTwoPlaces(totalPrice));
                 binding.consumerOrderDetailDishNameTv.setText(dish.getTitle());
             } else {

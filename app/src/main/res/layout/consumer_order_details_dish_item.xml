@@ -69,9 +69,9 @@
                 android:gravity="end"
                 android:maxLines="1"
                 android:text="$12.79"
-                android:textColor="#A0000000"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="14sp"
-                android:textStyle="normal" />
+                android:textStyle="bold" />
         </RelativeLayout>
 
 

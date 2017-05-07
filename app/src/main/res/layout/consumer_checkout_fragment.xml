@@ -170,14 +170,16 @@
                 android:layout_marginLeft="83dp"
                 android:layout_marginStart="83dp"
                 android:paddingRight="20dp"
+                android:textSize="14sp"
                 android:background="@android:color/transparent"
                 android:ems="10"
                 android:gravity="end"
                 android:hint="0000000000000000"
+                android:digits="0123456789"
                 android:inputType="number"
                 android:maxLength="16"
                 android:textAlignment="textEnd"
-                android:textColor="@color/colorSecondaryText"
+                android:textColor="@color/white"
                 android:textColorHint="@color/colorSecondaryText" />
 
                 <LinearLayout
@@ -201,8 +203,10 @@
                         android:background="@android:color/transparent"
                         android:ems="10"
                         android:inputType="number"
+                        android:digits="0123456789"
                         android:hint="00"
-                        android:textColor="@color/colorSecondaryText"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
                         android:textColorHint="@color/colorSecondaryText"
                         android:maxLength="2" />
                     <TextView
@@ -222,13 +226,16 @@
                         android:ems="10"
                         android:inputType="number"
                         android:hint="0000"
-                        android:textColor="@color/colorSecondaryText"
+                        android:textSize="14sp"
+                        android:digits="0123456789"
+                        android:textColor="@color/white"
                         android:textColorHint="@color/colorSecondaryText"
                         android:maxLength="4" />
                 </LinearLayout>
                 <EditText
                     android:id="@+id/cart_checkout_cvc_et"
                     android:layout_width="100dp"
+                    android:textSize="14sp"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="number"
@@ -236,13 +243,14 @@
                     android:textAlignment="textEnd"
                     android:gravity="end"
                     android:layout_marginRight="20dp"
-                    android:textColor="@color/colorSecondaryText"
+                    android:textColor="@color/white"
                     android:textColorHint="@color/colorSecondaryText"
                     android:background="@android:color/transparent"
                     fontPath="fonts/Credit-Card.ttf"
                     android:maxLength="4"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
+                    android:digits="0123456789"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="40dp" />
         </RelativeLayout>
