@@ -132,7 +132,7 @@ public class OrderDetailsFragment extends Fragment {
                     }
                     double totalTax = 0.0;
                     double totalPriceBeforeTax = 0.0;
-                    Double shippingAndService = orderDishRelation.getShippingFee();
+                    Double shippingAndService = orderDishRelation.getDeliveryFee();
                     for (OrderDishRelation o : orderDishRelations) {
                         totalTax += o.getQuantity() * o.getTaxPerItem();
                         totalPriceBeforeTax += o.getQuantity() * o.gePricePerItem();

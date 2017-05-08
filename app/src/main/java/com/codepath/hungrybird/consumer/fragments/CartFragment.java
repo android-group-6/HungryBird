@@ -377,6 +377,7 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                             double checkOutPrice = getDishesPrice();
                             if (isDelivery && deliveryQuoteId != null) {
                                 response.order.setDeliveryQuoteId(deliveryQuoteId);
+                                response.order.setDeliveryFee(getShippingCost());
                                 checkOutPrice += getShippingCost();
                                 response.order.setDeliveryAddress(getDeliveryAddress());
                                 consumer.setPrimaryAddress(getDeliveryAddress());

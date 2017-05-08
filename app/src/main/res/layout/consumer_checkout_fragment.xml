@@ -239,7 +239,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="number"
-                    android:hint="0000"
+                    android:hint="000"
                     android:textAlignment="textEnd"
                     android:gravity="end"
                     android:layout_marginRight="20dp"
