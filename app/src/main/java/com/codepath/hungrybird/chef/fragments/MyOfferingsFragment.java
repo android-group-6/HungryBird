@@ -85,7 +85,12 @@ public class MyOfferingsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ((ChefLandingActivity) getActivity()).setToolbarTitle("My Offerings");
+        ((ChefLandingActivity) getActivity()).showAddFab(true);
     }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((ChefLandingActivity) getActivity()).showAddFab(false);
+    }
 }

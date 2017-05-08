@@ -124,6 +124,14 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
         }
     }
 
+    public void showAddFab(boolean show) {
+        if (show) {
+            binding.activityChefLandingAddDishFab.setVisibility(View.VISIBLE);
+        } else {
+            binding.activityChefLandingAddDishFab.setVisibility(View.GONE);
+        }
+    }
+
     private void addBackButtonToToolbar() {
         getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
