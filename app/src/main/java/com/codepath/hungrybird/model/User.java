@@ -32,6 +32,14 @@ public class User {
         return parseUser.getParseFile("profileImage");
     }
 
+    public String getUserImage() {
+        ParseFile parseFile = parseUser.getParseFile("userImage");
+        if (parseFile != null) {
+            return parseFile.getUrl();
+        }
+        return null;
+    }
+
     public String getProfileImageUrl() {
         ParseFile parseFile = parseUser.getParseFile("profileImage");
         if (parseFile != null) {

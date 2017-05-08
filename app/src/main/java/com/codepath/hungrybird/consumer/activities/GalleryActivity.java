@@ -106,9 +106,9 @@ public class GalleryActivity extends AppCompatActivity implements
 
         userNameTv.setText(currentUser.getUsername());
         userEmailTv.setText(currentUser.getEmail());
-        final ParseFile parseFile = currentUser.getProfileImage();
-        if (parseFile != null && TextUtils.isEmpty(parseFile.getUrl()) == false) {
-            Glide.with(this).load(parseFile.getUrl()).bitmapTransform(new CropCircleTransformation(this))
+
+        if (TextUtils.isEmpty(currentUser.getUserImage()) == false) {
+            Glide.with(this).load(currentUser.getUserImage()).bitmapTransform(new CropCircleTransformation(this))
                     .into(imageView);
         }
 
@@ -322,6 +322,10 @@ public class GalleryActivity extends AppCompatActivity implements
         FragmentManager fragmentManager = getSupportFragmentManager();
         Bundle bundle = new Bundle();
         bundle.putString(ConsumerChefDishesDetailFragment.DISH_ID, dish.getObjectId());
+        bundle.putString(ConsumerChefDishesDetailFragment.DISH_TITLE, dish.getTitle());
+        bundle.putString(ConsumerChefDishesDetailFragment.PREVIOUS_TITLE, toolbarTitle.getText().toString());
+
+
         bundle.putString(ConsumerChefDishesDetailFragment.CHEF_ID, dish.getChef().getObjectId());
         dishDetailsFragment.setArguments(bundle);
         bundle.putString("CHEF_NAME", dish.getChef().getUsername());
@@ -368,7 +372,7 @@ public class GalleryActivity extends AppCompatActivity implements
         Bundle bundle = new Bundle();
         bundle.putString(CartFragment.OBJECT_ID, order.getObjectId());
         cartFragment.setArguments(bundle);
-        fragmentManager.beginTransaction().add(R.id.flContent, cartFragment)
+        fragmentManager.beginTransaction().replace(R.id.flContent, cartFragment)
                 .addToBackStack(null).commit();
     }
 

@@ -80,7 +80,7 @@ public class OrderHistoryFramgent extends Fragment {
                     }
                 });
 
-
+        binding.noContentnoContent.setVisibility(View.GONE);
         binding.consumerOrderListRv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         binding.consumerOrderListRv.setAdapter(adapter);
         try {
@@ -121,6 +121,7 @@ public class OrderHistoryFramgent extends Fragment {
                         if (orders1.isEmpty()) {
                             binding.noContentnoContent.setVisibility(View.VISIBLE);
                         } else {
+                            binding.noContentnoContent.setVisibility(View.GONE);
                             binding.consumerOrderListRv.setVisibility(View.VISIBLE);
                         }
                         adapter.notifyDataSetChanged();

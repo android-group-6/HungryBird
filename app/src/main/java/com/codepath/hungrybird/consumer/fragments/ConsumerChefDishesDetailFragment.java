@@ -69,6 +69,8 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
 
     public static final String TAG = ConsumerChefDishesDetailFragment.class.getSimpleName();
     public static final String DISH_ID = "DISH_ID";
+    public static final String DISH_TITLE = "DISH_TITLE";
+    public static final String PREVIOUS_TITLE = "PREVIOUS_TITLE";
     public static final String CHEF_ID = "CHEF_ID";
     public static final String ITEMS_COUNT = "ITEMS_COUNT";
 
@@ -116,7 +118,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
-        ((GalleryActivity) getActivity()).setToolbarTitle("Chef's Menu");
+        ((GalleryActivity) getActivity()).setToolbarTitle(getArguments().getString(DISH_TITLE));
         Toolbar toolbar = ((GalleryActivity) getActivity()).getToolbar();
         if (toolbar != null) {
             cartIcon = (ImageView) toolbar.findViewById(R.id.cartIcon);
@@ -140,7 +142,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
     @Override
     public void onResume() {
         super.onResume();
-        ((GalleryActivity) getActivity()).setToolbarTitle("Chef's Menu");
+        ((GalleryActivity) getActivity()).setToolbarTitle(getArguments().getString(DISH_TITLE));
         cartIcon.setVisibility(View.VISIBLE);
         updateItemCount();
     }
@@ -478,7 +480,8 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         String assetName = "lottie_loading.json";
         LottieComposition.Factory.fromAssetFileName(this.getContext(), assetName,
                 new OnCompositionLoadedListener() {
-                    @Override public void onCompositionLoaded(LottieComposition composition) {
+                    @Override
+                    public void onCompositionLoaded(LottieComposition composition) {
                         setComposition(composition, assetName);
                     }
                 });
@@ -503,6 +506,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         super.onPause();
         cartTextView.setVisibility(View.GONE);
         cartIcon.setVisibility(View.GONE);
+        ((GalleryActivity) getActivity()).setToolbarTitle(getArguments().getString(PREVIOUS_TITLE));
     }
 
     @Override
@@ -576,9 +580,8 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         parseClient.getUserById(chefId, new ParseClient.UserListener() {
             @Override
             public void onSuccess(User user) {
-                ParseFile chefProfilePic = user.getProfileImage();
-                if (chefProfilePic != null && chefProfilePic.getUrl() != null) {
-                    String imgUrl = chefProfilePic.getUrl();
+                if (user.getUserImage() != null) {
+                    String imgUrl = user.getUserImage();
                     Context context = getContext();
                     if (context != null) {
                         Glide.with(context)
@@ -627,6 +630,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         }
         Activity activity = getActivity();
         if (activity == null) return;
+        getArguments().putString(DISH_TITLE, currentDish.getTitle());
         ((GalleryActivity) activity).setToolbarTitle(currentDish.getTitle());
 //        binding.dishTitle.setText(currentDish.getDescription());
         binding.dishPrice.setText(getRoundedTwoPlaces(currentDish.getPrice()));
