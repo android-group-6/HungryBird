@@ -5,8 +5,8 @@
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/gallery_image_height"
         android:elevation="1dp"
+        android:minHeight="@dimen/gallery_image_height"
         app:cardCornerRadius="2dp">
 
         <RelativeLayout
@@ -24,7 +24,7 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/item_image"
                 android:padding="20dp">
                 <!--consumer_order_history_view_item-->
@@ -55,6 +55,7 @@
 
                 <TextView
                     android:id="@+id/dish_price"
+                    android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/dish_item_service_size"
@@ -83,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
+                    android:layout_alignBaseline="@+id/items_count"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="$7.99"

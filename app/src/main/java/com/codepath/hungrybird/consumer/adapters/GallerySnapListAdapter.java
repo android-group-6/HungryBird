@@ -1,3 +1,5 @@
+
+
 package com.codepath.hungrybird.consumer.adapters;
 
 import android.app.Activity;

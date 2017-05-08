@@ -261,7 +261,7 @@
                         android:layout_alignBaseline="@+id/shipping_service_label"
                         android:layout_alignParentRight="true"
                         android:layout_marginBottom="10dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginRight="10dp"
                         android:text="$0.00" />
 
                     <TextView
@@ -283,7 +283,7 @@
                         android:layout_alignBaseline="@+id/final_total_label"
                         android:layout_alignParentRight="true"
                         android:layout_marginBottom="10dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginRight="10dp"
                         android:textColor="@android:color/black"
 
                         android:textSize="14sp"
