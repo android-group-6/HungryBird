@@ -81,6 +81,14 @@ public class GalleryActivity extends AppCompatActivity implements
         return toolbar;
     }
 
+    public ImageView getToolbarIcon() {
+        return binding.activityGalleryToolbar.cartIcon;
+    }
+
+    public TextView getToolbarText() {
+        return binding.activityGalleryToolbar.cartText;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

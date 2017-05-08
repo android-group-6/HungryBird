@@ -121,7 +121,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         ((GalleryActivity) getActivity()).setToolbarTitle(getArguments().getString(DISH_TITLE));
         Toolbar toolbar = ((GalleryActivity) getActivity()).getToolbar();
         if (toolbar != null) {
-            cartIcon = (ImageView) toolbar.findViewById(R.id.cartIcon);
+            cartIcon = ((GalleryActivity) getActivity()).getToolbarIcon();
             cartIcon.setOnClickListener(v -> {
                 if (getItemsCount() <= 0) {
                     Toast.makeText(getActivity(), "Empty", Toast.LENGTH_SHORT).show();
@@ -135,7 +135,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                     }
                 }
             });
-            cartTextView = (TextView) toolbar.findViewById(R.id.cart_text);
+            cartTextView = ((GalleryActivity) getActivity()).getToolbarText();
         }
     }
 
