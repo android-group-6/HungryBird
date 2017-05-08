@@ -582,6 +582,13 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
         binding.consumerCartPriceBeforeTax.setText(getDisplayPrice(price));
         binding.finalTotal.setText(getDisplayPrice(price));
         binding.itemsTotalSubtotalValue.setText(getDisplayPrice(price));
+        if (itemsCount <= 0) {
+            binding.finalCostContainer.setVisibility(View.INVISIBLE);
+            binding.itemsContainer.setVisibility(View.INVISIBLE);
+        } else {
+            binding.finalCostContainer.setVisibility(View.VISIBLE);
+            binding.itemsContainer.setVisibility(View.VISIBLE);
+        }
     }
 
     View view = null;
