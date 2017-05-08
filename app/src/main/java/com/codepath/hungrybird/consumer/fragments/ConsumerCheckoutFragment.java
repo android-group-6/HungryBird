@@ -124,6 +124,8 @@ public class ConsumerCheckoutFragment extends Fragment {
 
     private void onPayNowClickListener() {
         String orderId = getArguments().getString(ORDER_ID);
+        binding.progressBarCyclic.setVisibility(View.VISIBLE);
+        binding.cartCheckoutPaynowBt.setText("");
 
         ParseClient.getInstance().getOrderById(orderId, new ParseClient.OrderListener() {
             @Override
@@ -140,10 +142,10 @@ public class ConsumerCheckoutFragment extends Fragment {
         String convertedPrice = String.valueOf(Double.parseDouble(getArguments().getString(TOTAL_PRICE)) * 100);
         int totalPriceForStripe = Integer.parseInt(convertedPrice.substring(0, convertedPrice.indexOf(".")));
         Card card = new Card(
-                binding.cartCheckoutCreditNumEt.getText().toString(),
-                Integer.parseInt(binding.cartCheckoutExpiryMonthEt.getText().toString()),
-                Integer.parseInt(binding.cartCheckoutExpiryYearEt.getText().toString()),
-                binding.cartCheckoutCvcEt.getText().toString());
+                "4242424242424242",
+                Integer.parseInt("12"),
+                Integer.parseInt("2019"),
+                "123");
         if (!card.validateCard()) {
             Toast.makeText(getActivity().getApplicationContext(), "No ", Toast.LENGTH_LONG).show();
         } else {
@@ -208,6 +210,7 @@ public class ConsumerCheckoutFragment extends Fragment {
                                     error.toString(),
                                     Toast.LENGTH_LONG
                             ).show();
+                            binding.cartCheckoutPaynowBt.setText("PAY " + getRoundedTwoPlaces(Double.parseDouble(getArguments().getString(TOTAL_PRICE))) + " NOW");
                         }
                     }
             );
@@ -215,6 +218,7 @@ public class ConsumerCheckoutFragment extends Fragment {
     }
 
     private void postStripeSuccess() {
+        binding.progressBarCyclic.setVisibility(View.GONE);
         binding.cartCheckoutPaynowBt.setText("Thanks for choosing us!");
         // send push notification
         HashMap<String, String> payload = new HashMap<>();
