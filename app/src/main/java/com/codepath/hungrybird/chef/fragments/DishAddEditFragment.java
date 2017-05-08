@@ -242,7 +242,7 @@ public class DishAddEditFragment extends Fragment {
     }
 
     private boolean checkVeg(String dishType) {
-        if (dishType.toLowerCase().trim().equals("veg")) {
+        if (dishType.toLowerCase().trim().equals("vegetarian")) {
             return true;
         }
         return false;

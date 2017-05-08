@@ -1,38 +1,38 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
 
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/imageViewPrimaryImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/placeholder"
+            android:scaleType="centerCrop" />
+
+        <Button
+            android:id="@+id/buttonUploadImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageViewPrimaryImage"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/white"
+            android:drawableLeft="@drawable/ic_photo_camera_black_24px"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Upload Dish Image" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/dishTitleContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@android:color/white">
-
-            <ImageView
-                android:id="@+id/imageViewPrimaryImage"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="2dp"
-                android:src="@drawable/placeholder"
-                android:scaleType="centerCrop" />
-
-            <Button
-                android:id="@+id/buttonUploadImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/imageViewPrimaryImage"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="12dp"
-                android:background="@android:color/white"
-                android:drawableLeft="@drawable/ic_photo_camera_black_24px"
-                android:drawablePadding="5dp"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="Upload Dish Image" />
-
+            android:layout_below="@+id/buttonUploadImage"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
             <EditText
                 android:id="@+id/editTextDishTitle"
                 android:layout_width="match_parent"
@@ -41,119 +41,267 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/buttonUploadImage"
                 android:layout_marginTop="11dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:ems="10"
-                android:hint="Dish Name"
-                android:inputType="textPersonName" />
+                android:hint="Dish Title"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/dishDescContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dishTitleContainer"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_alignParentStart="true">
 
             <EditText
                 android:id="@+id/editTextDishDescription"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/editTextDishTitle"
-                android:layout_marginTop="15dp"
+                android:layout_height="60dp"
+                android:layout_alignLeft="@+id/textViewCuisine"
+                android:layout_alignStart="@+id/textViewCuisine"
+                android:layout_below="@+id/dishTitleContainer"
                 android:ems="10"
+                android:gravity="top"
                 android:hint="Dish Description"
-                android:inputType="textPersonName" />
+                android:inputType="textMultiLine"
+                android:maxLines="2" />
+        </android.support.design.widget.TextInputLayout>
 
-            <TextView
-                android:id="@+id/textViewServingSize"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/editTextDishDescription"
-                android:layout_marginTop="71dp"
-                android:text="Serving Size:" />
+        <TextView
+            android:id="@+id/textViewServingSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:text="Serving Size"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/dishDescContainer"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignBottom="@+id/spinnerServingSize" />
 
-            <Spinner
-                android:id="@+id/spinnerServingSize"
-                android:dropDownWidth="75dp"
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/textViewServingSize"
-                android:layout_marginLeft="14dp"
-                android:layout_marginStart="14dp"
-                android:layout_toEndOf="@+id/textViewServingSize"
-                android:layout_toRightOf="@+id/textViewServingSize"
-                android:entries="@array/serving_sizes" />
+        <Spinner
+            android:id="@+id/spinnerServingSize"
+            android:dropDownWidth="75dp"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:entries="@array/serving_sizes"
+            android:layout_below="@+id/dishDescContainer"
+            android:layout_toRightOf="@+id/textViewServingSize"
+            android:layout_toEndOf="@+id/textViewServingSize"
+            android:layout_marginLeft="5dp"/>
 
-            <TextView
-                android:id="@+id/textViewDishType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/spinnerServingSize"
-                android:layout_marginLeft="14dp"
-                android:layout_marginStart="14dp"
-                android:layout_toEndOf="@+id/spinnerServingSize"
-                android:layout_toRightOf="@+id/spinnerServingSize"
-                android:text="Dish Type:" />
+        <TextView
+            android:id="@+id/textViewDishType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/spinnerServingSize"
+            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
+            android:layout_toEndOf="@+id/spinnerServingSize"
+            android:layout_toRightOf="@+id/spinnerServingSize"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:text="Dish Type"
+            android:gravity="center_vertical"
+            android:layout_above="@+id/editTextPrice" />
 
-            <Spinner
-                android:id="@+id/spinnerDishType"
-                android:dropDownWidth="100dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/textViewDishType"
-                android:layout_marginLeft="22dp"
-                android:layout_marginStart="22dp"
-                android:layout_toEndOf="@+id/textViewDishType"
-                android:layout_toRightOf="@+id/textViewDishType"
-                android:entries="@array/dish_types" />
+        <Spinner
+            android:id="@+id/spinnerDishType"
+            android:dropDownWidth="150dp"
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/dish_types"
+            android:layout_below="@+id/dishDescContainer"
+            android:layout_toRightOf="@+id/textViewDishType"
+            android:layout_toEndOf="@+id/textViewDishType" />
 
-            <TextView
-                android:id="@+id/textViewPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/editTextPrice"
-                android:layout_alignBottom="@+id/editTextPrice"
-                android:layout_toEndOf="@+id/textViewDishType"
-                android:layout_toRightOf="@+id/textViewDishType"
-                android:text="$" />
+        <TextView
+            android:id="@+id/textViewCuisine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/spinnerCuisine"
+            android:layout_below="@+id/textViewServingSize"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:text="Cuisine"
+            android:gravity="center_vertical"
+            android:layout_alignBottom="@+id/spinnerCuisine" />
 
-            <EditText
-                android:id="@+id/editTextPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/spinnerDishType"
-                android:layout_alignStart="@+id/spinnerDishType"
-                android:layout_below="@+id/spinnerDishType"
-                android:ems="10"
-                android:hint="price"
-                android:inputType="textPersonName"
-                android:text="9.99" />
+        <Spinner
+            android:id="@+id/spinnerCuisine"
+            android:dropDownWidth="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/cuisine_types"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/textViewCuisine"
+            android:layout_toEndOf="@+id/textViewCuisine"
+            android:layout_alignTop="@+id/editTextPrice"
+            android:layout_alignBottom="@+id/editTextPrice" />
+        <TextView
+            android:id="@+id/textViewPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:text="$"
+            android:textSize="16dp"
+            android:layout_alignBaseline="@+id/editTextPrice"
+            android:layout_alignBottom="@+id/editTextPrice"
+            android:layout_toLeftOf="@+id/editTextPrice"
+            android:layout_toStartOf="@+id/editTextPrice" />
 
-            <TextView
-                android:id="@+id/textViewCuisine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/editTextPrice"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignTop="@+id/spinnerCuisine"
-                android:text="Cuisine:" />
+        <EditText
+            android:id="@+id/editTextPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/spinnerDishType"
+            android:layout_alignStart="@+id/spinnerDishType"
+            android:ems="10"
+            android:hint="price"
+            android:inputType="numberDecimal"
+            android:text="9.99"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/spinnerDishType" />
+        <!--<RelativeLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignLeft="@+id/dishDescContainer"-->
+            <!--android:layout_alignStart="@+id/dishDescContainer"-->
+            <!--android:layout_alignTop="@+id/dishDescContainer"-->
+            <!--android:id="@+id/relativeLayout2">-->
+            <!--<TextView-->
+                <!--android:id="@+id/textViewServingSize"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="73dp"-->
+                <!--android:textColor="@color/colorPrimaryDark"-->
+                <!--android:textStyle="bold"-->
+                <!--android:text="Serving Size" />-->
 
-            <Spinner
-                android:id="@+id/spinnerCuisine"
-                android:dropDownWidth="100dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/textViewPrice"
-                android:layout_toRightOf="@+id/textViewServingSize"
-                android:entries="@array/cuisine_types" />
+            <!--<Spinner-->
+                <!--android:id="@+id/spinnerServingSize"-->
+                <!--android:layout_width="75dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:dropDownWidth="75dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_alignLeft="@+id/textViewServingSize"-->
+                <!--android:layout_alignStart="@+id/textViewServingSize"-->
+                <!--android:entries="@array/serving_sizes"-->
+                <!--android:layout_below="@+id/textViewServingSize" />-->
 
-            <Button
-                android:id="@+id/buttonSave"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/spinnerCuisine"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="2dp"
-                android:background="@color/facebook_normal_blue"
-                android:text="save"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
+            <!--<TextView-->
+                <!--android:id="@+id/textViewDishType"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_alignLeft="@+id/spinnerServingSize"-->
+                <!--android:layout_alignStart="@+id/spinnerServingSize"-->
+                <!--android:layout_below="@+id/spinnerServingSize"-->
+                <!--android:textColor="@color/colorPrimaryDark"-->
+                <!--android:textStyle="bold"-->
+                <!--android:text="Dish Type" />-->
+
+            <!--<Spinner-->
+                <!--android:id="@+id/spinnerDishType"-->
+                <!--android:layout_width="150dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:dropDownWidth="150dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_alignLeft="@+id/textViewDishType"-->
+                <!--android:layout_alignStart="@+id/textViewDishType"-->
+                <!--android:layout_below="@+id/textViewDishType"-->
+                <!--android:entries="@array/dish_types" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/textViewCuisine"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_alignLeft="@+id/spinnerDishType"-->
+                <!--android:layout_alignStart="@+id/spinnerDishType"-->
+                <!--android:layout_below="@+id/spinnerDishType"-->
+                <!--android:textColor="@color/colorPrimaryDark"-->
+                <!--android:textStyle="bold"-->
+                <!--android:text="Cuisine" />-->
+
+            <!--<Spinner-->
+                <!--android:id="@+id/spinnerCuisine"-->
+                <!--android:layout_width="150dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:dropDownWidth="100dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_alignLeft="@+id/textViewCuisine"-->
+                <!--android:layout_alignStart="@+id/textViewCuisine"-->
+                <!--android:layout_below="@+id/textViewCuisine"-->
+                <!--android:entries="@array/cuisine_types"/>-->
+        <!--</RelativeLayout>-->
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/colorPrimary"
+            android:text="save"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <!--<TextView-->
+            <!--android:id="@+id/textViewPriceLabel"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="@color/colorPrimaryDark"-->
+            <!--android:textSize="18sp"-->
+            <!--android:text="Price"-->
+            <!--android:gravity="end"-->
+            <!--android:layout_below="@+id/dishDescContainer"-->
+            <!--android:layout_toRightOf="@+id/relativeLayout2"-->
+            <!--android:layout_marginLeft="34dp"-->
+            <!--android:layout_marginStart="34dp"-->
+            <!--android:layout_marginTop="30dp"-->
+            <!--android:layout_alignRight="@+id/dishDescContainer"-->
+            <!--android:layout_alignEnd="@+id/dishDescContainer" />-->
+        <!--<TextView-->
+            <!--android:id="@+id/textView15"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="$"-->
+            <!--android:textSize="16sp"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="@color/colorPrimaryDark"-->
+            <!--android:layout_alignBottom="@+id/editTextPrice"-->
+            <!--android:layout_toLeftOf="@+id/editTextPrice"-->
+            <!--android:layout_toStartOf="@+id/editTextPrice"-->
+            <!--android:layout_below="@+id/textViewPriceLabel" />-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/editTextPrice"-->
+            <!--android:layout_width="70dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:ems="10"-->
+            <!--android:inputType="numberDecimal"-->
+            <!--android:text="9.99"-->
+            <!--android:layout_below="@+id/textViewPriceLabel"-->
+            <!--android:layout_alignRight="@+id/textViewPriceLabel"-->
+            <!--android:layout_alignEnd="@+id/textViewPriceLabel" />-->
 
 
-        </RelativeLayout>
-    </ScrollView>
+    </RelativeLayout>
 </layout>

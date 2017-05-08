@@ -36,18 +36,18 @@
     </string-array>
 
     <string-array name="dish_types">
-        <item>VEG</item>
-        <item>NON_VEG</item>
+        <item>Vegetarian</item>
+        <item>Non-vegetarian</item>
     </string-array>
 
     <string-array name="cuisine_types">
-        <item>indian</item>
-        <item>italian</item>
-        <item>thai</item>
-        <item>mexican</item>
-        <item>chinese</item>
-        <item>japanese</item>
-        <item>greek</item>
+        <item>Indian</item>
+        <item>Italian</item>
+        <item>Thai</item>
+        <item>Mexican</item>
+        <item>Chinese</item>
+        <item>Japanese</item>
+        <item>Greek</item>
     </string-array>
 
     <string-array name="order_status_array">
