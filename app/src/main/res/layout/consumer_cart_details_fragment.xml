@@ -115,6 +115,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:visibility="gone" />
+
+
         </RelativeLayout>
 
         <AutoCompleteTextView
@@ -122,6 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/delivery"
+
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
             android:hint="@string/autocomplete_hint"
@@ -134,9 +137,9 @@
         <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_marginBottom="50dp"
             android:layout_height="match_parent"
-            android:layout_below="@+id/delivery">
+            android:layout_below="@+id/autocomplete_places"
+            android:layout_marginBottom="50dp">
 
             <LinearLayout
                 android:layout_width="match_parent"

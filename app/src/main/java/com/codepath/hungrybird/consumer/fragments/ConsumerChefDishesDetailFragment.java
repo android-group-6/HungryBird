@@ -203,7 +203,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                 odr.setOrder(currentOrder);
                 odr.setDish(dish);
                 odr.setQuantity(1);
-                odr.setPricePerItem(currentDish.getPrice());
+                odr.setPricePerItem(dish.getPrice());
                 Log.d(TAG, "onCreateView: add to cart " + position);
                 parseClient.addOrderDishRelation(odr, new SaveCallback() {
                     @Override
