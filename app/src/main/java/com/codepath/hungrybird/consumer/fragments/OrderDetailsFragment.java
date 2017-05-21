@@ -46,10 +46,10 @@ import java.util.List;
 public class OrderDetailsFragment extends Fragment {
     public static final String OBJECT_ID = "OBJECT_ID";
     public static final String IS_CHEF = "IS_CHEF";
-    ConsumerOrderDetailsFragmentBinding binding;
-    ArrayList<OrderDishRelation> orderDishRelations = new ArrayList<>();
-    DateUtils dateUtils = new DateUtils();
-    StringsUtils stringsUtils = new StringsUtils();
+    private ConsumerOrderDetailsFragmentBinding binding;
+    private ArrayList<OrderDishRelation> orderDishRelations = new ArrayList<>();
+    private DateUtils dateUtils = new DateUtils();
+    private StringsUtils stringsUtils = new StringsUtils();
     private static DecimalFormat df = new DecimalFormat();
 
     static {
@@ -93,9 +93,6 @@ public class OrderDetailsFragment extends Fragment {
         binding.consumerOrderDetailsRv.setAdapter(adapter);
         // Create an ArrayAdapter using the string array and a default spinner
         if (isChef) {
-//            ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
-//                    .createFromResource(getContext(), R.array.order_status_array,
-//                            R.layout.spinner_item);
             ArrayAdapter staticAdapter = ArrayAdapter.createFromResource(getContext(), R.array.order_status_array, R.layout.spinner_item);
             binding.orderStatusSpinner.setVisibility(View.VISIBLE);
             binding.orderStatusSpinner.setAdapter(staticAdapter);
@@ -181,10 +178,6 @@ public class OrderDetailsFragment extends Fragment {
             } else {
                 Toast.makeText(getActivity(), "Missing Dish", Toast.LENGTH_SHORT).show();
             }
-
-
-            //todo: get price from order
-            //todo: get quantity and calculate
         });
         return binding.getRoot();
     }
@@ -269,21 +262,6 @@ public class OrderDetailsFragment extends Fragment {
 
     public void setSpinnerToValue(Spinner spinner, String value) {
         int index = 0;
-//        SpinnerAdapter adapter = spinner.getAdapter();
-//        String setValue = null;
-////        <item>@string/order_status_received</item>
-////        <item>@string/order_status_in_progress</item>
-////        <item>@string/order_status_ready_for_pickup</item>
-////        <item>@string/order_status_out_for_delivery</item>
-////        <item>@string/order_status_complete</item>
-////        <item>@string/order_status_cancel</item>
-////        NOT_ORDERED("NOT_ORDERED"),
-////                ORDERED("ORDERED"),
-////                IN_PROGRESS("IN_PROGRESS"),
-////                READY_FOR_PICKUP("READY_FOR_PICKUP"),
-////                OUT_FOR_DELIVERY("OUT_FOR_DELIVERY"),
-////                COMPLETE("COMPLETE"),
-////                CANCELLED("CANCELLED");
         Order.Status status = Order.Status.valueOf(value);
         index = -1;
         switch (status) {

@@ -91,11 +91,6 @@ public class DishArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 Glide.with(holder.binding.getRoot().getContext()).load(dish.getPrimaryImage().getUrl())
                         .placeholder(R.drawable.placeholder).fallback(R.drawable.ic_no_image_available).into(holder.binding.chefOfferingListItemDishIv);
             }
-//            if (selectedPosition == position) {
-//                holder.itemView.setBackgroundResource(R.color.colorSelected);
-//            } else {
-//                holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-//            }
         } else {
             ((ProgressViewHolder) viewHolder).progressBar.setIndeterminate(true);
         }

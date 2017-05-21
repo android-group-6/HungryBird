@@ -45,8 +45,8 @@ public class DishAddEditFragment extends Fragment {
     public String photoFileName = "photo.jpg";
     public static final String FRAGMENT_TAG = "FILTER_FRAGMENT_TAG";
     public static final String DISH_ID = "DISH_ID";
-    Context context;
-    ChefDishAddEditFragmentBinding binding;
+    private Context context;
+    private ChefDishAddEditFragmentBinding binding;
 
     private Dish currentDish = new Dish();
 

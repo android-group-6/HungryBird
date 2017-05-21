@@ -29,7 +29,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieComposition;
-import com.airbnb.lottie.OnCompositionLoadedListener;
 import com.bumptech.glide.Glide;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.chef.adapters.DishArrayAdapter;
@@ -74,19 +73,19 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
     public static final String CHEF_ID = "CHEF_ID";
     public static final String ITEMS_COUNT = "ITEMS_COUNT";
 
-    ParseClient parseClient = ParseClient.getInstance();
-    ConsumerGalleryChefDishesDetailViewBinding binding;
+    private ParseClient parseClient = ParseClient.getInstance();
+    private ConsumerGalleryChefDishesDetailViewBinding binding;
 
-    Dish currentDish;
-    Order currentOrder;
-    BaseItemHolderAdapter adapter;
-    List<Dish> dishesArrayList = new ArrayList<>();
+    private Dish currentDish;
+    private Order currentOrder;
+    private BaseItemHolderAdapter adapter;
+    private List<Dish> dishesArrayList = new ArrayList<>();
     private static DecimalFormat df = new DecimalFormat();
-    OrderRelationResponse orderDishRelationResponse;
+    private OrderRelationResponse orderDishRelationResponse;
     int selectedPosition = 0;
 
-    ImageView cartIcon;
-    TextView cartTextView;
+    private ImageView cartIcon;
+    private TextView cartTextView;
 
     static {
         df.setMinimumFractionDigits(2);
@@ -177,12 +176,6 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                 Glide.with(holder.binding.getRoot().getContext()).load(dish.getPrimaryImage().getUrl())
                         .placeholder(R.drawable.placeholder).fallback(R.drawable.ic_no_image_available).into(binding.chefOfferingListItemDishIv);
             }
-//            if (selectedPosition == position) {
-//                holder.itemView.setBackgroundResource(R.color.colorSelected);
-//            } else {
-//                holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-//            }
-
             if (orderDishRelationResponse != null) {
 
                 if (orderDishRelationResponse.map.containsKey(dish.getObjectId())) {
@@ -428,26 +421,19 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
 
                 }
             });
-            holder.getBaseView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
-                        Log.d(TAG, "onCreateView: dishSelected " + dish + " " + position);
-                        currentDish = dish;
-                        updateCurrentDishView();
-                        int pre = selectedPosition;
-                        selectedPosition = position;
-                    }
+            holder.getBaseView().setOnClickListener(v -> {
+                if (position != RecyclerView.NO_POSITION) {
+                    Log.d(TAG, "onCreateView: dishSelected " + dish + " " + position);
+                    currentDish = dish;
+                    updateCurrentDishView();
+                    selectedPosition = position;
                 }
             });
         });
-
+        //Fetch Current Pending Orders which are in cart
         getCurrentOrders(chefId, consumerId).
-
                 subscribeOn(Schedulers.io()).
-
                 observeOn(AndroidSchedulers.mainThread()).
-
                 subscribe(new Subscriber<OrderRelationResponse>() {
                     @Override
                     public void onCompleted() {
@@ -473,23 +459,19 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                         dishesArrayList.addAll(orderDishRelationResponse.dishes);
                         adapter.notifyDataSetChanged();
                         updateItemCount();
-
                     }
                 });
         binding.animationView.setVisibility(View.VISIBLE);
+        //Show loading animation
         String assetName = "lottie_loading.json";
         LottieComposition.Factory.fromAssetFileName(this.getContext(), assetName,
-                new OnCompositionLoadedListener() {
-                    @Override
-                    public void onCompositionLoaded(LottieComposition composition) {
-                        setComposition(composition, assetName);
-                    }
+                composition -> {
+                    setComposition(composition, assetName);
                 });
-
         return binding.getRoot();
     }
 
-    void setComposition(LottieComposition composition, String name) {
+    private void setComposition(LottieComposition composition, String name) {
         binding.animationView.setComposition(composition);
         binding.animationView.playAnimation();
         binding.animationView.loop(true);
@@ -512,7 +494,6 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(false);
-//        menu.getItem(1).setVisible(false);
         super.onPrepareOptionsMenu(menu);
     }
 
@@ -541,22 +522,19 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         setHasOptionsMenu(true);
         String dishId = getArguments().getString(DISH_ID);
         String chefId = getArguments().getString(CHEF_ID);
-        String consumerId = ParseUser.getCurrentUser().getObjectId();
-        binding.tvMinus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int oldQuantity = Integer.parseInt(binding.tvDishQuantity.getText().toString());
-                int newQuantity = oldQuantity - 1;
-                if (newQuantity > 0) {
-                    ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.tvDishQuantity, "alpha", 0f, 1f);
-                    fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
-                    fadeAnim.setDuration(500);
-                    fadeAnim.start();
+        binding.tvMinus.setOnClickListener(v -> {
+            int oldQuantity = Integer.parseInt(binding.tvDishQuantity.getText().toString());
+            int newQuantity = oldQuantity - 1;
+            if (newQuantity > 0) {
+                ValueAnimator fadeAnim = ObjectAnimator.ofFloat(binding.tvDishQuantity, "alpha", 0f, 1f);
+                fadeAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+                fadeAnim.setDuration(500);
+                fadeAnim.start();
 
-                    binding.tvDishQuantity.setText(String.valueOf(newQuantity));
-                }
+                binding.tvDishQuantity.setText(String.valueOf(newQuantity));
             }
         });
+
         binding.tvPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -627,11 +605,12 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
                     .placeholder(R.drawable.placeholder)
                     .into(binding.selectedDishPicIv);
         }
-        Activity activity = getActivity();
-        if (activity == null) return;
+        final Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
         getArguments().putString(DISH_TITLE, currentDish.getTitle());
         ((GalleryActivity) activity).setToolbarTitle(currentDish.getTitle());
-//        binding.dishTitle.setText(currentDish.getDescription());
         binding.dishPrice.setText(getRoundedTwoPlaces(currentDish.getPrice()));
         binding.dishServingSize.setText(String.valueOf(currentDish.getServingSize()));
         String description = currentDish.getDescription();
@@ -641,7 +620,6 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
             binding.dishDescription.setVisibility(View.VISIBLE);
             binding.dishDescription.setText(description);
         }
-//        binding.dishDescription.setText(description);
         binding.tvDishQuantity.setText(String.valueOf(1));
     }
 
@@ -694,7 +672,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         });
     }
 
-    Observable<OrderRelationResponse> getCurrentOrders(final String chefId, final String consumerId) {
+    private Observable<OrderRelationResponse> getCurrentOrders(final String chefId, final String consumerId) {
         final OrderRelationResponse odr = new OrderRelationResponse();
         return getOrder(chefId, consumerId).flatMap(new Func1<Order, Observable<OrderRelationResponse>>() {
             @Override
@@ -741,7 +719,7 @@ public class ConsumerChefDishesDetailFragment extends Fragment implements DishAr
         });
     }
 
-    Observable<Order> getOrder(final String chefId, final String consumerId) {
+    private Observable<Order> getOrder(final String chefId, final String consumerId) {
         return Observable.create(new Observable.OnSubscribe<Order>() {
             @Override
             public void call(Subscriber<? super Order> subscriber) {

@@ -3,7 +3,6 @@ package com.codepath.hungrybird.consumer.fragments;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.app.assist.AssistStructure;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -253,8 +252,6 @@ public class CartFragment extends Fragment implements GoogleApiClient.OnConnecti
                 }
             }
         });
-
-//        binding.autocompletePlaces.setText("101 San Fernando San Jose 95110"); // TODO integrate with real values
 
         // Register a listener that receives callbacks when a suggestion has been selected
         binding.autocompletePlaces.setOnItemClickListener(mAutocompleteClickListener);

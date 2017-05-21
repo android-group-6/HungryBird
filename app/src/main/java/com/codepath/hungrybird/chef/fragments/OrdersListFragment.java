@@ -37,14 +37,14 @@ public class OrdersListFragment extends Fragment {
     public static final String TAG = OrdersListFragment.class.getSimpleName();
 
     public static final String FRAGMENT_TAG = "FILTER_FRAGMENT_TAG";
-    RecyclerView ordersRv;
-    ArrayList<Order> orderArrayList = new ArrayList<>();
-    BaseItemHolderAdapter<Order> orderArrayAdapter;
-    OrderHistoryFramgent.OnOrderSelected orderSelected;
+    private RecyclerView ordersRv;
+    private ArrayList<Order> orderArrayList = new ArrayList<>();
+    private BaseItemHolderAdapter<Order> orderArrayAdapter;
+    private OrderHistoryFramgent.OnOrderSelected orderSelected;
     private DateUtils dateUtils = new DateUtils();
-    boolean contentLoaded = false;
-    Context context;
-    ChefContactDetailsFragmentBinding binding;
+    private boolean contentLoaded = false;
+    private Context context;
+    private ChefContactDetailsFragmentBinding binding;
     private static DecimalFormat df = new DecimalFormat();
 
     public void update(ArrayList<Order> orderList) {
@@ -113,7 +113,7 @@ public class OrdersListFragment extends Fragment {
                 if (TextUtils.isEmpty(url) == false) {
                     Glide.with(context).load(url)
                             .bitmapTransform(new CropCircleTransformation(getContext())).
-                    into(orderBinding.chefOfferingListItemDishIv);
+                            into(orderBinding.chefOfferingListItemDishIv);
                 }
             }
 

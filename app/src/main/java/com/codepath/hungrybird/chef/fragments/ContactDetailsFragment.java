@@ -4,16 +4,13 @@ package com.codepath.hungrybird.chef.fragments;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.hungrybird.R;
-import com.codepath.hungrybird.consumer.fragments.FilterFragment;
 import com.codepath.hungrybird.databinding.ChefContactDetailsFragmentBinding;
 
 public class ContactDetailsFragment extends Fragment {

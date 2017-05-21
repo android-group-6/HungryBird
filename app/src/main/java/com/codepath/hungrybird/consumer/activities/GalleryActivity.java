@@ -46,7 +46,6 @@ import com.codepath.hungrybird.model.Dish;
 import com.codepath.hungrybird.model.Order;
 import com.codepath.hungrybird.model.User;
 import com.codepath.hungrybird.network.ParseClient;
-import com.parse.ParseFile;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
@@ -146,21 +145,15 @@ public class GalleryActivity extends AppCompatActivity implements
             public void onBackStackChanged() {
                 if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true); // show back button
-                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            onBackPressed();
-                        }
+                    toolbar.setNavigationOnClickListener(v -> {
+                        onBackPressed();
                     });
                 } else {
                     //show hamburger
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                     drawerToggle.syncState();
-                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mDrawer.openDrawer(GravityCompat.START);
-                        }
+                    toolbar.setNavigationOnClickListener(v -> {
+                        mDrawer.openDrawer(GravityCompat.START);
                     });
                 }
             }
@@ -188,14 +181,10 @@ public class GalleryActivity extends AppCompatActivity implements
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        selectDrawerItem(menuItem);
-                        return true;
-                    }
-                });
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            selectDrawerItem(menuItem);
+            return true;
+        });
     }
 
     @Override
@@ -206,15 +195,11 @@ public class GalleryActivity extends AppCompatActivity implements
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // perform query here
-
                 // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
                 // see https://code.google.com/p/android/issues/detail?id=24599
-//                fetchBooks(query);
                 Intent searchActivityIntent = new Intent(GalleryActivity.this, SearchActivity.class);
                 searchActivityIntent.putExtra("query", query);
                 startActivityForResult(searchActivityIntent, SEARCH_ACTIVITY_RESULT_CODE);
-//                startActivity(searchActivityIntent);
                 return true;
             }
 

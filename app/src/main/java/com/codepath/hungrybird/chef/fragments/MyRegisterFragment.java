@@ -4,16 +4,11 @@ package com.codepath.hungrybird.chef.fragments;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.hungrybird.R;
-import com.codepath.hungrybird.consumer.fragments.FilterFragment;
 import com.codepath.hungrybird.databinding.ChefMyRegisterFragmentBinding;
 
 public class MyRegisterFragment extends Fragment {
@@ -31,6 +26,5 @@ public class MyRegisterFragment extends Fragment {
         // Inflate the layout for this fragment
         ChefMyRegisterFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.chef_my_register_fragment, container, false);
         return binding.getRoot();
-
     }
 }

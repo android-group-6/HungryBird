@@ -29,10 +29,10 @@ public class MyOfferingsFragment extends Fragment {
     public static final String TAG = MyOfferingsFragment.class.getSimpleName();
     public static final String CHEF_ID = "CHEF_ID";
 
-    ParseClient parseClient = ParseClient.getInstance();
-    RecyclerView myOfferingsRView;
-    ArrayList<Dish> dishesArrayList = new ArrayList<>();
-    DishArrayAdapter dishArrayAdapter;
+    private ParseClient parseClient = ParseClient.getInstance();
+    private RecyclerView myOfferingsRView;
+    private ArrayList<Dish> dishesArrayList = new ArrayList<>();
+    private DishArrayAdapter dishArrayAdapter;
 
     public static final String FRAGMENT_TAG = "FILTER_FRAGMENT_TAG";
     private LinearLayoutManager linearLayoutManager;

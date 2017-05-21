@@ -277,12 +277,6 @@ public class ChefLandingActivity extends AppCompatActivity implements DishArrayA
         DishAddEditFragment dishAddEditFragment = new DishAddEditFragment();
         dishAddEditFragment.setArguments(bundle);
         fragmentManager.beginTransaction().replace(R.id.flContent, dishAddEditFragment).addToBackStack(null).commit();
-
-        // update the actionbar to show the up carat/affordanced
-//        drawerToggle.setDrawerIndicatorEnabled(false);
-//        mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 

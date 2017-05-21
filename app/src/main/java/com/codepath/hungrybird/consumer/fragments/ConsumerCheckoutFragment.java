@@ -116,7 +116,6 @@ public class ConsumerCheckoutFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 onPayNowClickListener();
-//                checkoutFragmentListener.onPayNowClickListener(view, getArguments().getString(ORDER_ID), getArguments().getString(TOTAL_PRICE));
             }
         });
 

@@ -44,24 +44,6 @@ public class MyCustomReceiver extends BroadcastReceiver {
                 String title = json.getString("title");
                 String text = json.getString("text");
                 createNotification(context, title, text, orderId, fromChef);
-                // Iterate the parse keys if needed
-//                Iterator<String> itr = json.keys();
-//                while (itr.hasNext()) {
-//                    String key = (String) itr.next();
-//                    String value = json.getString(key);
-//                    Log.d(TAG, "..." + key + " => " + value);
-//                    // Extract custom push data
-//                    if (key.equals("customdata")) {
-//                        // create a local notification
-//                        createNotification(context, value);
-//                    } else if (key.equals("launch")) {
-//                        // Handle push notification by invoking activity directly
-//                        launchSomeActivity(context, value);
-//                    } else if (key.equals("broadcast")) {
-//                        // OR trigger a broadcast to activity
-//                        triggerBroadcastToActivity(context, value);
-//                    }
-//                }
             } catch (JSONException ex) {
                 Log.d(TAG, "JSON failed!");
             }

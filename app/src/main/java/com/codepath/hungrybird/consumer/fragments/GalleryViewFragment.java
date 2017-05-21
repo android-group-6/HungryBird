@@ -3,7 +3,6 @@ package com.codepath.hungrybird.consumer.fragments;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.airbnb.lottie.LottieComposition;
-import com.airbnb.lottie.OnCompositionLoadedListener;
 import com.codepath.hungrybird.R;
 import com.codepath.hungrybird.consumer.activities.GalleryActivity;
 import com.codepath.hungrybird.consumer.adapters.GallerySnapListContainerAdapter;
@@ -57,12 +55,11 @@ public class GalleryViewFragment extends Fragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerView.setHasFixedSize(true);
         binding.animationView.setVisibility(View.VISIBLE);
+        //Show loading animation
         String assetName = "lottie_loading.json";
         LottieComposition.Factory.fromAssetFileName(this.getContext(), assetName,
-                new OnCompositionLoadedListener() {
-                    @Override public void onCompositionLoaded(LottieComposition composition) {
-                        setComposition(composition, assetName);
-                    }
+                composition -> {
+                    setComposition(composition, assetName);
                 });
         loadAllTopCuisineDishes();
 

@@ -27,7 +27,7 @@ public class SearchActivity extends AppCompatActivity implements DishArrayAdapte
 
     public static final String TAG = SearchActivity.class.getSimpleName();
 
-    ActivitySearchBinding binding;
+    private ActivitySearchBinding binding;
     private Toolbar toolbar;
     private DishArrayAdapter dishArrayAdapter;
     private List<Dish> dishesArrayList = new ArrayList<>();
